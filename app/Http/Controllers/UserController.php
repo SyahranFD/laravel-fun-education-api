@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
+use App\Http\Requests\UpdateUserRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -95,6 +96,33 @@ class UserController extends Controller
     public function showCurrent()
     {
         $user = auth()->user();
+
+        return response([
+            'data' => $user,
+        ], 200);
+    }
+
+    public function updateAdmin(UpdateUserRequest $request, $id)
+    {
+        $request->validated();
+        $currentUser = auth()->user();
+
+        if (!$currentUser->isAdmin()) {
+            return response()->json(['message' => 'Anda Bukan Admin'], 401);
+        }
+
+        $user = User::find($id);
+
+        if (!$user) {
+            return response()->json(['message' => 'User Not Found'], 404);
+        }
+
+        $userData = [
+            'nama_lengkap' => $request->nama_lengkap,
+            'password' => Hash::make($request->password),
+        ];
+
+        $user->update($userData);
 
         return response([
             'data' => $user,
