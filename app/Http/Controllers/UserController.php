@@ -67,4 +67,37 @@ class UserController extends Controller
             'token' => $token,
         ], 200);
     }
+
+    public function showAll()
+    {
+        $users = User::all();
+
+        return response([
+            'data' => $users,
+        ], 200);
+    }
+
+    public function showById($id)
+    {
+        $user = User::find($id);
+
+        if (!$user) {
+            return response([
+                'message' => 'User Not Found',
+            ], 404);
+        }
+
+        return response([
+            'data' => $user,
+        ], 200);
+    }
+
+    public function showCurrent()
+    {
+        $user = auth()->user();
+
+        return response([
+            'data' => $user,
+        ], 200);
+    }
 }
