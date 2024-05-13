@@ -59,22 +59,29 @@ class UserController extends Controller
         ], 200);
     }
 
-    public function showAll()
+    public function index()
     {
         return UserResource::collection(User::all());
     }
 
     public function showById($id)
     {
-        $user = new UserResource(User::find($id));
-        $this->resUserNotFound();
+        $user = User::find($id);
+        if (! $user) {
+            return $this->resUserNotFound();
+        }
 
-        return $user;
+        return new UserResource($user);
     }
 
     public function showCurrent()
     {
-        return new UserResource(auth()->user());
+        $user = auth()->user();
+        if (! $user) {
+            return $this->resUserNotFound();
+        }
+
+        return new UserResource($user);
     }
 
     public function updateAdmin(UpdateUserRequest $request, $id)
