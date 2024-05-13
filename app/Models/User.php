@@ -18,10 +18,16 @@ class User extends Authenticatable
         'id',
         'nama_lengkap',
         'password',
-        'profile_picture'
+        'profile_picture',
+        'role',
     ];
 
     protected $hidden = [
         'password',
     ];
+
+    public function isAdmin()
+    {
+        return $this->role === 'admin';
+    }
 }

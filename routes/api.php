@@ -23,8 +23,10 @@ Route::prefix('/users')->group(function () {
     Route::post('/register', [UserController::class, 'register']);
     Route::post('/login', [UserController::class, 'login']);
 
-    Route::get('/show-current', [UserController::class, 'show'])->middleware('auth:sanctum');
-    Route::put('/update', [UserController::class, 'update'])->middleware('auth:sanctum');
+    Route::get('/show-all', [UserController::class, 'showAll']);
+    Route::get('/show/{id}', [UserController::class, 'showById']);
+    Route::get('/show-current', [UserController::class, 'showCurrent'])->middleware('auth:sanctum');
+
+    Route::put('/update-admin/{id}', [UserController::class, 'updateAdmin'])->middleware('auth:sanctum');
     Route::delete('/logout', [UserController::class, 'logout'])->middleware('auth:sanctum');
-    Route::post('/update-profile-picture', [UserController::class, 'updateProfilePicture'])->middleware('auth:sanctum');
 });
