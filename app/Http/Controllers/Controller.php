@@ -29,4 +29,14 @@ class Controller extends BaseController
     {
         return response(['message' => 'User Not Admin'], 403);
     }
+
+    public function resDataNotFound($data)
+    {
+        return response(['message' => $data . ' Not Found'], 404);
+    }
+
+    public function resDataDeleted()
+    {
+        return response(['message' => 'Data Deleted'], 200);
+    }
 }

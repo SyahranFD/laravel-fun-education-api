@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ShiftMasukController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -30,4 +31,13 @@ Route::prefix('/users')->group(function () {
     Route::put('/update-admin/{id}', [UserController::class, 'updateAdmin'])->middleware('auth:sanctum');
     Route::delete('/logout', [UserController::class, 'logout'])->middleware('auth:sanctum');
     Route::delete('/delete/{id}', [UserController::class, 'delete'])->middleware('auth:sanctum');
+});
+
+Route::prefix('/shift-masuk')->group(function () {
+    Route::post('/store', [ShiftMasukController::class, 'store'])->middleware('auth:sanctum');
+    Route::get('/index', [ShiftMasukController::class, 'index']);
+    Route::get('/show/{id}', [ShiftMasukController::class, 'showById']);
+    Route::get('/show', [ShiftMasukController::class, 'showCurrent'])->middleware('auth:sanctum');
+    Route::put('/update/{id}', [ShiftMasukController::class, 'update'])->middleware('auth:sanctum');
+    Route::delete('/delete/{id}', [ShiftMasukController::class, 'delete'])->middleware('auth:sanctum');
 });
