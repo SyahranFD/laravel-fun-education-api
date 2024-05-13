@@ -15,13 +15,18 @@ class Controller extends BaseController
         return response(['data' => $data], 200);
     }
 
-    public function resInvalidLogin($user, $password)
+    public function resInvalidLogin()
     {
         return response(['message' => 'Nama Lengkap or Password Is Invalid'], 409);
     }
 
-    public function resUserNotFound($user)
+    public function resUserNotFound()
     {
         return response(['message' => 'User Not Found'], 404);
+    }
+
+    public function resUserNotAdmin()
+    {
+        return response(['message' => 'User Not Admin'], 403);
     }
 }

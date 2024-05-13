@@ -29,4 +29,5 @@ Route::prefix('/users')->group(function () {
 
     Route::put('/update-admin/{id}', [UserController::class, 'updateAdmin'])->middleware('auth:sanctum');
     Route::delete('/logout', [UserController::class, 'logout'])->middleware('auth:sanctum');
+    Route::delete('/delete/{id}', [UserController::class, 'delete'])->middleware('auth:sanctum');
 });
