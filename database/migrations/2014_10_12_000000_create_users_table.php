@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('nama_lengkap')->unique();
             $table->string('password');
             $table->string('profile_picture');
+            $table->string('role');
             $table->timestamps();
         });
     }

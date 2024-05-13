@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
-use Config;
 
 class User extends Authenticatable
 {
@@ -19,7 +18,8 @@ class User extends Authenticatable
         'id',
         'nama_lengkap',
         'password',
-        'profile_picture'
+        'profile_picture',
+        'role',
     ];
 
     protected $hidden = [
@@ -28,8 +28,6 @@ class User extends Authenticatable
 
     public function isAdmin()
     {
-        $adminNama = Config::get('admin.nama');
-        $adminPassword = Config::get('admin.password');
-        return $this->nama_lengkap === $adminNama && $this->password === $adminPassword;
+        return $this->role === 'admin';
     }
 }
