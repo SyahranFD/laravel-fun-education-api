@@ -47,7 +47,7 @@ class UserController extends Controller
         $user = User::where('nama_lengkap', $request->nama_lengkap)->first();
 
         if (! $user || ! Hash::check($request->password, $user->password)) {
-            return $this->resInvalidLogin($user, $request->password);
+            return $this->resInvalidLogin();
         }
 
         $user = new UserResource($user);
@@ -67,7 +67,7 @@ class UserController extends Controller
     public function showById($id)
     {
         $user = new UserResource(User::find($id));
-        $this->resUserNotFound($user);
+        $this->resUserNotFound();
 
         return $user;
     }
@@ -82,12 +82,12 @@ class UserController extends Controller
         $request->validated();
         $admin = auth()->user();
         if (! $admin->isAdmin()) {
-            return response(['message' => 'Anda Bukanlah Admin'], 401);
+            return $this->resUserNotAdmin();
         }
 
         $user = User::find($id);
         if (! $user) {
-            return $this->resUserNotFound($user);
+            return $this->resUserNotFound();
         }
 
         $userData = [
@@ -106,5 +106,17 @@ class UserController extends Controller
         auth()->user()->tokens()->delete();
 
         return response(['message' => 'Logged Out'], 200);
+    }
+
+    public function delete($id)
+    {
+        $admin = auth()->user();
+        if (! $admin->isAdmin()) {
+            return $this->resUserNotAdmin();
+        }
+
+        User::destroy($id);
+
+        return response(['message' => 'User Deleted'], 200);
     }
 }
