@@ -28,4 +28,5 @@ Route::prefix('/users')->group(function () {
     Route::get('/show-current', [UserController::class, 'showCurrent'])->middleware('auth:sanctum');
 
     Route::put('/update-admin/{id}', [UserController::class, 'updateAdmin'])->middleware('auth:sanctum');
+    Route::delete('/logout', [UserController::class, 'logout'])->middleware('auth:sanctum');
 });

@@ -25,7 +25,7 @@ class UserController extends Controller
         $nameParts = explode(' ', $request->nama_lengkap);
         $firstName = $nameParts[0];
         $lastName = $nameParts[1] ?? '';
-        $userData['profile_picture'] = 'https://ui-avatars.com/api/?name='.urlencode($firstName.' '.$lastName).'&color=7F9CF5&background=EBF4FF';
+        $userData['profile_picture'] = 'https://ui-avatars.com/api/?name='.urlencode($firstName.' '.$lastName).'&color=7F9CF5&background=EBF4FF&size=128';
 
         do {
             $userData['id'] = 'user-'.Str::uuid();
@@ -99,5 +99,12 @@ class UserController extends Controller
         $user = new UserResource($user);
 
         return $this->resShowData($user);
+    }
+
+    public function logout()
+    {
+        auth()->user()->tokens()->delete();
+
+        return response(['message' => 'Logged Out'], 200);
     }
 }
