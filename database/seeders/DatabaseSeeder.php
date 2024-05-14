@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\CatatanDarurat;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Config;
@@ -44,6 +45,11 @@ class DatabaseSeeder extends Seeder
             'id' => 'shift-masuk-'.fake()->uuid(),
             'user_id' => $rafa->id,
             'shift_masuk' => '08:00-10:00',
+        ]);
+
+        CatatanDarurat::create([
+            'id' => 'catatan-darurat-'.fake()->uuid(),
+            'catatan' => 'Diharapkan ananda membawa payung/jas hujan karena kondisi mendung.',
         ]);
     }
 }
