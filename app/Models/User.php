@@ -18,6 +18,8 @@ class User extends Authenticatable
         'id',
         'nama_lengkap',
         'password',
+        'tempat_tanggal_lahir',
+        'alamat',
         'profile_picture',
         'role',
     ];
