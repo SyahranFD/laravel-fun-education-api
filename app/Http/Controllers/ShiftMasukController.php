@@ -45,6 +45,9 @@ class ShiftMasukController extends Controller
     public function showCurrent()
     {
         $shiftMasuk = auth()->user()->shiftMasuk;
+        if (! $shiftMasuk) {
+            return $this->resDataNotFound('Shift Masuk');
+        }
         return new ShiftMasukResource($shiftMasuk);
     }
 
