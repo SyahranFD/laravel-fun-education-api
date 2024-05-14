@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CatatanDaruratController;
 use App\Http\Controllers\ShiftMasukController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
@@ -42,4 +43,15 @@ Route::prefix('/shift-masuk')->group(function () {
 
     Route::put('/update/{id}', [ShiftMasukController::class, 'update'])->middleware('auth:sanctum');
     Route::delete('/delete/{id}', [ShiftMasukController::class, 'delete'])->middleware('auth:sanctum');
+});
+
+Route::prefix('/catatan-darurat')->group(function () {
+    Route::post('/store', [CatatanDaruratController::class, 'store'])->middleware('auth:sanctum');
+
+    Route::get('/index', [CatatanDaruratController::class, 'index']);
+    Route::get('/show/{id}', [CatatanDaruratController::class, 'showById']);
+    Route::get('/show', [CatatanDaruratController::class, 'show']);
+
+    Route::put('/update/{id}', [CatatanDaruratController::class, 'update'])->middleware('auth:sanctum');
+    Route::delete('/delete/{id}', [CatatanDaruratController::class, 'delete'])->middleware('auth:sanctum');
 });
