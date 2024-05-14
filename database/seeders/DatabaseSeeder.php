@@ -23,6 +23,8 @@ class DatabaseSeeder extends Seeder
         User::create([
             'id' => 'user-'.fake()->uuid(),
             'nama_lengkap' => Config::get('admin.nama'),
+            'tempat_tanggal_lahir' => 'Batam, 10 Agustus 1980',
+            'alamat' => 'Griya Batu Aji Ari Blok G1, No 06',
             'password' => Hash::make(Config::get('admin.password')),
             'profile_picture' => $profile_picture,
             'role' => 'admin',
@@ -31,6 +33,8 @@ class DatabaseSeeder extends Seeder
         $rafa = User::create([
             'id' => 'user-'.fake()->uuid(),
             'nama_lengkap' => 'Syahran Fadhil Dafanindra',
+            'tempat_tanggal_lahir' => 'Semarang, 15 Mei 2015',
+            'alamat' => 'Jl. Kaliurang KM 5, Semarang',
             'password' => Hash::make('rafapass'),
             'profile_picture' => 'https://ui-avatars.com/api/?name=Syahran+Fadhil&color=7F9CF5&background=EBF4FF&size=128',
             'role' => 'student',

@@ -15,6 +15,8 @@ return new class extends Migration
             $table->string('id')->primary();
             $table->string('nama_lengkap')->unique();
             $table->string('password');
+            $table->string('tempat_tanggal_lahir');
+            $table->string('alamat');
             $table->string('profile_picture');
             $table->string('role');
             $table->timestamps();

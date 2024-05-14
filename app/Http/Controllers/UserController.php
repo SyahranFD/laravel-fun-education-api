@@ -19,6 +19,8 @@ class UserController extends Controller
         $userData = [
             'nama_lengkap' => $request->nama_lengkap,
             'password' => Hash::make($request->password),
+            'tempat_tanggal_lahir' => $request->tempat_tanggal_lahir,
+            'alamat' => $request->alamat,
             'role' => 'student',
         ];
 
@@ -100,6 +102,8 @@ class UserController extends Controller
         $userData = [
             'nama_lengkap' => $request->nama_lengkap,
             'password' => Hash::make($request->password),
+            'tempat_tanggal_lahir' => $request->tempat_tanggal_lahir,
+            'alamat' => $request->alamat,
         ];
 
         $user->update($userData);
