@@ -25,7 +25,7 @@ class ShiftMasukController extends Controller
         $shiftMasuk = ShiftMasuk::create($shiftMasukData);
         $shiftMasuk = new ShiftMasukResource($shiftMasuk);
 
-        return $this->resShowData($shiftMasuk);
+        return $this->resStoreData($shiftMasuk);
     }
 
     public function index()
@@ -37,14 +37,19 @@ class ShiftMasukController extends Controller
     {
         $shiftMasuk = ShiftMasuk::find($id);
         if (! $shiftMasuk) {
-            return $this->resDataNotFound("Shift Masuk");
+            return $this->resDataNotFound('Shift Masuk');
         }
+
         return new ShiftMasukResource($shiftMasuk);
     }
 
     public function showCurrent()
     {
         $shiftMasuk = auth()->user()->shiftMasuk;
+        if (! $shiftMasuk) {
+            return $this->resDataNotFound('Shift Masuk');
+        }
+
         return new ShiftMasukResource($shiftMasuk);
     }
 
@@ -58,13 +63,12 @@ class ShiftMasukController extends Controller
 
         $shiftMasuk = ShiftMasuk::find($id);
         if (! $shiftMasuk) {
-            return $this->resDataNotFound("Shift Masuk");
+            return $this->resDataNotFound('Shift Masuk');
         }
 
         $shiftMasuk->update($request->all());
-        $shiftMasuk = new ShiftMasukResource($shiftMasuk);
 
-        return $this->resShowData($shiftMasuk);
+        return new ShiftMasukResource($shiftMasuk);
     }
 
     public function delete($id)
@@ -76,11 +80,11 @@ class ShiftMasukController extends Controller
 
         $shiftMasuk = ShiftMasuk::find($id);
         if (! $shiftMasuk) {
-            return $this->resDataNotFound("Shift Masuk");
+            return $this->resDataNotFound('Shift Masuk');
         }
 
         $shiftMasuk->delete();
 
-        return $this->resDataDeleted();
+        return $this->resDataDeleted('Shift Masuk');
     }
 }

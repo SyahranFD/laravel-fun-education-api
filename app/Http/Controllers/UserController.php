@@ -107,9 +107,8 @@ class UserController extends Controller
         ];
 
         $user->update($userData);
-        $user = new UserResource($user);
 
-        return $this->resShowData($user);
+        return new UserResource($user);
     }
 
     public function logout()
@@ -128,6 +127,6 @@ class UserController extends Controller
 
         User::destroy($id);
 
-        return response(['message' => 'User Deleted'], 200);
+        return $this->resDataDeleted('User');
     }
 }
