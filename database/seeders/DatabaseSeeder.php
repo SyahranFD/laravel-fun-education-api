@@ -66,5 +66,13 @@ class DatabaseSeeder extends Seeder
             'dikte' => chr(rand(65, 67)), // A-C
             'keterampilan' => chr(rand(65, 67)), // A-C
         ]);
+
+        $rafa->laporanBulanan()->create([
+            'id' => 'laporan-bulanan-'.fake()->uuid(),
+            'user_id' => $rafa->id,
+            'status' => 'Berkembang',
+            'catatan' => 'Ananda sudah sangat berkembang dibanding bulan lalu',
+            'hal_yang_perlu_ditingkatkan' => 'Kemampuan membaca huruf R',
+        ]);
     }
 }
