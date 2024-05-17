@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\LaporanHarianRequest;
 use App\Http\Resources\LaporanHarianResource;
 use App\Models\LaporanHarian;
+use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
 class LaporanHarianController extends Controller
@@ -43,11 +44,26 @@ class LaporanHarianController extends Controller
         return new LaporanHarianResource($laporanHarian);
     }
 
-    public function showCurrent()
+    public function showCurrent(Request $request)
     {
         $user = auth()->user();
+        $date = $request->query('date');
         $laporanHarian = LaporanHarian::where('user_id', $user->id)
-            ->whereDate('created_at', now()->toDateString())
+            ->whereDate('created_at', $date)
+            ->first();
+        if (! $laporanHarian) {
+            return $this->resDataNotFound('Laporan Harian');
+        }
+
+        return new LaporanharianResource($laporanHarian);
+    }
+
+    public function showFilter(Request $request)
+    {
+        $userId = $request->query('userId');
+        $date = $request->query('date');
+        $laporanHarian = LaporanHarian::where('user_id', $userId)
+            ->whereDate('created_at', $date)
             ->first();
         if (! $laporanHarian) {
             return $this->resDataNotFound('Laporan Harian');
