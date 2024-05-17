@@ -5,9 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\CatatanDaruratRequest;
 use App\Http\Resources\CatatanDaruratResource;
 use App\Models\CatatanDarurat;
-use App\Models\ShiftMasuk;
 use Illuminate\Support\Str;
-use Illuminate\Http\Request;
 
 class CatatanDaruratController extends Controller
 {
@@ -27,7 +25,7 @@ class CatatanDaruratController extends Controller
         $catatanDarurat = CatatanDarurat::create($catatanDaruratData);
         $catatanDarurat = new CatatanDaruratResource($catatanDarurat);
 
-        return $this->resShowData($catatanDarurat);
+        return $this->resStoreData($catatanDarurat);
     }
 
     public function index()
@@ -39,8 +37,9 @@ class CatatanDaruratController extends Controller
     {
         $catatanDarurat = CatatanDarurat::find($id);
         if (! $catatanDarurat) {
-            return $this->resDataNotFound("Catatan Darurat");
+            return $this->resDataNotFound('Catatan Darurat');
         }
+
         return new CatatanDaruratResource($catatanDarurat);
     }
 
@@ -48,8 +47,9 @@ class CatatanDaruratController extends Controller
     {
         $catatanDarurat = CatatanDarurat::where('is_deleted', false)->latest()->first();
         if (! $catatanDarurat) {
-            return $this->resDataNotFound("Catatan Darurat");
+            return $this->resDataNotFound('Catatan Darurat');
         }
+
         return new CatatanDaruratResource($catatanDarurat);
     }
 
@@ -63,14 +63,14 @@ class CatatanDaruratController extends Controller
 
         $catatanDarurat = CatatanDarurat::find($id);
         if (! $catatanDarurat) {
-            return $this->resDataNotFound("Catatan Darurat");
+            return $this->resDataNotFound('Catatan Darurat');
         }
 
         $catatanDaruratData = $request->all();
         $catatanDarurat->update($catatanDaruratData);
         $catatanDarurat = new CatatanDaruratResource($catatanDarurat);
 
-        return $this->resShowData($catatanDarurat);
+        return $this->resStoreData($catatanDarurat);
     }
 
     public function delete($id)
@@ -82,11 +82,11 @@ class CatatanDaruratController extends Controller
 
         $catatanDarurat = CatatanDarurat::find($id);
         if (! $catatanDarurat) {
-            return $this->resDataNotFound("Catatan Darurat");
+            return $this->resDataNotFound('Catatan Darurat');
         }
 
         $catatanDarurat->update(['is_deleted' => true]);
 
-        return $this->resDataDeleted();
+        return $this->resDataDeleted('Catatan Darurat');
     }
 }

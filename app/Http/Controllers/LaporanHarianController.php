@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Requests\LaporanHarianRequest;
 use App\Http\Resources\LaporanHarianResource;
 use App\Models\LaporanHarian;
-use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
 class LaporanHarianController extends Controller
@@ -26,7 +25,7 @@ class LaporanHarianController extends Controller
         $laporanHarian = LaporanHarian::create($laporanHarianData);
         $laporanHarian = new LaporanHarianResource($laporanHarian);
 
-        return $this->resShowData($laporanHarian);
+        return $this->resStoreData($laporanHarian);
     }
 
     public function index()
@@ -38,8 +37,9 @@ class LaporanHarianController extends Controller
     {
         $laporanHarian = LaporanHarian::find($id);
         if (! $laporanHarian) {
-            return $this->resDataNotFound("Laporan Harian");
+            return $this->resDataNotFound('Laporan Harian');
         }
+
         return new LaporanHarianResource($laporanHarian);
     }
 
@@ -50,8 +50,9 @@ class LaporanHarianController extends Controller
             ->whereDate('created_at', now()->toDateString())
             ->first();
         if (! $laporanHarian) {
-            return $this->resDataNotFound("Laporan Harian");
+            return $this->resDataNotFound('Laporan Harian');
         }
+
         return new LaporanHarianResource($laporanHarian);
     }
 
@@ -65,13 +66,12 @@ class LaporanHarianController extends Controller
 
         $laporanHarian = LaporanHarian::find($id);
         if (! $laporanHarian) {
-            return $this->resDataNotFound("Laporan Harian");
+            return $this->resDataNotFound('Laporan Harian');
         }
 
         $laporanHarian->update($request->all());
-        $laporanHarian = new LaporanHarianResource($laporanHarian);
 
-        return $laporanHarian;
+        return new LaporanHarianResource($laporanHarian);
     }
 
     public function delete($id)
@@ -83,10 +83,11 @@ class LaporanHarianController extends Controller
 
         $laporanHarian = LaporanHarian::find($id);
         if (! $laporanHarian) {
-            return $this->resDataNotFound("Laporan Harian");
+            return $this->resDataNotFound('Laporan Harian');
         }
 
         $laporanHarian->delete();
-        return $this->resDataDeleted();
+
+        return $this->resDataDeleted('Laporan Harian');
     }
 }

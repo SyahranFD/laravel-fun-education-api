@@ -10,9 +10,9 @@ class Controller extends BaseController
 {
     use AuthorizesRequests, ValidatesRequests;
 
-    public function resShowData($data)
+    public function resStoreData($data)
     {
-        return response(['data' => $data], 200);
+        return response(['data' => $data], 201);
     }
 
     public function resInvalidLogin()
@@ -32,11 +32,11 @@ class Controller extends BaseController
 
     public function resDataNotFound($data)
     {
-        return response(['message' => $data . ' Not Found'], 404);
+        return response(['message' => $data.' Not Found'], 404);
     }
 
-    public function resDataDeleted()
+    public function resDataDeleted($data)
     {
-        return response(['message' => 'Data Deleted'], 200);
+        return response(['message' => $data.' Deleted'], 200);
     }
 }
