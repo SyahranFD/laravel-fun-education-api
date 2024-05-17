@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\CatatanDarurat;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Config;
@@ -44,6 +45,26 @@ class DatabaseSeeder extends Seeder
             'id' => 'shift-masuk-'.fake()->uuid(),
             'user_id' => $rafa->id,
             'shift_masuk' => '08:00-10:00',
+        ]);
+
+        CatatanDarurat::create([
+            'id' => 'catatan-darurat-'.fake()->uuid(),
+            'catatan' => 'Diharapkan ananda membawa payung/jas hujan karena kondisi mendung.',
+        ]);
+
+        $rafa->laporanHarian()->create([
+            'id' => 'laporan-harian-'.fake()->uuid(),
+            'user_id' => $rafa->id,
+            'datang_tepat_pada_waktunya' => chr(rand(65, 67)), // A-C
+            'berpakaian_rapi' => chr(rand(65, 67)), // A-C
+            'berbuat_baik_dengan_teman' => chr(rand(65, 67)), // A-C
+            'mau_menolong_dan_berbagi_dengan_teman' => chr(rand(65, 67)), // A-C
+            'merapikan_alat_belajar_dan_mainan_sendiri' => chr(rand(65, 67)), // A-C
+            'menyelesaikan_tugas' => chr(rand(65, 67)), // A-C
+            'membaca' => chr(rand(65, 67)), // A-C
+            'menulis' => chr(rand(65, 67)), // A-C
+            'dikte' => chr(rand(65, 67)), // A-C
+            'keterampilan' => chr(rand(65, 67)), // A-C
         ]);
     }
 }

@@ -37,4 +37,9 @@ class User extends Authenticatable
     {
         return $this->hasOne(ShiftMasuk::class);
     }
+
+    public function laporanHarian()
+    {
+        return $this->hasMany(LaporanHarian::class);
+    }
 }
