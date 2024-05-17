@@ -47,17 +47,29 @@ class LaporanBulananController extends Controller
     public function showCurrent(Request $request)
     {
         $user = auth()->user();
-        $date = $request->query('date');
-        $laporanHarian = LaporanBulanan::where('user_id', $user->id)
-            ->when($date, function ($query) use ($date) {
-                $query->whereMonth('created_at', $date);
-            })
+        $month = $request->query('month');
+        $laporanBulanan = LaporanBulanan::where('user_id', $user->id)
+            ->whereMonth('created_at', $month)
             ->first();
-        if (! $laporanHarian) {
-            return $this->resDataNotFound('Laporan Harian');
+        if (! $laporanBulanan) {
+            return $this->resDataNotFound('Laporan Bulanan');
         }
 
-        return new LaporanBulananResource($laporanHarian);
+        return new LaporanBulananResource($laporanBulanan);
+    }
+
+    public function showFilter(Request $request)
+    {
+        $userId = $request->query('userId');
+        $month = $request->query('month');
+        $laporanBulanan = LaporanBulanan::where('user_id', $userId)
+            ->whereMonth('created_at', $month)
+            ->first();
+        if (! $laporanBulanan) {
+            return $this->resDataNotFound('Laporan Bulanan');
+        }
+
+        return new LaporanBulananResource($laporanBulanan);
     }
 
     public function update(LaporanBulananRequest $request, $id)
