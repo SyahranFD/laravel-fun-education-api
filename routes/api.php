@@ -76,6 +76,7 @@ Route::prefix('/laporan-bulanan')->group(function () {
     Route::get('/index', [LaporanBulananController::class, 'index']);
     Route::get('/show/{id}', [LaporanBulananController::class, 'showById']);
     Route::get('/show-current', [LaporanBulananController::class, 'showCurrent'])->middleware('auth:sanctum');
+    Route::get('/show-filter', [LaporanBulananController::class, 'showFilter']);
 
     Route::put('/update/{id}', [LaporanBulananController::class, 'update'])->middleware('auth:sanctum');
     Route::delete('/delete/{id}', [LaporanBulananController::class, 'delete'])->middleware('auth:sanctum');
