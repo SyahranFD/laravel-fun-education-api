@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AlurBelajarController;
 use App\Http\Controllers\CatatanDaruratController;
 use App\Http\Controllers\LaporanBulananController;
 use App\Http\Controllers\LaporanHarianController;
@@ -80,4 +81,15 @@ Route::prefix('/laporan-bulanan')->group(function () {
 
     Route::put('/update/{id}', [LaporanBulananController::class, 'update'])->middleware('auth:sanctum');
     Route::delete('/delete/{id}', [LaporanBulananController::class, 'delete'])->middleware('auth:sanctum');
+});
+
+Route::prefix('/alur-belajar')->group(function () {
+    Route::post('/store', [AlurBelajarController::class, 'store'])->middleware('auth:sanctum');
+
+    Route::get('/index', [AlurBelajarController::class, 'index']);
+    Route::get('/show/{id}', [AlurBelajarController::class, 'showById']);
+    Route::get('/show-current', [AlurBelajarController::class, 'showCurrent'])->middleware('auth:sanctum');
+
+    Route::put('/update/{id}', [AlurBelajarController::class, 'update'])->middleware('auth:sanctum');
+    Route::delete('/delete/{id}', [AlurBelajarController::class, 'delete'])->middleware('auth:sanctum');
 });
