@@ -22,7 +22,7 @@ class LaporanHarianRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'user_id' => 'required',
+            'user_id' => 'required|exists:users,id',
             'datang_tepat_pada_waktunya' => 'required|string|min:1|max:255',
             'berpakaian_rapi' => 'required|string|min:1|max:255',
             'berbuat_baik_dengan_teman' => 'required|string|min:1|max:255',
