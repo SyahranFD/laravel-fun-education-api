@@ -45,12 +45,12 @@ class AlurBelajarController extends Controller
 
     public function showCurrent()
     {
-        $showCurrent = auth()->user()->showCurrent;
-        if (! $showCurrent) {
-            return $this->resDataNotFound('Show Current');
+        $alurBelajar = auth()->user()->alurBelajar;
+        if (! $alurBelajar) {
+            return $this->resDataNotFound('Alur Belajar');
         }
 
-        return new AlurBelajarResource($showCurrent);
+        return new AlurBelajarResource($alurBelajar);
     }
 
     public function update(AlurBelajarRequest $request, $id)
