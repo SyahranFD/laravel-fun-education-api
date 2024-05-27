@@ -11,7 +11,7 @@ use Laraindo\TanggalFormat;
 
 class TransaksiController extends Controller
 {
-    public function store(TransaksiRequest $request, $jenis)
+    public function store(TransaksiRequest $request)
     {
         $request->validated();
         $admin = auth()->user();
@@ -24,23 +24,25 @@ class TransaksiController extends Controller
             $transaksiData['id'] = 'shift-masuk-'.Str::uuid();
         } while (Transaksi::where('id', $transaksiData['id'])->exists());
 
-        $transaksi = Transaksi::create($transaksiData);
-        $transaksi = new TransaksiResource($transaksi);
-
-        $tabungan = Tabungan::where('user_id', $transaksi->user_id)->first();
+        $tabungan = Tabungan::where('user_id', $request->user_id)->first();
         if (! $tabungan) {
             return $this->resDataNotFound('Tabungan');
         }
 
-        if ($jenis === 'pemasukan') {
+        if ($request->jenis === 'pemasukan') {
             $tabungan->update([
-                'tabungan' => $tabungan->tabungan + $transaksi->nominal,
+                'tabungan' => $tabungan->tabungan + $request->nominal,
+            ]);
+        } elseif ($request->jenis === 'pengeluaran') {
+            $tabungan->update([
+                'tabungan' => $tabungan->tabungan - $request->nominal,
             ]);
         } else {
-            $tabungan->update([
-                'tabungan' => $tabungan->tabungan - $transaksi->nominal,
-            ]);
+            return response(['message' => 'Jenis Transaksi Tidak Valid'], 400);
         }
+
+        $transaksi = Transaksi::create($transaksiData);
+        $transaksi = new TransaksiResource($transaksi);
 
         return $this->resStoreData($transaksi);
     }
