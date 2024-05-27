@@ -4,13 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\TransaksiRequest;
 use App\Http\Resources\TransaksiResource;
+use App\Models\Tabungan;
 use App\Models\Transaksi;
 use Illuminate\Support\Str;
 use Laraindo\TanggalFormat;
 
 class TransaksiController extends Controller
 {
-    public function store(TransaksiRequest $request)
+    public function store(TransaksiRequest $request, $jenis)
     {
         $request->validated();
         $admin = auth()->user();
@@ -25,6 +26,21 @@ class TransaksiController extends Controller
 
         $transaksi = Transaksi::create($transaksiData);
         $transaksi = new TransaksiResource($transaksi);
+
+        $tabungan = Tabungan::where('user_id', $transaksi->user_id)->first();
+        if (! $tabungan) {
+            return $this->resDataNotFound('Tabungan');
+        }
+
+        if ($jenis === 'pemasukan') {
+            $tabungan->update([
+                'tabungan' => $tabungan->tabungan + $transaksi->nominal,
+            ]);
+        } else {
+            $tabungan->update([
+                'tabungan' => $tabungan->tabungan - $transaksi->nominal,
+            ]);
+        }
 
         return $this->resStoreData($transaksi);
     }
@@ -93,7 +109,26 @@ class TransaksiController extends Controller
         if (! $transaksi) {
             return $this->resDataNotFound('Transaksi');
         }
+
+        $oldNominal = $transaksi->nominal;
         $transaksi->update($request->all());
+        $newNominal = $transaksi->nominal;
+
+        $tabungan = Tabungan::where('user_id', $transaksi->user_id)->first();
+        if (! $tabungan) {
+            return $this->resDataNotFound('Tabungan');
+        }
+
+        $selisih = $newNominal - $oldNominal;
+        if ($selisih > 0) {
+            $tabungan->update([
+                'tabungan' => $tabungan->tabungan + $selisih,
+            ]);
+        } elseif ($selisih < 0) {
+            $tabungan->update([
+                'tabungan' => $tabungan->tabungan - abs($selisih),
+            ]);
+        }
 
         return new TransaksiResource($transaksi);
     }
@@ -109,7 +144,16 @@ class TransaksiController extends Controller
         if (! $transaksi) {
             return $this->resDataNotFound('Transaksi');
         }
+        $nominal = $transaksi->nominal;
         $transaksi->delete();
+
+        $tabungan = Tabungan::where('user_id', $transaksi->user_id)->first();
+        if (! $tabungan) {
+            return $this->resDataNotFound('Tabungan');
+        }
+        $tabungan->update([
+            'tabungan' => $tabungan->tabungan - $nominal,
+        ]);
 
         return $this->resDataDeleted('Transaksi');
     }
