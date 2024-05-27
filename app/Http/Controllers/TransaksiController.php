@@ -6,6 +6,7 @@ use App\Http\Requests\TransaksiRequest;
 use App\Http\Resources\TransaksiResource;
 use App\Models\Transaksi;
 use Illuminate\Support\Str;
+use Laraindo\TanggalFormat;
 
 class TransaksiController extends Controller
 {
@@ -62,22 +63,25 @@ class TransaksiController extends Controller
                 'nominal' => number_format($transaksis->nominal, 0, '.', '.'),
                 'jenis' => $transaksis->jenis,
                 'keterangan' => $transaksis->keterangan,
-                'tanggal' => $transaksis->created_at->format('d F Y H:i:s'),
+                'tanggal' => TanggalFormat::DateIndo($transaksis->created_at->format('Y/m/d'), 'l, j F Y'),
+                'date' => $transaksis->created_at->format('d F Y H:i:s'),
             ];
-            
         }
 
         $groupedTransaksi = collect($formattedTransaksi)
-            ->sortByDesc(function ($item) {
-                return date('Ym', strtotime($item['tanggal']));
-            })
-            ->groupBy(function ($item) {
-                return strtolower(date('F_Y', strtotime($item['tanggal'])));
-            })
-            ->map(function ($item, $key) {
-                return $item;
-        });
-
+        ->sortByDesc(function ($item) {
+            return date('Ym', strtotime($item['date']));
+        })
+        ->groupBy(function ($item) {
+            return TanggalFormat::DateIndo($item['date'], 'F Y');
+        })
+        ->map(function ($item, $key) {
+            return [
+                'date' => $key,
+                'transaksi' => $item,
+            ];
+        })
+        ->values();
 
         return response()->json(['data' => $groupedTransaksi]);
     }

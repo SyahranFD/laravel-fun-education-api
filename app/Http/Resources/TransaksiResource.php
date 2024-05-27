@@ -4,6 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Laraindo\TanggalFormat;
 
 class TransaksiResource extends JsonResource
 {
@@ -20,7 +21,7 @@ class TransaksiResource extends JsonResource
             'jenis' => $this->jenis,
             'nominal' => $this->nominal,
             'keterangan' => $this->keterangan,
-            'tanggal' => $this->created_at->format('Y-m-d H:i:s'),
+            'tanggal' => TanggalFormat::DateIndo($this->created_at->format('Y/m/d'), 'l, j F Y'),
         ];
     }
 }
