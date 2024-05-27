@@ -17,6 +17,9 @@ class Tabungan extends Model
         'tabungan',
     ];
 
+    protected $casts = [
+        'tabungan' => 'integer',
+    ];
 
     public function user()
     {
