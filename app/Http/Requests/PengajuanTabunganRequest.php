@@ -24,7 +24,7 @@ class PengajuanTabunganRequest extends FormRequest
         return [
             'user_id' => 'required|exists:users,id',
             'pengajuan' => 'required|string|max:255',
-            'status' => 'required|string|max:255',
+            'status' => 'string|max:255',
         ];
     }
 }

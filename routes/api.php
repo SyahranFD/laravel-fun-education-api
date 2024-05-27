@@ -4,6 +4,7 @@ use App\Http\Controllers\AlurBelajarController;
 use App\Http\Controllers\CatatanDaruratController;
 use App\Http\Controllers\LaporanBulananController;
 use App\Http\Controllers\LaporanHarianController;
+use App\Http\Controllers\PengajuanTabunganController;
 use App\Http\Controllers\ShiftMasukController;
 use App\Http\Controllers\TabunganController;
 use App\Http\Controllers\TransaksiController;
@@ -116,4 +117,15 @@ Route::prefix('/transaksi')->group(function () {
 
     Route::put('/update/{id}', [TransaksiController::class, 'update'])->middleware('auth:sanctum');
     Route::delete('/delete/{id}', [TransaksiController::class, 'delete'])->middleware('auth:sanctum');
+});
+
+Route::prefix('/pengajuan-tabungan')->group(function () {
+    Route::post('/store', [PengajuanTabunganController::class, 'store'])->middleware('auth:sanctum');
+
+    Route::get('/index', [PengajuanTabunganController::class, 'index']);
+    Route::get('/show/{id}', [PengajuanTabunganController::class, 'showById']);
+    Route::get('/show-current', [PengajuanTabunganController::class, 'showCurrent'])->middleware('auth:sanctum');
+
+    Route::put('/update/{id}', [PengajuanTabunganController::class, 'update'])->middleware('auth:sanctum');
+    Route::delete('/delete/{id}', [PengajuanTabunganController::class, 'destroy'])->middleware('auth:sanctum');
 });
