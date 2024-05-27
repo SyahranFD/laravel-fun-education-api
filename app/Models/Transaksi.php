@@ -19,10 +19,6 @@ class Transaksi extends Model
         'keterangan',
     ];
 
-    protected $casts = [
-        'nominal' => 'integer',
-    ];
-
     public function user()
     {
         return $this->belongsTo(User::class);
