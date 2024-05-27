@@ -24,7 +24,6 @@ class TransaksiController extends Controller
         } while (Transaksi::where('id', $transaksiData['id'])->exists());
 
         $transaksi = Transaksi::create($transaksiData);
-        $transaksi['nominal'] = number_format($transaksi->nominal, 0, '.', '.');
         $transaksi = new TransaksiResource($transaksi);
 
         return $this->resStoreData($transaksi);
@@ -32,11 +31,7 @@ class TransaksiController extends Controller
 
     public function index()
     {
-        $transaksi = Transaksi::all();
-        foreach($transaksi as $transaksis) {
-            $transaksis['nominal'] = number_format($transaksis->nominal, 0, '.', '.');
-        }
-        return TransaksiResource::collection($transaksi);
+        return TransaksiResource::collection(Transaksi::all());
     }
 
     public function showById($id)
@@ -45,7 +40,7 @@ class TransaksiController extends Controller
         if (! $transaksi) {
             return $this->resDataNotFound('Transaksi');
         }
-        $transaksi['nominal'] = number_format($transaksi->nominal, 0, '.', '.');
+
         return new TransaksiResource($transaksi);
     }
 
@@ -60,7 +55,7 @@ class TransaksiController extends Controller
             $formattedTransaksi[] = [
                 'id' => $transaksis->id,
                 'user_id' => $transaksis->user_id,
-                'nominal' => number_format($transaksis->nominal, 0, '.', '.'),
+                'nominal' => $transaksis->nominal,
                 'jenis' => $transaksis->jenis,
                 'keterangan' => $transaksis->keterangan,
                 'tanggal' => TanggalFormat::DateIndo($transaksis->created_at->format('Y/m/d'), 'l, j F Y'),
@@ -99,7 +94,6 @@ class TransaksiController extends Controller
             return $this->resDataNotFound('Transaksi');
         }
         $transaksi->update($request->all());
-        $transaksi['nominal'] = number_format($transaksi->nominal, 0, '.', '.');
 
         return new TransaksiResource($transaksi);
     }

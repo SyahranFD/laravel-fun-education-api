@@ -24,7 +24,6 @@ class TabunganController extends Controller
         } while (tabungan::where('id', $tabunganData['id'])->exists());
 
         $tabungan = tabungan::create($tabunganData);
-        $tabungan['tabungan'] = number_format($tabungan->tabungan, 0, '.', '.');
         $tabungan = new tabunganResource($tabungan);
 
         return $this->resStoreData($tabungan);
@@ -32,11 +31,7 @@ class TabunganController extends Controller
 
     public function index()
     {
-        $tabungan = Tabungan::all();
-        foreach($tabungan as $tabungans) {
-            $tabungans['tabungan'] = number_format($tabungans->tabungan, 0, '.', '.');
-        }
-        return TabunganResource::collection($tabungan);
+        return TabunganResource::collection(Tabungan::all());
     }
 
     public function showById($id)
@@ -45,7 +40,7 @@ class TabunganController extends Controller
         if (! $tabungan) {
             return $this->resDataNotFound('Tabungan');
         }
-        $tabungan['tabungan'] = number_format($tabungan->tabungan, 0, '.', '.');
+
         return new TabunganResource($tabungan);
     }
 
@@ -93,7 +88,7 @@ class TabunganController extends Controller
         }
 
         $tabungan->update($request->all());
-        $tabungan['tabungan'] = number_format($tabungan->tabungan, 0, '.', '.');
+
         return new TabunganResource($tabungan);
     }
 

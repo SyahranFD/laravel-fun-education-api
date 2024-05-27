@@ -17,7 +17,7 @@ class TabunganResource extends JsonResource
         return [
             'id' => $this->id,
             'user_id' => $this->user_id,
-            'tabungan' => $this->tabungan,
+            'tabungan' => number_format($this->tabungan, 0, '.', '.'),,
         ];
     }
 }
