@@ -5,6 +5,7 @@ use App\Http\Controllers\CatatanDaruratController;
 use App\Http\Controllers\LaporanBulananController;
 use App\Http\Controllers\LaporanHarianController;
 use App\Http\Controllers\ShiftMasukController;
+use App\Http\Controllers\TabunganController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -92,4 +93,15 @@ Route::prefix('/alur-belajar')->group(function () {
 
     Route::put('/update/{id}', [AlurBelajarController::class, 'update'])->middleware('auth:sanctum');
     Route::delete('/delete/{id}', [AlurBelajarController::class, 'delete'])->middleware('auth:sanctum');
+});
+
+Route::prefix('/tabungan')->group(function () {
+    Route::post('/store', [TabunganController::class, 'store'])->middleware('auth:sanctum');
+
+    Route::get('/index', [TabunganController::class, 'index']);
+    Route::get('/show/{id}', [TabunganController::class, 'showById']);
+    Route::get('/show-current', [TabunganController::class, 'showCurrent'])->middleware('auth:sanctum');
+
+    Route::put('/update/{id}', [TabunganController::class, 'update'])->middleware('auth:sanctum');
+    Route::delete('/delete/{id}', [TabunganController::class, 'destroy'])->middleware('auth:sanctum');
 });
