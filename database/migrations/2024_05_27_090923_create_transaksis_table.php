@@ -15,7 +15,7 @@ return new class extends Migration
             $table->string('id')->primary();
             $table->string('user_id');
             $table->string('jenis');
-            $table->string('nominal');
+            $table->integer('nominal');
             $table->string('keterangan');
             $table->timestamps();
 

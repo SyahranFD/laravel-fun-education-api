@@ -23,7 +23,6 @@ class TabunganController extends Controller
             $tabunganData['id'] = 'tabungan-'.Str::uuid();
         } while (tabungan::where('id', $tabunganData['id'])->exists());
 
-        
         $tabungan = tabungan::create($tabunganData);
         $tabungan = new tabunganResource($tabungan);
 

@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('tabungans', function (Blueprint $table) {
             $table->string('id')->primary();
             $table->string('user_id');
-            $table->string('tabungan');
+            $table->integer('tabungan');
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
