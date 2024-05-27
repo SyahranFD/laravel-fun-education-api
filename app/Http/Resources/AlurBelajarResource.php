@@ -18,6 +18,9 @@ class AlurBelajarResource extends JsonResource
             'id' => $this->id,
             'user_id' => $this->user_id,
             'tahap' => $this->tahap,
+            'tahap_a' => $this->tahap === 'A' ? true : false,
+            'tahap_b' => $this->tahap === 'B' ? true : false,
+            'tahap_c' => $this->tahap === 'C' ? true : false,
         ];
     }
 }
