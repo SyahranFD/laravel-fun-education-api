@@ -47,4 +47,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(LaporanBulanan::class);
     }
+
+    public function alurBelajar()
+    {
+        return $this->hasOne(AlurBelajar::class);
+    }
 }
