@@ -20,7 +20,7 @@ class TransaksiResource extends JsonResource
             'jenis' => $this->jenis,
             'nominal' => $this->nominal,
             'keterangan' => $this->keterangan,
-            'tanggal' => $this->created_at->format('d F Y'),
+            'tanggal' => $this->created_at->format('Y-m-d H:i:s'),
         ];
     }
 }

@@ -24,6 +24,7 @@ class TransaksiRequest extends FormRequest
         return [
             'user_id' => 'required|exists:users,id',
             'nominal' => 'required|numeric|min:1',
+            'jenis' => 'required|string|min:1|max:255',
             'keterangan' => 'required|string|min:1|max:255',
         ];
     }

@@ -6,6 +6,7 @@ use App\Http\Controllers\LaporanBulananController;
 use App\Http\Controllers\LaporanHarianController;
 use App\Http\Controllers\ShiftMasukController;
 use App\Http\Controllers\TabunganController;
+use App\Http\Controllers\TransaksiController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -104,4 +105,15 @@ Route::prefix('/tabungan')->group(function () {
 
     Route::put('/update/{id}', [TabunganController::class, 'update'])->middleware('auth:sanctum');
     Route::delete('/delete/{id}', [TabunganController::class, 'destroy'])->middleware('auth:sanctum');
+});
+
+Route::prefix('/transaksi')->group(function () {
+    Route::post('/store', [TransaksiController::class, 'store'])->middleware('auth:sanctum');
+
+    Route::get('/index', [TransaksiController::class, 'index']);
+    Route::get('/show/{id}', [TransaksiController::class, 'showById']);
+    Route::get('/show-current', [TransaksiController::class, 'showCurrent'])->middleware('auth:sanctum');
+
+    Route::put('/update/{id}', [TransaksiController::class, 'update'])->middleware('auth:sanctum');
+    Route::delete('/delete/{id}', [TransaksiController::class, 'delete'])->middleware('auth:sanctum');
 });
