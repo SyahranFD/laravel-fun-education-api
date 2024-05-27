@@ -62,8 +62,8 @@ class TabunganController extends Controller
             return $this->resDataNotFound('Transaksi');
         }
 
-        $pemasukanTerakhir = $transaksi->where('jenis', 'pemasukan')->sortByDesc('created_at')->first()['nominal'] ?? 0;
-        $pengeluaranTerakhir = $transaksi->where('jenis', 'pengeluaran')->sortByDesc('created_at')->first()['nominal'] ?? 0;
+        $pemasukanTerakhir = number_format($transaksi->where('jenis', 'pemasukan')->sortByDesc('created_at')->first()['nominal'] ?? 0, 0, '.', '.');
+        $pengeluaranTerakhir = number_format($transaksi->where('jenis', 'pengeluaran')->sortByDesc('created_at')->first()['nominal'] ?? 0, 0, '.', '.');
 
         $responseBody = array_merge(
             $tabungan->toArray(),
@@ -72,6 +72,9 @@ class TabunganController extends Controller
                 'pengeluaran_terakhir' => $pengeluaranTerakhir,
             ]
         );
+
+        unset($responseBody['created_at']);
+        unset($responseBody['updated_at']);
 
         return response()->json(['data' => $responseBody]);
     }
