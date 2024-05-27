@@ -52,4 +52,19 @@ class User extends Authenticatable
     {
         return $this->hasOne(AlurBelajar::class);
     }
+
+    public function tabungan()
+    {
+        return $this->hasOne(Tabungan::class);
+    }
+
+    public function transaksi()
+    {
+        return $this->hasMany(Transaksi::class);
+    }
+
+    public function pengajuanTabungan()
+    {
+        return $this->hasMany(PengajuanTabungan::class);
+    }
 }
