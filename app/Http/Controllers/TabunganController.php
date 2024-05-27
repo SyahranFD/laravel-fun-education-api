@@ -51,12 +51,29 @@ class TabunganController extends Controller
 
     public function showCurrent()
     {
-        $tabungan = auth()->user()->tabungan;
+        $tabungan = auth()->user()->tabungan->first();
         if (! $tabungan) {
             return $this->resDataNotFound('Tabungan');
         }
         $tabungan['tabungan'] = number_format($tabungan->tabungan, 0, '.', '.');
-        return new TabunganResource($tabungan);
+
+        $transaksi = auth()->user()->transaksi;
+        if (! $transaksi) {
+            return $this->resDataNotFound('Transaksi');
+        }
+
+        $pemasukanTerakhir = $transaksi->where('jenis', 'pemasukan')->sortByDesc('created_at')->first()['nominal'] ?? 0;
+        $pengeluaranTerakhir = $transaksi->where('jenis', 'pengeluaran')->sortByDesc('created_at')->first()['nominal'] ?? 0;
+
+        $responseBody = array_merge(
+            $tabungan->toArray(),
+            [
+                'pemasukan_terakhir' => $pemasukanTerakhir,
+                'pengeluaran_terakhir' => $pengeluaranTerakhir,
+            ]
+        );
+
+        return response()->json(['data' => $responseBody]);
     }
 
     public function update(TabunganRequest $request, $id)
