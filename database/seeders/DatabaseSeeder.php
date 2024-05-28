@@ -3,7 +3,9 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Album;
 use App\Models\CatatanDarurat;
+use App\Models\Gallery;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Config;
@@ -80,5 +82,67 @@ class DatabaseSeeder extends Seeder
             'user_id' => $rafa->id,
             'tahap' => 'B',
         ]);
+
+        $rafa->tabungan()->create([
+            'id' => 'tabungan-'.fake()->uuid(),
+            'user_id' => $rafa->id,
+            'tabungan' => 450000,
+        ]);
+
+        $rafa->transaksi()->create([
+            'id' => 'transaksi-'.fake()->uuid(),
+            'user_id' => $rafa->id,
+            'jenis' => 'pemasukan',
+            'nominal' => 15000,
+            'keterangan' => '',
+            'created_at' => '2024-05-28 08:00:00',
+        ]);
+
+        $rafa->transaksi()->create([
+            'id' => 'transaksi-'.fake()->uuid(),
+            'user_id' => $rafa->id,
+            'jenis' => 'pengeluaran',
+            'nominal' => 75000,
+            'keterangan' => 'Untuk Bayar SPP',
+            'created_at' => '2024-05-02 08:00:00',
+        ]);
+
+        $rafa->transaksi()->create([
+            'id' => 'transaksi-'.fake()->uuid(),
+            'user_id' => $rafa->id,
+            'jenis' => 'pemasukan',
+            'nominal' => 25000,
+            'keterangan' => '',
+            'created_at' => '2024-04-29 08:00:00',
+        ]);
+
+        $rafa->transaksi()->create([
+            'id' => 'transaksi-'.fake()->uuid(),
+            'user_id' => $rafa->id,
+            'jenis' => 'pemasukan',
+            'nominal' => 15000,
+            'keterangan' => '',
+            'created_at' => '2024-04-12 08:00:00',
+        ]);
+
+        $rafa->transaksi()->create([
+            'id' => 'transaksi-'.fake()->uuid(),
+            'user_id' => $rafa->id,
+            'jenis' => 'pengeluaran',
+            'nominal' => 140000,
+            'keterangan' => 'Untuk membayar biaya outbound',
+            'created_at' => '2024-03-27 08:00:00',
+        ]);
+
+        $album = Album::create([
+            'id' => 'album-'.fake()->uuid(),
+            'name' => 'Outbound - Batam',
+            'desc' => 'Kumpulan foto outbound di Batam',
+        ]);
+
+        Gallery::factory(10)->create([
+            'album_id' => $album->id,
+        ]);
+
     }
 }
