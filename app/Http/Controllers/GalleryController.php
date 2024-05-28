@@ -72,7 +72,7 @@ class GalleryController extends Controller
         $galleryData = $request->all();
         if ($request->hasFile('image')) {
             $imagePath = $request->file('image')->store('public/gallery');
-            $galleryData['image'] = $this->urlLocal.Storage::url($imagePath);
+            $galleryData['image'] = $this->url.Storage::url($imagePath);
         }
 
         $gallery->update($galleryData);
