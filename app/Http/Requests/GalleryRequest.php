@@ -22,7 +22,7 @@ class GalleryRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'album_id' => 'required|exists:albums,id',
+            'album_id' => 'exists:albums,id',
             'image' => 'required',
         ];
     }
