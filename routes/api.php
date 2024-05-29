@@ -1,7 +1,9 @@
 <?php
 
+use App\Http\Controllers\AlbumController;
 use App\Http\Controllers\AlurBelajarController;
 use App\Http\Controllers\CatatanDaruratController;
+use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\LaporanBulananController;
 use App\Http\Controllers\LaporanHarianController;
 use App\Http\Controllers\PengajuanTabunganController;
@@ -128,4 +130,24 @@ Route::prefix('/pengajuan-tabungan')->group(function () {
 
     Route::put('/update/{id}', [PengajuanTabunganController::class, 'update'])->middleware('auth:sanctum');
     Route::delete('/delete/{id}', [PengajuanTabunganController::class, 'destroy'])->middleware('auth:sanctum');
+});
+
+Route::prefix('/album')->group(function () {
+    Route::post('/store', [AlbumController::class, 'store'])->middleware('auth:sanctum');
+
+    Route::get('/index', [AlbumController::class, 'index']);
+    Route::get('/show/{id}', [AlbumController::class, 'showById']);
+
+    Route::put('/update/{id}', [AlbumController::class, 'update'])->middleware('auth:sanctum');
+    Route::delete('/delete/{id}', [AlbumController::class, 'delete'])->middleware('auth:sanctum');
+});
+
+Route::prefix('/gallery')->group(function () {
+    Route::post('/store', [GalleryController::class, 'store'])->middleware('auth:sanctum');
+
+    Route::get('/index', [GalleryController::class, 'index']);
+    Route::get('/show/{id}', [GalleryController::class, 'showById']);
+
+    Route::put('/update/{id}', [GalleryController::class, 'update'])->middleware('auth:sanctum');
+    Route::delete('/delete/{id}', [GalleryController::class, 'delete'])->middleware('auth:sanctum');
 });
