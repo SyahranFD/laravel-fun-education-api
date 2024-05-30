@@ -11,10 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('tabungans', function (Blueprint $table) {
+        Schema::create('transactions', function (Blueprint $table) {
             $table->string('id')->primary();
             $table->string('user_id');
-            $table->integer('tabungan');
+            $table->string('category');
+            $table->integer('amount');
+            $table->string('desc');
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
@@ -26,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('tabungans');
+        Schema::dropIfExists('transactions');
     }
 };

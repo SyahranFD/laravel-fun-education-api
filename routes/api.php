@@ -6,10 +6,10 @@ use App\Http\Controllers\CatatanDaruratController;
 use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\LaporanBulananController;
 use App\Http\Controllers\LaporanHarianController;
-use App\Http\Controllers\PengajuanTabunganController;
+use App\Http\Controllers\SavingApplicationController;
 use App\Http\Controllers\ShiftMasukController;
-use App\Http\Controllers\TabunganController;
-use App\Http\Controllers\TransaksiController;
+use App\Http\Controllers\SavingController;
+use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -100,36 +100,36 @@ Route::prefix('/alur-belajar')->group(function () {
 });
 
 Route::prefix('/tabungan')->group(function () {
-    Route::post('/store', [TabunganController::class, 'store'])->middleware('auth:sanctum');
+    Route::post('/store', [SavingController::class, 'store'])->middleware('auth:sanctum');
 
-    Route::get('/index', [TabunganController::class, 'index']);
-    Route::get('/show/{id}', [TabunganController::class, 'showById']);
-    Route::get('/show-current', [TabunganController::class, 'showCurrent'])->middleware('auth:sanctum');
+    Route::get('/index', [SavingController::class, 'index']);
+    Route::get('/show/{id}', [SavingController::class, 'showById']);
+    Route::get('/show-current', [SavingController::class, 'showCurrent'])->middleware('auth:sanctum');
 
-    Route::put('/update/{id}', [TabunganController::class, 'update'])->middleware('auth:sanctum');
-    Route::delete('/delete/{id}', [TabunganController::class, 'destroy'])->middleware('auth:sanctum');
+    Route::put('/update/{id}', [SavingController::class, 'update'])->middleware('auth:sanctum');
+    Route::delete('/delete/{id}', [SavingController::class, 'destroy'])->middleware('auth:sanctum');
 });
 
 Route::prefix('/transaksi')->group(function () {
-    Route::post('/store', [TransaksiController::class, 'store'])->middleware('auth:sanctum');
+    Route::post('/store', [TransactionController::class, 'store'])->middleware('auth:sanctum');
 
-    Route::get('/index', [TransaksiController::class, 'index']);
-    Route::get('/show/{id}', [TransaksiController::class, 'showById']);
-    Route::get('/show-current', [TransaksiController::class, 'showCurrent'])->middleware('auth:sanctum');
+    Route::get('/index', [TransactionController::class, 'index']);
+    Route::get('/show/{id}', [TransactionController::class, 'showById']);
+    Route::get('/show-current', [TransactionController::class, 'showCurrent'])->middleware('auth:sanctum');
 
-    Route::put('/update/{id}', [TransaksiController::class, 'update'])->middleware('auth:sanctum');
-    Route::delete('/delete/{id}', [TransaksiController::class, 'delete'])->middleware('auth:sanctum');
+    Route::put('/update/{id}', [TransactionController::class, 'update'])->middleware('auth:sanctum');
+    Route::delete('/delete/{id}', [TransactionController::class, 'delete'])->middleware('auth:sanctum');
 });
 
 Route::prefix('/pengajuan-tabungan')->group(function () {
-    Route::post('/store', [PengajuanTabunganController::class, 'store'])->middleware('auth:sanctum');
+    Route::post('/store', [SavingApplicationController::class, 'store'])->middleware('auth:sanctum');
 
-    Route::get('/index', [PengajuanTabunganController::class, 'index']);
-    Route::get('/show/{id}', [PengajuanTabunganController::class, 'showById']);
-    Route::get('/show-current', [PengajuanTabunganController::class, 'showCurrent'])->middleware('auth:sanctum');
+    Route::get('/index', [SavingApplicationController::class, 'index']);
+    Route::get('/show/{id}', [SavingApplicationController::class, 'showById']);
+    Route::get('/show-current', [SavingApplicationController::class, 'showCurrent'])->middleware('auth:sanctum');
 
-    Route::put('/update/{id}', [PengajuanTabunganController::class, 'update'])->middleware('auth:sanctum');
-    Route::delete('/delete/{id}', [PengajuanTabunganController::class, 'destroy'])->middleware('auth:sanctum');
+    Route::put('/update/{id}', [SavingApplicationController::class, 'update'])->middleware('auth:sanctum');
+    Route::delete('/delete/{id}', [SavingApplicationController::class, 'destroy'])->middleware('auth:sanctum');
 });
 
 Route::prefix('/album')->group(function () {

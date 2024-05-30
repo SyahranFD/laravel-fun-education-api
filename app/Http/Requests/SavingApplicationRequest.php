@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class PengajuanTabunganRequest extends FormRequest
+class SavingApplicationRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,7 +23,7 @@ class PengajuanTabunganRequest extends FormRequest
     {
         return [
             'user_id' => 'required|exists:users,id',
-            'pengajuan' => 'required|string|max:255',
+            'category' => 'required|string|max:255',
             'status' => 'string|max:255',
         ];
     }
