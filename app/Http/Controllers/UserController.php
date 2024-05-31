@@ -7,6 +7,7 @@ use App\Http\Requests\RegisterRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Http\Resources\UserResource;
 use App\Models\User;
+use App\Notifications\PushNotification;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
@@ -82,6 +83,7 @@ class UserController extends Controller
         if (! $user) {
             return $this->resUserNotFound();
         }
+        $user->notify(new PushNotification());
 
         return new UserResource($user);
     }
