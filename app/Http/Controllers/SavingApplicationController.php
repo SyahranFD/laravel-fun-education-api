@@ -12,10 +12,7 @@ class SavingApplicationController extends Controller
     public function store(SavingApplicationRequest $request)
     {
         $request->validated();
-        $admin = auth()->user();
-        if (! $admin->isAdmin()) {
-            return $this->resUserNotAdmin();
-        }
+        auth()->user();
 
         $savingApplicationData = $request->all();
         $savingApplicationData['status'] = 'Pending';
