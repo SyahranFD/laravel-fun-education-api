@@ -67,4 +67,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(SavingApplication::class);
     }
+
+    public function minimumApplication()
+    {
+        return $this->hasMany(MinimumApplication::class);
+    }
 }
