@@ -35,7 +35,7 @@ class DatabaseSeeder extends Seeder
 
         $rafa = User::create([
             'id' => 'user-'.fake()->uuid(),
-            'nama_lengkap' => 'Syahran Fadhil Dafanindra',
+            'nama_lengkap' => 'Syahran Fadhil',
             'tempat_tanggal_lahir' => 'Semarang, 15 Mei 2015',
             'alamat' => 'Jl. Kaliurang KM 5, Semarang',
             'password' => Hash::make('rafapass'),
@@ -86,7 +86,7 @@ class DatabaseSeeder extends Seeder
         $rafa->savings()->create([
             'id' => 'saving-'.fake()->uuid(),
             'user_id' => $rafa->id,
-            'saving' => 450000,
+            'saving' => 250000,
         ]);
 
         $rafa->transaction()->create([
@@ -149,6 +149,13 @@ class DatabaseSeeder extends Seeder
             'user_id' => $rafa->id,
             'category' => 'SPP',
             'minimum' => 200000,
+        ]);
+
+        $rafa->minimumApplication()->create([
+            'id' => 'minimum-application-'.fake()->uuid(),
+            'user_id' => $rafa->id,
+            'category' => 'Kegiatan Belajar Diluar',
+            'minimum' => 300000,
         ]);
     }
 }
