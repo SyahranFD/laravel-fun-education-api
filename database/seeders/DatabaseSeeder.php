@@ -86,7 +86,7 @@ class DatabaseSeeder extends Seeder
         $rafa->savings()->create([
             'id' => 'saving-'.fake()->uuid(),
             'user_id' => $rafa->id,
-            'saving' => 450000,
+            'saving' => 250000,
         ]);
 
         $rafa->transaction()->create([
@@ -144,5 +144,18 @@ class DatabaseSeeder extends Seeder
             'album_id' => $album->id,
         ]);
 
+        $rafa->minimumApplication()->create([
+            'id' => 'minimum-application-'.fake()->uuid(),
+            'user_id' => $rafa->id,
+            'category' => 'SPP',
+            'minimum' => 200000,
+        ]);
+
+        $rafa->minimumApplication()->create([
+            'id' => 'minimum-application-'.fake()->uuid(),
+            'user_id' => $rafa->id,
+            'category' => 'Kegiatan Belajar Diluar',
+            'minimum' => 300000,
+        ]);
     }
 }
