@@ -50,7 +50,24 @@ class MinimumApplicationController extends Controller
             return $this->resDataNotFound('Minimum Application');
         }
 
-        return MinimumApplicationResource::collection($minimumApplication);
+        $saving = auth()->user()->savings;
+        if (! $saving) {
+            return $this->resDataNotFound('Saving');
+        }
+
+        $responseData = [];
+        foreach ($minimumApplication as $minimumApplications)
+        {
+            $responseData[] = [
+                'id' => $minimumApplications->id,
+                'user_id' => $minimumApplications->user_id,
+                'category' => $minimumApplications->category,
+                'minimum' => number_format($minimumApplications->minimum, 0, '.', '.'),
+                'is_enough' => $saving->saving >= $minimumApplications->minimum
+            ];
+        }
+
+        return response(['data' => $responseData], 200);
     }
 
     public function update(MinimumApplicationRequest $request, $id)
