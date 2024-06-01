@@ -144,5 +144,11 @@ class DatabaseSeeder extends Seeder
             'album_id' => $album->id,
         ]);
 
+        $rafa->minimumApplication()->create([
+            'id' => 'minimum-application-'.fake()->uuid(),
+            'user_id' => $rafa->id,
+            'category' => 'SPP',
+            'minimum' => 200000,
+        ]);
     }
 }
