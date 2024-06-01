@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class TabunganRequest extends FormRequest
+class TransactionRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,7 +23,9 @@ class TabunganRequest extends FormRequest
     {
         return [
             'user_id' => 'required|exists:users,id',
-            'tabungan' => 'required|numeric|min:1',
+            'amount' => 'required|numeric|min:1',
+            'category' => 'required|string|min:1|max:255',
+            'desc' => 'required|string|min:1|max:255',
         ];
     }
 }

@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class TransaksiRequest extends FormRequest
+class SavingRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,9 +23,7 @@ class TransaksiRequest extends FormRequest
     {
         return [
             'user_id' => 'required|exists:users,id',
-            'nominal' => 'required|numeric|min:1',
-            'jenis' => 'required|string|min:1|max:255',
-            'keterangan' => 'required|string|min:1|max:255',
+            'saving' => 'required|numeric|min:1',
         ];
     }
 }

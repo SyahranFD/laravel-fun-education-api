@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Tabungan extends Model
+class Transaction extends Model
 {
     use HasFactory;
 
@@ -14,7 +14,9 @@ class Tabungan extends Model
     protected $fillable = [
         'id',
         'user_id',
-        'tabungan',
+        'category',
+        'amount',
+        'desc',
     ];
 
     public function user()

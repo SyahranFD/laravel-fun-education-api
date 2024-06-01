@@ -83,54 +83,54 @@ class DatabaseSeeder extends Seeder
             'tahap' => 'B',
         ]);
 
-        $rafa->tabungan()->create([
-            'id' => 'tabungan-'.fake()->uuid(),
+        $rafa->savings()->create([
+            'id' => 'saving-'.fake()->uuid(),
             'user_id' => $rafa->id,
-            'tabungan' => 450000,
+            'saving' => 450000,
         ]);
 
-        $rafa->transaksi()->create([
-            'id' => 'transaksi-'.fake()->uuid(),
+        $rafa->transaction()->create([
+            'id' => 'transaction-'.fake()->uuid(),
             'user_id' => $rafa->id,
-            'jenis' => 'pemasukan',
-            'nominal' => 15000,
-            'keterangan' => '',
+            'category' => 'income',
+            'amount' => 15000,
+            'desc' => '',
             'created_at' => '2024-05-28 08:00:00',
         ]);
 
-        $rafa->transaksi()->create([
-            'id' => 'transaksi-'.fake()->uuid(),
+        $rafa->transaction()->create([
+            'id' => 'transaction-'.fake()->uuid(),
             'user_id' => $rafa->id,
-            'jenis' => 'pengeluaran',
-            'nominal' => 75000,
-            'keterangan' => 'Untuk Bayar SPP',
+            'category' => 'outcome',
+            'amount' => 75000,
+            'desc' => 'Untuk Bayar SPP',
             'created_at' => '2024-05-02 08:00:00',
         ]);
 
-        $rafa->transaksi()->create([
-            'id' => 'transaksi-'.fake()->uuid(),
+        $rafa->transaction()->create([
+            'id' => 'transaction-'.fake()->uuid(),
             'user_id' => $rafa->id,
-            'jenis' => 'pemasukan',
-            'nominal' => 25000,
-            'keterangan' => '',
+            'category' => 'income',
+            'amount' => 25000,
+            'desc' => '',
             'created_at' => '2024-04-29 08:00:00',
         ]);
 
-        $rafa->transaksi()->create([
-            'id' => 'transaksi-'.fake()->uuid(),
+        $rafa->transaction()->create([
+            'id' => 'transaction-'.fake()->uuid(),
             'user_id' => $rafa->id,
-            'jenis' => 'pemasukan',
-            'nominal' => 15000,
-            'keterangan' => '',
+            'category' => 'income',
+            'amount' => 15000,
+            'desc' => '',
             'created_at' => '2024-04-12 08:00:00',
         ]);
 
-        $rafa->transaksi()->create([
-            'id' => 'transaksi-'.fake()->uuid(),
+        $rafa->transaction()->create([
+            'id' => 'transaction-'.fake()->uuid(),
             'user_id' => $rafa->id,
-            'jenis' => 'pengeluaran',
-            'nominal' => 140000,
-            'keterangan' => 'Untuk membayar biaya outbound',
+            'category' => 'outcome',
+            'amount' => 140000,
+            'desc' => 'Untuk membayar biaya outbound',
             'created_at' => '2024-03-27 08:00:00',
         ]);
 

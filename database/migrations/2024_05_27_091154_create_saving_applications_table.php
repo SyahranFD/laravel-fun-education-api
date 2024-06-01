@@ -11,10 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('pengajuan_tabungans', function (Blueprint $table) {
+        Schema::create('saving_applications', function (Blueprint $table) {
             $table->string('id')->primary();
             $table->string('user_id');
-            $table->string('pengajuan');
+            $table->string('category');
             $table->string('status');
             $table->timestamps();
 
@@ -27,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('pengajuan_tabungans');
+        Schema::dropIfExists('saving_applications');
     }
 };
