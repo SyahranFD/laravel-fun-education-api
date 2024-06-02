@@ -7,6 +7,7 @@ use App\Http\Controllers\FirebasePushController;
 use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\LaporanBulananController;
 use App\Http\Controllers\LaporanHarianController;
+use App\Http\Controllers\MinimumApplicationController;
 use App\Http\Controllers\SavingApplicationController;
 use App\Http\Controllers\ShiftMasukController;
 use App\Http\Controllers\SavingController;
@@ -154,4 +155,15 @@ Route::prefix('/gallery')->group(function () {
 
     Route::put('/update/{id}', [GalleryController::class, 'update'])->middleware('auth:sanctum');
     Route::delete('/delete/{id}', [GalleryController::class, 'delete'])->middleware('auth:sanctum');
+});
+
+Route::prefix('/minimum-pengajuan')->group(function () {
+    Route::post('/store', [MinimumApplicationController::class, 'store'])->middleware('auth:sanctum');
+
+    Route::get('/index', [MinimumApplicationController::class, 'index']);
+    Route::get('/show/{id}', [MinimumApplicationController::class, 'showById']);
+    Route::get('/show-current', [MinimumApplicationController::class, 'showCurrent'])->middleware('auth:sanctum');
+
+    Route::put('/update/{id}', [MinimumApplicationController::class, 'update'])->middleware('auth:sanctum');
+    Route::delete('/delete/{id}', [MinimumApplicationController::class, 'destroy'])->middleware('auth:sanctum');
 });

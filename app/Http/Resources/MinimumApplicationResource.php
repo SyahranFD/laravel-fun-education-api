@@ -18,7 +18,7 @@ class MinimumApplicationResource extends JsonResource
             'id' => $this->id,
             'user_id' => $this->user_id,
             'category' => $this->category,
-            'minimum' => number_format($this->saving, 0, '.', '.'),
+            'minimum' => number_format($this->minimum, 0, '.', '.'),
         ];
     }
 }

@@ -35,7 +35,7 @@ class DatabaseSeeder extends Seeder
 
         $rafa = User::create([
             'id' => 'user-'.fake()->uuid(),
-            'nama_lengkap' => 'Syahran Fadhil Dafanindra',
+            'nama_lengkap' => 'Syahran Fadhil',
             'tempat_tanggal_lahir' => 'Semarang, 15 Mei 2015',
             'alamat' => 'Jl. Kaliurang KM 5, Semarang',
             'password' => Hash::make('rafapass'),
