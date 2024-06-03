@@ -24,6 +24,8 @@ class GalleryRequest extends FormRequest
         return [
             'album_id' => 'exists:albums,id',
             'image' => 'required',
+            'title' => 'string|min:1|max:255',
+            'description' => 'string|min:1|max:255',
         ];
     }
 }

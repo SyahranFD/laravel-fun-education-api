@@ -19,6 +19,8 @@ class GalleryFactory extends Factory
         return [
             'id' => 'gallery-'.fake()->uuid(),
             'image' => 'https://picsum.photos/800',
+            'title' => fake()->sentence(),
+            'description' => fake()->paragraph(),
         ];
     }
 }
