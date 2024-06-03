@@ -15,6 +15,8 @@ class Gallery extends Model
         'id',
         'album_id',
         'image',
+        'title',
+        'description',
     ];
 
     public function album()
