@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 use Kreait\Firebase\Messaging\CloudMessage;
 use Kreait\Laravel\Firebase\Facades\Firebase;
@@ -25,16 +26,14 @@ class FirebasePushController extends Controller
         ]);
     }
 
-    public function notification(Request $request)
+    public function notification(Request $request, $id)
     {
-        $FcmToken = auth()->user()->fcm_token;
-        $title = $request->input('title');
-        $body = $request->input('body');
+        $FcmToken = User::find($id)->fcm_token;
         $message = CloudMessage::fromArray([
             'token' => $FcmToken,
             'notification' => [
-                'title' => $title,
-                'body' => $body
+                'title' => $request->title,
+                'body' => $request->body,
             ],
         ]);
 

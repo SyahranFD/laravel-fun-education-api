@@ -44,7 +44,7 @@ Route::prefix('/users')->group(function () {
     Route::delete('/delete/{id}', [UserController::class, 'delete'])->middleware('auth:sanctum');
 
     Route::put('/update-fcm-token', [FirebasePushController::class, 'setToken'])->middleware('auth:sanctum');
-    Route::post('/send-notification', [FirebasePushController::class, 'notification'])->middleware('auth:sanctum');
+    Route::post('/send-notification/{id}', [FirebasePushController::class, 'notification']);
 });
 
 Route::prefix('/shift-masuk')->group(function () {
