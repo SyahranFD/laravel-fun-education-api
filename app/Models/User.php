@@ -22,6 +22,7 @@ class User extends Authenticatable
         'alamat',
         'profile_picture',
         'role',
+        'fcm_token',
     ];
 
     protected $hidden = [

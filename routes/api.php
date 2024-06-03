@@ -3,6 +3,7 @@
 use App\Http\Controllers\AlbumController;
 use App\Http\Controllers\AlurBelajarController;
 use App\Http\Controllers\CatatanDaruratController;
+use App\Http\Controllers\FirebasePushController;
 use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\LaporanBulananController;
 use App\Http\Controllers\LaporanHarianController;
@@ -41,6 +42,9 @@ Route::prefix('/users')->group(function () {
     Route::put('/update-admin/{id}', [UserController::class, 'updateAdmin'])->middleware('auth:sanctum');
     Route::delete('/logout', [UserController::class, 'logout'])->middleware('auth:sanctum');
     Route::delete('/delete/{id}', [UserController::class, 'delete'])->middleware('auth:sanctum');
+
+    Route::put('/update-fcm-token', [FirebasePushController::class, 'setToken'])->middleware('auth:sanctum');
+    Route::post('/send-notification/{id}', [FirebasePushController::class, 'notification']);
 });
 
 Route::prefix('/shift-masuk')->group(function () {

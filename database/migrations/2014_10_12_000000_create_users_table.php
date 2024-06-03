@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('alamat');
             $table->string('profile_picture');
             $table->string('role');
+            $table->string('fcm_token')->nullable();
             $table->timestamps();
         });
     }
