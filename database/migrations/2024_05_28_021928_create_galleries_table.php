@@ -15,6 +15,8 @@ return new class extends Migration
             $table->string('id')->primary();
             $table->string('album_id')->nullable();
             $table->string('image');
+            $table->string('title')->nullable();
+            $table->string('description')->nullable();
             $table->timestamps();
 
             $table->foreign('album_id')->references('id')->on('albums')->cascadeOnDelete();
