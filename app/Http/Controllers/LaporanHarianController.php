@@ -26,6 +26,8 @@ class LaporanHarianController extends Controller
         $laporanHarian = LaporanHarian::create($laporanHarianData);
         $laporanHarian = new LaporanHarianResource($laporanHarian);
 
+        $this->notification($laporanHarian->user_id);
+
         return $this->resStoreData($laporanHarian);
     }
 
@@ -105,5 +107,19 @@ class LaporanHarianController extends Controller
         $laporanHarian->delete();
 
         return $this->resDataDeleted('Laporan Harian');
+    }
+
+    public function notification($id)
+    {
+        $FcmToken = User::find($id)->fcm_token;
+        $message = CloudMessage::fromArray([
+            'token' => $FcmToken,
+            'notification' => [
+                'title' => 'Laporan Harian',
+                'body' => 'Anda memiliki laporan harian yang belum dibaca.',
+            ],
+        ]);
+
+        Firebase::messaging()->send($message);
     }
 }

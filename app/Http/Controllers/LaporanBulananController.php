@@ -26,6 +26,8 @@ class LaporanBulananController extends Controller
         $laporanBulanan = LaporanBulanan::create($laporanBulananData);
         $laporanBulanan = new LaporanBulananResource($laporanBulanan);
 
+        $this->notification($laporanBulanan->user_id);
+
         return $this->resStoreData($laporanBulanan);
     }
 
@@ -105,5 +107,19 @@ class LaporanBulananController extends Controller
         $laporanBulanan->delete();
 
         return $this->resDataDeleted('Laporan Bulanan');
+    }
+
+    public function notification($id)
+    {
+        $FcmToken = User::find($id)->fcm_token;
+        $message = CloudMessage::fromArray([
+            'token' => $FcmToken,
+            'notification' => [
+                'title' => 'Laporan Bulanan',
+                'body' => 'Anda memiliki laporan bulanan yang belum dibaca.',
+            ],
+        ]);
+
+        Firebase::messaging()->send($message);
     }
 }
