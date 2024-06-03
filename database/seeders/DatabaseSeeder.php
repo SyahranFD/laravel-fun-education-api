@@ -134,16 +134,6 @@ class DatabaseSeeder extends Seeder
             'created_at' => '2024-03-27 08:00:00',
         ]);
 
-        $album = Album::create([
-            'id' => 'album-'.fake()->uuid(),
-            'name' => 'Outbound - Batam',
-            'desc' => 'Kumpulan foto outbound di Batam',
-        ]);
-
-        Gallery::factory(10)->create([
-            'album_id' => $album->id,
-        ]);
-
         $rafa->minimumApplication()->create([
             'id' => 'minimum-application-'.fake()->uuid(),
             'user_id' => $rafa->id,
@@ -156,6 +146,68 @@ class DatabaseSeeder extends Seeder
             'user_id' => $rafa->id,
             'category' => 'Kegiatan Belajar Diluar',
             'minimum' => 300000,
+        ]);
+
+        $album = Album::create([
+            'id' => 'album-'.fake()->uuid(),
+            'name' => 'Museum Batam Raja Ali Haji',
+            'desc' => 'Kumpulan foto di museum raja ali haji',
+        ]);
+
+        Gallery::create([
+            'id' => 'gallery-'.fake()->uuid(),
+            'album_id' => $album->id,
+            'image' => 'https://lh3.googleusercontent.com/p/AF1QipPFRtcGA5Ix9TJl2APPrZyUrcCWB7UjOSlDdB7Z=s1360-w1360-h1020',
+            'title' => 'Foto dari Kejauhan',
+            'description' => 'Foto dari Kejauhan Museum Raja Ali Haji',
+        ]);
+
+        Gallery::create([
+            'id' => 'gallery-'.fake()->uuid(),
+            'album_id' => $album->id,
+            'image' => 'https://lh3.googleusercontent.com/p/AF1QipP_YwJA1mAC-yuqju3z4w5mXOXB-u2uzmrsHXIV=s1360-w1360-h1020',
+            'title' => 'Sisi Depan',
+            'description' => 'Sisi Depan Museum Raja Ali Haji',
+        ]);
+
+        Gallery::create([
+            'id' => 'gallery-'.fake()->uuid(),
+            'album_id' => $album->id,
+            'image' => 'https://lh3.googleusercontent.com/p/AF1QipMuYixrQrLC8olvTgHpfQDdDrNKWiZ2eo43n55H=s1360-w1360-h1020',
+            'title' => 'Aula Museum',
+            'description' => 'Aula Museum Raja Ali Haji',
+        ]);
+
+        Gallery::create([
+            'id' => 'gallery-'.fake()->uuid(),
+            'album_id' => $album->id,
+            'image' => 'https://lh3.googleusercontent.com/p/AF1QipMMac77s4KNdAP47FcsXvjzuVTto-leyzN1G6yB=s1360-w1360-h1020',
+            'title' => 'Kapal',
+            'description' => 'Kapal Raja Ali Haji',
+        ]);
+
+        Gallery::create([
+            'id' => 'gallery-'.fake()->uuid(),
+            'album_id' => $album->id,
+            'image' => 'https://lh3.googleusercontent.com/p/AF1QipPiqY3hj3xCRHSNLAixR4ikjZ-2Vr-46muaNrw4=s1360-w1360-h1020',
+            'title' => 'Baju Museum',
+            'description' => 'Baju di Museum Raja Ali Haji',
+        ]);
+
+        Gallery::create([
+            'id' => 'gallery-'.fake()->uuid(),
+            'album_id' => $album->id,
+            'image' => 'https://lh3.googleusercontent.com/p/AF1QipOy5KS2EsifJtHLP1Db1YpIAyS-97BfQgjdJegc=s1360-w1360-h1020',
+            'title' => 'Peta Museum',
+            'description' => 'Peta di Museum Raja Ali Haji',
+        ]);
+
+        Gallery::create([
+            'id' => 'gallery-'.fake()->uuid(),
+            'album_id' => $album->id,
+            'image' => 'https://lh3.googleusercontent.com/p/AF1QipNqasP4C7KFnojiJXvNBTPo-9y2zUv3OrP5xVSm=s1360-w1360-h1020',
+            'title' => 'Sejarah Kerajaan',
+            'description' => 'Tulisan Sejarah Kerajaan di Museum Raja Ali Haji',
         ]);
     }
 }
