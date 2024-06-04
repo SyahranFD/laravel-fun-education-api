@@ -57,8 +57,8 @@ class SavingController extends Controller
             return $this->resDataNotFound('Transaction');
         }
 
-        $pemasukanTerakhir = number_format($transaction->where('jenis', 'pemasukan')->sortByDesc('created_at')->first()['nominal'] ?? 0, 0, '.', '.');
-        $pengeluaranTerakhir = number_format($transaction->where('jenis', 'pengeluaran')->sortByDesc('created_at')->first()['nominal'] ?? 0, 0, '.', '.');
+        $pemasukanTerakhir = number_format($transaction->where('category', 'income')->sortByDesc('created_at')->first()['amount'] ?? 0, 0, '.', '.');
+        $pengeluaranTerakhir = number_format($transaction->where('category', 'outcome')->sortByDesc('created_at')->first()['amount'] ?? 0, 0, '.', '.');
 
         $responseBody = array_merge(
             $saving->toArray(),
