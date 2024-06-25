@@ -14,16 +14,9 @@ class LaporanHarian extends Model
     protected $fillable = [
         'id',
         'user_id',
-        'datang_tepat_pada_waktunya',
-        'berpakaian_rapi',
-        'berbuat_baik_dengan_teman',
-        'mau_menolong_dan_berbagi_dengan_teman',
-        'merapikan_alat_belajar_dan_mainan_sendiri',
-        'menyelesaikan_tugas',
-        'membaca',
-        'menulis',
-        'dikte',
-        'keterampilan',
+        'activity_id',
+        'grade',
+        'point'
     ];
 
     protected $casting = [
@@ -34,5 +27,10 @@ class LaporanHarian extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function activity()
+    {
+        return $this->belongsTo(Activity::class);
     }
 }

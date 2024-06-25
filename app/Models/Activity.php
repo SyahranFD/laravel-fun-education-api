@@ -15,4 +15,9 @@ class Activity extends Model
         'id',
         'name',
     ];
+
+    public function laporanHarian()
+    {
+        return $this->hasMany(LaporanHarian::class);
+    }
 }

@@ -23,16 +23,9 @@ class LaporanHarianRequest extends FormRequest
     {
         return [
             'user_id' => 'required|exists:users,id',
-            'datang_tepat_pada_waktunya' => 'required|string|min:1|max:255',
-            'berpakaian_rapi' => 'required|string|min:1|max:255',
-            'berbuat_baik_dengan_teman' => 'required|string|min:1|max:255',
-            'mau_menolong_dan_berbagi_dengan_teman' => 'required|string|min:1|max:255',
-            'merapikan_alat_belajar_dan_mainan_sendiri' => 'required|string|min:1|max:255',
-            'menyelesaikan_tugas' => 'required|string|min:1|max:255',
-            'membaca' => 'required|string|min:1|max:255',
-            'menulis' => 'required|string|min:1|max:255',
-            'dikte' => 'required|string|min:1|max:255',
-            'keterampilan' => 'required|string|min:1|max:255',
+            'activity_id' => 'required|exists:activities,id',
+            'grade' => 'required|string|min:1|max:255',
+            'point' => 'required|integer|min:0'
         ];
     }
 }
