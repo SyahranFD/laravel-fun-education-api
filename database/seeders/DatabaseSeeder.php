@@ -40,6 +40,7 @@ class DatabaseSeeder extends Seeder
             'nickname' => 'Syahran',
             'birth' => 'Semarang, 15 Mei 2015',
             'address' => 'Jl. Kaliurang KM 5, Semarang',
+            'shift' => '08:00-10:00',
             'password' => Hash::make('rafapass'),
             'profile_picture' => 'https://ui-avatars.com/api/?name=Syahran+Fadhil&color=7F9CF5&background=EBF4FF&size=128',
             'role' => 'student',

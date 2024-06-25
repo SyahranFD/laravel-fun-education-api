@@ -20,6 +20,7 @@ class User extends Authenticatable
         'nickname',
         'birth',
         'address',
+        'shift',
         'password',
         'profile_picture',
         'role',

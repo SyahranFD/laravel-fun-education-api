@@ -26,6 +26,7 @@ class RegisterRequest extends FormRequest
             'nickname' => 'required|string|min:1|max:255',
             'birth' => 'required|string|min:1|max:255',
             'address' => 'required|string|min:1|max:255',
+            'shift' => 'required|string|min:1|max:255',
             'password' => 'required|string|min:1|max:255',
             'profile_picture' => 'optional|string|min:1|max:255',
         ];

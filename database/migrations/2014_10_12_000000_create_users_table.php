@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('nickname')->unique();
             $table->string('birth');
             $table->string('address');
+            $table->string('shift')->nullable();
             $table->string('password');
             $table->string('profile_picture');
             $table->string('role');
