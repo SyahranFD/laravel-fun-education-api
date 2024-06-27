@@ -178,3 +178,13 @@ Route::prefix('/tugas')->group(function () {
     Route::put('/update/{id}', [TugasController::class, 'update'])->middleware('auth:sanctum');
     Route::delete('/delete/{id}', [TugasController::class, 'destroy'])->middleware('auth:sanctum');
 });
+
+Route::prefix('/tugas-image')->group(function () {
+    Route::post('/store', [TugasImageController::class, 'store'])->middleware('auth:sanctum');
+
+    Route::get('/index', [TugasImageController::class, 'index']);
+    Route::get('/show/{id}', [TugasImageController::class, 'show']);
+
+    Route::put('/update/{id}', [TugasImageController::class, 'update'])->middleware('auth:sanctum');
+    Route::delete('/delete/{id}', [TugasImageController::class, 'destroy'])->middleware('auth:sanctum');
+});
