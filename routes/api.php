@@ -167,3 +167,14 @@ Route::prefix('/minimum-pengajuan')->group(function () {
     Route::put('/update/{id}', [MinimumApplicationController::class, 'update'])->middleware('auth:sanctum');
     Route::delete('/delete/{id}', [MinimumApplicationController::class, 'destroy'])->middleware('auth:sanctum');
 });
+
+Route::prefix('/tugas')->group(function () {
+    Route::post('/store', [TugasController::class, 'store'])->middleware('auth:sanctum');
+
+    Route::get('/index', [TugasController::class, 'index']);
+    Route::get('/show/{id}', [TugasController::class, 'showById']);
+    Route::get('/show-current', [TugasController::class, 'showCurrent'])->middleware('auth:sanctum');
+
+    Route::put('/update/{id}', [TugasController::class, 'update'])->middleware('auth:sanctum');
+    Route::delete('/delete/{id}', [TugasController::class, 'destroy'])->middleware('auth:sanctum');
+});
