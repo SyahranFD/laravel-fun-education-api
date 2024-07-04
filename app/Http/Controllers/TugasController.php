@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\TugasRequest;
 use App\Http\Resources\TugasResource;
 use App\Models\Tugas;
+use Illuminate\Support\Str;
 
 class TugasController extends Controller
 {

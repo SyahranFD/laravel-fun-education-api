@@ -14,6 +14,7 @@ class Tugas extends Model
     protected $fillable = [
         'id',
         'user_id',
+        'tugas_category_id',
         'title',
         'description',
         'deadline',
@@ -29,6 +30,11 @@ class Tugas extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function tugasCategory()
+    {
+        return $this->belongsTo(TugasCategory::class);
     }
 
     public function tugasImages()

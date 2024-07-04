@@ -17,11 +17,12 @@ class TugasResource extends JsonResource
         return [
             'id' => $this->id,
             'user_id' => $this->user_id,
+            'tugas_category_id' => $this->tugas_category_id,
             'title' => $this->title,
             'description' => $this->description,
             'deadline' => $this->deadline,
             'status' => $this->status,
-            'created_at' => $this->created_at,
+            'created_at' => $this->created_at->format('Y-m-d'),
         ];
     }
 }

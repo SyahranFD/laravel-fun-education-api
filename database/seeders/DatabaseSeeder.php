@@ -7,6 +7,8 @@ use App\Models\Album;
 use App\Models\CatatanDarurat;
 use App\Models\Gallery;
 use App\Models\User;
+use App\Models\TugasCategory;
+use App\Models\Tugas;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Hash;
@@ -211,6 +213,36 @@ class DatabaseSeeder extends Seeder
             'image' => 'https://lh3.googleusercontent.com/p/AF1QipNqasP4C7KFnojiJXvNBTPo-9y2zUv3OrP5xVSm=s1360-w1360-h1020',
             'title' => 'Sejarah Kerajaan',
             'description' => 'Tulisan Sejarah Kerajaan di Museum Raja Ali Haji',
+        ]);
+
+        $tugasCategory1 = TugasCategory::create([
+            'id' => 1,
+            'name' => 'Dikte & Menulis',
+        ]);
+
+        $tugasCategory2 = TugasCategory::create([
+            'id' => 2,
+            'name' => 'Kreasi',
+        ]);
+
+        $tugasCategory3 = TugasCategory::create([
+            'id' => 3,
+            'name' => 'Membaca',
+        ]);
+
+        $tugasCategory4 = TugasCategory::create([
+            'id' => 4,
+            'name' => 'Berhitung',
+        ]);
+
+        Tugas::create([
+            'id' => 'tugas-'.fake()->uuid(),
+            'user_id' => $rafa->id,
+            'tugas_category_id' => $tugasCategory1->id,
+            'title' => 'Menulis 5 benda yang sering dilihat oleh ananda',
+            'description' => 'Berdasarkan gambar tersebut ambil lima barang yang ingin didiktekan, setelah selesai foto hasil tugas anak lalu kumpulkan.',
+            'status' => 'Belum Selesai',
+            'deadline' => '2024-06-30',
         ]);
     }
 }

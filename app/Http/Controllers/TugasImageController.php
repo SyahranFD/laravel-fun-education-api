@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Http\Requests\TugasImageRequest;
+use App\Http\Resources\TugasImageResource;
+use Illuminate\Support\Str;
 
 class TugasImageController extends Controller
 {

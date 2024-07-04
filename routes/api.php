@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\TugasImageController;
+use App\Http\Controllers\TugasController;
 use App\Http\Controllers\AlbumController;
 use App\Http\Controllers\AlurBelajarController;
 use App\Http\Controllers\CatatanDaruratController;
