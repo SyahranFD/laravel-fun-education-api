@@ -27,7 +27,8 @@ class TugasRequest extends FormRequest
             'title' => 'required|string|min:1|max:255',
             'description' => 'required|string|min:1|max:255',
             'deadline' => 'required|date',
-            'status' => 'required|string|min:1|max:255',
+            'status' => 'string|min:1|max:255',
+            'grade' => 'integer',
         ];
     }
 }

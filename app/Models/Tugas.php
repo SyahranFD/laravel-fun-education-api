@@ -19,12 +19,8 @@ class Tugas extends Model
         'description',
         'deadline',
         'status',
-    ];
-
-    protected $casting = [
-        'deadline' => 'date',
-        'created_at' => 'date',
-        'updated_at' => 'date',
+        'grade',
+        'parent_note'
     ];
 
     public function user()

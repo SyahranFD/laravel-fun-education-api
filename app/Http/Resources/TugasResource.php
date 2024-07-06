@@ -20,8 +20,10 @@ class TugasResource extends JsonResource
             'tugas_category_id' => $this->tugas_category_id,
             'title' => $this->title,
             'description' => $this->description,
-            'deadline' => $this->deadline,
             'status' => $this->status,
+            'grade' => $this->grade,
+            'parent_note' => $this->parent_note,
+            'deadline' => $this->deadline,
             'created_at' => $this->created_at->format('Y-m-d'),
         ];
     }

@@ -6,6 +6,7 @@ use App\Http\Requests\TugasRequest;
 use App\Http\Resources\TugasResource;
 use App\Models\Tugas;
 use Illuminate\Support\Str;
+use Illuminate\Http\Request;
 
 class TugasController extends Controller
 {
@@ -50,7 +51,7 @@ class TugasController extends Controller
             return $this->resDataNotFound('Tugas');
         }
 
-        return new TugasResource($tugas);
+        return TugasResource::collection($tugas);
     }
 
     public function update(TugasRequest $request, $id)
@@ -67,6 +68,66 @@ class TugasController extends Controller
         }
 
         $tugas->update($request->all());
+
+        return new TugasResource($tugas);
+    }
+
+    public function updateStatus(Request $request, $id)
+    {
+        $admin = auth()->user();
+        if (! $admin->isAdmin()) {
+            return $this->resUserNotAdmin();
+        }
+
+        $request->validate(['status' => 'required|string']);
+
+        $tugas = Tugas::find($id);
+        if (! $tugas) {
+            return $this->resDataNotFound('Tugas');
+        }
+
+        $tugas->update(['status' => $request->status]);
+
+        return new TugasResource($tugas);
+    }
+
+    public function updateGrade(Request $request, $id)
+    {
+        $admin = auth()->user();
+        if (! $admin->isAdmin()) {
+            return $this->resUserNotAdmin();
+        }
+
+        $request->validate(['grade' => 'required|integer']);
+
+        $tugas = Tugas::find($id);
+        if (! $tugas) {
+            return $this->resDataNotFound('Tugas');
+        }
+
+        $tugas->update(['grade' => $request->grade]);
+
+        return new TugasResource($tugas);
+    }
+
+    public function sendTugas(Request $request, $id)
+    {
+        $user = auth()->user();
+
+        $request->validate([
+            'status' => 'required|string|min:1|max:255',
+            'parent_note' => 'string|min:1|max:255',
+        ]);
+
+        $tugas = Tugas::find($id);
+        if (! $tugas) {
+            return $this->resDataNotFound('Tugas');
+        }
+
+        $tugas->update([
+            'status' => $request->status,
+            'parent_note' => $request->parent_note ?? '',
+        ]);
 
         return new TugasResource($tugas);
     }

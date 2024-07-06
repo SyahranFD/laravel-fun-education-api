@@ -241,7 +241,6 @@ class DatabaseSeeder extends Seeder
             'tugas_category_id' => $tugasCategory1->id,
             'title' => 'Menulis 5 benda yang sering dilihat oleh ananda',
             'description' => 'Berdasarkan gambar tersebut ambil lima barang yang ingin didiktekan, setelah selesai foto hasil tugas anak lalu kumpulkan.',
-            'status' => 'Belum Selesai',
             'deadline' => '2024-06-30',
         ]);
     }
