@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\TugasImageController;
+use App\Http\Controllers\TugasController;
 use App\Http\Controllers\AlbumController;
 use App\Http\Controllers\AlurBelajarController;
 use App\Http\Controllers\CatatanDaruratController;
@@ -166,4 +168,28 @@ Route::prefix('/minimum-pengajuan')->group(function () {
 
     Route::put('/update/{id}', [MinimumApplicationController::class, 'update'])->middleware('auth:sanctum');
     Route::delete('/delete/{id}', [MinimumApplicationController::class, 'destroy'])->middleware('auth:sanctum');
+});
+
+Route::prefix('/tugas')->group(function () {
+    Route::post('/store', [TugasController::class, 'store'])->middleware('auth:sanctum');
+
+    Route::get('/index', [TugasController::class, 'index']);
+    Route::get('/show/{id}', [TugasController::class, 'showById']);
+    Route::get('/show-current', [TugasController::class, 'showCurrent'])->middleware('auth:sanctum');
+
+    Route::put('/update/{id}', [TugasController::class, 'update'])->middleware('auth:sanctum');
+    Route::put('/update-status/{id}', [TugasController::class, 'updateStatus'])->middleware('auth:sanctum');
+    Route::put('/update-grade/{id}', [TugasController::class, 'updateGrade'])->middleware('auth:sanctum');
+    Route::put('/send-tugas/{id}', [TugasController::class, 'sendTugas'])->middleware('auth:sanctum');
+    Route::delete('/delete/{id}', [TugasController::class, 'destroy'])->middleware('auth:sanctum');
+});
+
+Route::prefix('/tugas-image')->group(function () {
+    Route::post('/store', [TugasImageController::class, 'store'])->middleware('auth:sanctum');
+
+    Route::get('/index', [TugasImageController::class, 'index']);
+    Route::get('/show/{id}', [TugasImageController::class, 'show']);
+
+    Route::put('/update/{id}', [TugasImageController::class, 'update'])->middleware('auth:sanctum');
+    Route::delete('/delete/{id}', [TugasImageController::class, 'destroy'])->middleware('auth:sanctum');
 });
