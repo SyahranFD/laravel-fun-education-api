@@ -6,6 +6,7 @@ use App\Http\Requests\ShiftMasukRequest;
 use App\Http\Resources\ShiftMasukResource;
 use App\Models\ShiftMasuk;
 use Illuminate\Support\Str;
+use Illuminate\Http\Request;
 
 class ShiftMasukController extends Controller
 {
@@ -28,9 +29,16 @@ class ShiftMasukController extends Controller
         return $this->resStoreData($shiftMasuk);
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        return ShiftMasukResource::collection(ShiftMasuk::all());
+        $shift = $request->query('shift');
+        $shiftMasuk = [];
+        if ($shift) {
+            $shiftMasuk = ShiftMasuk::where('shift_masuk', $shift)->get();
+        } else {
+            $shiftMasuk = ShiftMasuk::all();
+        }
+        return ShiftMasukResource::collection($shiftMasuk);
     }
 
     public function showById($id)
