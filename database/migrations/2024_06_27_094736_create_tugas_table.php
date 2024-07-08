@@ -13,7 +13,6 @@ return new class extends Migration
     {
         Schema::create('tugas', function (Blueprint $table) {
             $table->string('id')->primary();
-            $table->string('user_id');
             $table->foreignId('tugas_category_id');
             $table->string('title');
             $table->text('description');
@@ -23,7 +22,6 @@ return new class extends Migration
             $table->text('parent_note')->nullable()->default("");
             $table->timestamps();
 
-            $table->foreign('user_id')->references('id')->on('users')->cascadeOnDelete();
             $table->foreign('tugas_category_id')->references('id')->on('tugas_categories')->cascadeOnDelete();
         });
     }

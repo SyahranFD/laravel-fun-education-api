@@ -13,7 +13,6 @@ class Tugas extends Model
 
     protected $fillable = [
         'id',
-        'user_id',
         'tugas_category_id',
         'title',
         'description',
@@ -22,11 +21,6 @@ class Tugas extends Model
         'grade',
         'parent_note'
     ];
-
-    public function user()
-    {
-        return $this->belongsTo(User::class);
-    }
 
     public function tugasCategory()
     {

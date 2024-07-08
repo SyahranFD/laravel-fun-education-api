@@ -9,6 +9,7 @@ use App\Models\Gallery;
 use App\Models\User;
 use App\Models\TugasCategory;
 use App\Models\Tugas;
+use App\Models\TugasImage;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Hash;
@@ -235,13 +236,18 @@ class DatabaseSeeder extends Seeder
             'name' => 'Berhitung',
         ]);
 
-        Tugas::create([
+        $tugas = Tugas::create([
             'id' => 'tugas-'.fake()->uuid(),
-            'user_id' => $rafa->id,
             'tugas_category_id' => $tugasCategory1->id,
             'title' => 'Menulis 5 benda yang sering dilihat oleh ananda',
             'description' => 'Berdasarkan gambar tersebut ambil lima barang yang ingin didiktekan, setelah selesai foto hasil tugas anak lalu kumpulkan.',
             'deadline' => '2024-06-30',
+        ]);
+
+        TugasImage::create([
+            'id' => 'tugas-image-'.fake()->uuid(),
+            'tugas_id' => $tugas->id,
+            'image' => 'https://lh3.googleusercontent.com/p/AF1QipPFRtcGA5Ix9TJl2APPrZyUrcCWB7UjOSlDdB7Z=s1360-w1360-h1020',
         ]);
     }
 }

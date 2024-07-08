@@ -12,6 +12,7 @@ class TugasImage extends Model
     public $incrementing = false;
 
     protected $fillable = [
+        'id',
         'tugas_id',
         'image',
     ];

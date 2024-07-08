@@ -22,7 +22,6 @@ class TugasRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'user_id' => 'required|exists:users,id',
             'tugas_category_id' => 'required|exists:tugas_categories,id',
             'title' => 'required|string|min:1|max:255',
             'description' => 'required|string|min:1|max:255',

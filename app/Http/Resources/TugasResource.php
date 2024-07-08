@@ -16,7 +16,6 @@ class TugasResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'user_id' => $this->user_id,
             'tugas_category_id' => $this->tugas_category_id,
             'title' => $this->title,
             'description' => $this->description,
@@ -25,6 +24,7 @@ class TugasResource extends JsonResource
             'parent_note' => $this->parent_note,
             'deadline' => $this->deadline,
             'created_at' => $this->created_at->format('Y-m-d'),
+            'images' => TugasImageResource::collection($this->tugasImages),
         ];
     }
 }
