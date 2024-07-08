@@ -16,10 +16,8 @@ return new class extends Migration
             $table->foreignId('tugas_category_id');
             $table->string('title');
             $table->text('description');
-            $table->string('status')->nullable()->default('Belum Dikirim');
+            $table->string('status')->nullable()->default('tersedia');
             $table->date('deadline');
-            $table->integer('grade')->nullable()->default(0);
-            $table->text('parent_note')->nullable()->default("");
             $table->timestamps();
 
             $table->foreign('tugas_category_id')->references('id')->on('tugas_categories')->cascadeOnDelete();

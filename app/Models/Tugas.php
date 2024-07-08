@@ -18,8 +18,6 @@ class Tugas extends Model
         'description',
         'deadline',
         'status',
-        'grade',
-        'parent_note'
     ];
 
     public function tugasCategory()
@@ -30,5 +28,10 @@ class Tugas extends Model
     public function tugasImages()
     {
         return $this->hasMany(TugasImage::class);
+    }
+
+    public function tugasUsers()
+    {
+        return $this->hasMany(TugasUser::class);
     }
 }
