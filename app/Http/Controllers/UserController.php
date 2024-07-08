@@ -9,6 +9,7 @@ use App\Http\Resources\UserResource;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
+use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
@@ -57,9 +58,17 @@ class UserController extends Controller
         ], 200);
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        return UserResource::collection(User::all());
+        $shift = $request->query('shift');
+        $users = [];
+        if ($shift) {
+            $users = User::where('shift', $shift)->where('role', 'student')->get();
+        } else {
+            $users = User::where('role', 'student')->get();
+        }
+        
+        return UserResource::collection($users);
     }
 
     public function showById($id)
