@@ -13,20 +13,12 @@ class Tugas extends Model
 
     protected $fillable = [
         'id',
-        'user_id',
         'tugas_category_id',
         'title',
         'description',
         'deadline',
         'status',
-        'grade',
-        'parent_note'
     ];
-
-    public function user()
-    {
-        return $this->belongsTo(User::class);
-    }
 
     public function tugasCategory()
     {
@@ -36,5 +28,10 @@ class Tugas extends Model
     public function tugasImages()
     {
         return $this->hasMany(TugasImage::class);
+    }
+
+    public function tugasUsers()
+    {
+        return $this->hasMany(TugasUser::class);
     }
 }

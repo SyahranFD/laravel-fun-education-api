@@ -4,8 +4,9 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use App\Models\User;
 
-class TugasResource extends JsonResource
+class TugasUserResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -16,15 +17,12 @@ class TugasResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'tugas_category_id' => $this->tugas_category_id,
-            'title' => $this->title,
-            'description' => $this->description,
+            'tugas_id' => $this->tugas_id,
+            'full_name' => $this->user->full_name,
             'status' => $this->status,
+            'note' => $this->note,
             'grade' => $this->grade,
-            'parent_note' => $this->parent_note,
-            'deadline' => $this->deadline,
-            'created_at' => $this->created_at->format('Y-m-d'),
-            'images' => TugasImageResource::collection($this->tugasImages),
+            'created_at' => $this->created_at,
         ];
     }
 }

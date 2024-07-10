@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class TugasRequest extends FormRequest
+class TugasUserImageRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,12 +22,8 @@ class TugasRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'tugas_category_id' => 'required|exists:tugas_categories,id',
-            'title' => 'required|string|min:1|max:255',
-            'description' => 'required|string|min:1|max:255',
-            'deadline' => 'required|date',
-            'status' => 'string|min:1|max:255',
-            'grade' => 'integer',
+            'tugas_user_id' => 'required|exists:tugas_users,id',
+            'image' => 'required',
         ];
     }
 }

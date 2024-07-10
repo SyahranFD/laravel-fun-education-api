@@ -31,12 +31,12 @@ class TugasController extends Controller
 
     public function index()
     {
-        return TugasResource::collection(Tugas::all());
+        return TugasResource::collection(Tugas::with('tugasImages')->get());
     }
 
     public function showById($id)
     {
-        $tugas = Tugas::find($id);
+        $tugas = Tugas::with('tugasImages')->find($id);
         if (! $tugas) {
             return $this->resDataNotFound('Tugas');
         }
@@ -51,7 +51,7 @@ class TugasController extends Controller
             return $this->resDataNotFound('Tugas');
         }
 
-        return TugasResource::collection($tugas);
+        return TugasResource::collection($tugas->with('tugasImages'));
     }
 
     public function update(TugasRequest $request, $id)

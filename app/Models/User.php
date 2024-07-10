@@ -76,8 +76,8 @@ class User extends Authenticatable
         return $this->hasMany(MinimumApplication::class);
     }
 
-    public function tugas()
+    public function tugasUser()
     {
-        return $this->hasMany(Tugas::class);
+        return $this->hasMany(TugasUser::class);
     }
 }

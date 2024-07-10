@@ -4,7 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\TugasImageRequest;
 use App\Http\Resources\TugasImageResource;
+use App\Models\TugasImage;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Config;
 
 class TugasImageController extends Controller
 {
@@ -28,7 +31,7 @@ class TugasImageController extends Controller
 
         if ($request->hasFile('image')) {
             $imagePath = $request->file('image')->store('public/tugas');
-            $galleryData['image'] = $this->url.Storage::url($imagePath);
+            $tugasImageData['image'] = $this->url.Storage::url($imagePath);
         }
 
         $tugasImage = TugasImage::create($tugasImageData);

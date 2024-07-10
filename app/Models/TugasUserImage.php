@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class TugasImage extends Model
+class TugasUserImage extends Model
 {
     use HasFactory;
 
@@ -13,12 +13,12 @@ class TugasImage extends Model
 
     protected $fillable = [
         'id',
-        'tugas_id',
+        'tugas_user_id',
         'image',
     ];
 
-    public function tugas()
+    public function tugasUser()
     {
-        return $this->belongsTo(Tugas::class);
+        return $this->belongsTo(TugasUser::class);
     }
 }

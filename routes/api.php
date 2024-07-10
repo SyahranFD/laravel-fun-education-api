@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\TugasUserImageController;
+use App\Http\Controllers\TugasUserController;
 use App\Http\Controllers\TugasImageController;
 use App\Http\Controllers\TugasController;
 use App\Http\Controllers\AlbumController;
@@ -192,4 +194,26 @@ Route::prefix('/tugas-image')->group(function () {
 
     Route::put('/update/{id}', [TugasImageController::class, 'update'])->middleware('auth:sanctum');
     Route::delete('/delete/{id}', [TugasImageController::class, 'destroy'])->middleware('auth:sanctum');
+});
+
+Route::prefix('/tugas-user')->group(function () {
+    Route::post('/store', [TugasUserController::class, 'store'])->middleware('auth:sanctum');
+
+    Route::get('/index', [TugasUserController::class, 'index']);
+    Route::get('/show/{tugasId}', [TugasUserController::class, 'show']);
+    Route::get('/show-current/{tugasId}', [TugasUserController::class, 'showCurrent'])->middleware('auth:sanctum');
+
+    Route::put('/update/{id}', [TugasUserController::class, 'update'])->middleware('auth:sanctum');
+    Route::put('/send-grade/{id}', [TugasUserController::class, 'sendGrade'])->middleware('auth:sanctum');
+    Route::delete('/delete/{id}', [TugasUserController::class, 'destroy'])->middleware('auth:sanctum');
+});
+
+Route::prefix('/tugas-user-image')->group(function () {
+    Route::post('/store', [TugasUserImageController::class, 'store'])->middleware('auth:sanctum');
+
+    Route::get('/index', [TugasUserImageController::class, 'index']);
+    Route::get('/show/{id}', [TugasUserImageController::class, 'show']);
+
+    Route::put('/update/{id}', [TugasUserImageController::class, 'update'])->middleware('auth:sanctum');
+    Route::delete('/delete/{id}', [TugasUserImageController::class, 'destroy'])->middleware('auth:sanctum');
 });
