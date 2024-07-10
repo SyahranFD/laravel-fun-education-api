@@ -15,7 +15,7 @@ return new class extends Migration
             $table->string('id')->primary();
             $table->string('tugas_id');
             $table->string('user_id');
-            $table->string('status')->default("diperiksa");
+            $table->string('status')->default("Diperiksa");
             $table->text('note')->nullable()->default("");
             $table->integer('grade')->nullable()->default(0);
             $table->timestamps();

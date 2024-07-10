@@ -10,6 +10,7 @@ use App\Models\User;
 use App\Models\TugasCategory;
 use App\Models\Tugas;
 use App\Models\TugasImage;
+use App\Models\TugasUser;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Hash;
@@ -248,6 +249,13 @@ class DatabaseSeeder extends Seeder
             'id' => 'tugas-image-'.fake()->uuid(),
             'tugas_id' => $tugas->id,
             'image' => 'https://lh3.googleusercontent.com/p/AF1QipPFRtcGA5Ix9TJl2APPrZyUrcCWB7UjOSlDdB7Z=s1360-w1360-h1020',
+        ]);
+
+        TugasUser::create([
+            'id' => 'tugas-user-'.fake()->uuid(),
+            'tugas_id' => $tugas->id,
+            'user_id' => $rafa->id,
+            'note' => 'sudah lumayan bu'
         ]);
     }
 }

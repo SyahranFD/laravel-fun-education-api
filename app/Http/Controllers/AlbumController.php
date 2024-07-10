@@ -30,7 +30,7 @@ class AlbumController extends Controller
 
     public function index()
     {
-        return AlbumResource::collection(Album::with('gallery')->get());
+        return AlbumResource::collection(Album::all());
     }
 
     public function showById($id)

@@ -18,7 +18,7 @@ class TugasUserResource extends JsonResource
         return [
             'id' => $this->id,
             'tugas_id' => $this->tugas_id,
-            'full_name' => User::find($this->user_id)->full_name,
+            'full_name' => $this->user->full_name,
             'status' => $this->status,
             'note' => $this->note,
             'grade' => $this->grade,
