@@ -16,7 +16,7 @@ class TugasResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'tugas_category_id' => $this->tugas_category_id,
+            'category' => $this->category->name,
             'title' => $this->title,
             'description' => $this->description,
             'status' => $this->status,
