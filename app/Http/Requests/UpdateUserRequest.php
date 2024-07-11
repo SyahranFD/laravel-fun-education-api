@@ -27,6 +27,7 @@ class UpdateUserRequest extends FormRequest
             'birth' => 'required|string|min:1|max:255',
             'address' => 'required|string|min:1|max:255',
             'shift' => 'required|string|min:1|max:255',
+            'gender' => 'required|string|min:1|max:255',
             'password' => 'required|string|min:1|max:255',
         ];
     }

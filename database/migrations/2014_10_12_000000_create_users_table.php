@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('birth');
             $table->string('address');
             $table->string('shift')->nullable();
+            $table->string('gender');
             $table->string('password');
             $table->string('profile_picture');
             $table->string('role');
