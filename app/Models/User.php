@@ -14,19 +14,7 @@ class User extends Authenticatable
 
     public $incrementing = false;
 
-    protected $fillable = [
-        'id',
-        'full_name',
-        'nickname',
-        'birth',
-        'address',
-        'shift',
-        'gender',
-        'password',
-        'profile_picture',
-        'role',
-        'fcm_token',
-    ];
+    protected $guarded = [];
 
     protected $hidden = [
         'password',

@@ -11,13 +11,7 @@ class Gallery extends Model
 
     public $incrementing = false;
 
-    protected $fillable = [
-        'id',
-        'album_id',
-        'image',
-        'title',
-        'description',
-    ];
+    protected $guarded = [];
 
     public function album()
     {

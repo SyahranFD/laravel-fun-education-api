@@ -11,20 +11,7 @@ class LaporanHarian extends Model
 
     public $incrementing = false;
 
-    protected $fillable = [
-        'id',
-        'user_id',
-        'datang_tepat_pada_waktunya',
-        'berpakaian_rapi',
-        'berbuat_baik_dengan_teman',
-        'mau_menolong_dan_berbagi_dengan_teman',
-        'merapikan_alat_belajar_dan_mainan_sendiri',
-        'menyelesaikan_tugas',
-        'membaca',
-        'menulis',
-        'dikte',
-        'keterampilan',
-    ];
+    protected $guarded = [];
 
     protected $casting = [
         'created_at' => 'date',

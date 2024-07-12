@@ -11,14 +11,7 @@ class TugasUser extends Model
 
     public $incrementing = false;
 
-    protected $fillable = [
-        'id',
-        'tugas_id',
-        'user_id',
-        'status',
-        'grade',
-        'note'
-    ];
+    protected $guarded = [];
 
     public function tugas()
     {

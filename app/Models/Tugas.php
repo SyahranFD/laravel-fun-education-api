@@ -11,14 +11,7 @@ class Tugas extends Model
 
     public $incrementing = false;
 
-    protected $fillable = [
-        'id',
-        'tugas_category_id',
-        'title',
-        'description',
-        'deadline',
-        'status',
-    ];
+    protected $guarded = [];
 
     public function tugasCategory()
     {
