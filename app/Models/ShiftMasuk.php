@@ -11,11 +11,7 @@ class ShiftMasuk extends Model
 
     public $incrementing = false;
 
-    protected $fillable = [
-        'id',
-        'user_id',
-        'shift_masuk',
-    ];
+    protected $guarded = [];
 
     public function user()
     {

@@ -11,11 +11,7 @@ class TugasUserImage extends Model
 
     public $incrementing = false;
 
-    protected $fillable = [
-        'id',
-        'tugas_user_id',
-        'image',
-    ];
+    protected $guarded = [];
 
     public function tugasUser()
     {

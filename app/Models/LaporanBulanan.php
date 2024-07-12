@@ -11,13 +11,7 @@ class LaporanBulanan extends Model
 
     public $incrementing = false;
 
-    protected $fillable = [
-        'id',
-        'user_id',
-        'status',
-        'catatan',
-        'hal_yang_perlu_ditingkatkan',
-    ];
+    protected $guarded = [];
 
     protected $casts = [
         'created_at' => 'date',

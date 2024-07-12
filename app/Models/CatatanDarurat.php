@@ -11,11 +11,7 @@ class CatatanDarurat extends Model
 
     public $incrementing = false;
 
-    protected $fillable = [
-        'id',
-        'catatan',
-        'is_deleted',
-    ];
+    protected $guarded = [];
 
     protected $casts = [
         'is_deleted' => 'boolean',
