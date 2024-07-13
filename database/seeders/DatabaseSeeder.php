@@ -98,6 +98,13 @@ class DatabaseSeeder extends Seeder
             'saving' => 250000,
         ]);
 
+        $rafa->savingApplication()->create([
+            'id' => 'saving-application-'.fake()->uuid(),
+            'user_id' => $rafa->id,
+            'category' => 'SPP',
+            'status' => 'pending',
+        ]);
+
         $rafa->transaction()->create([
             'id' => 'transaction-'.fake()->uuid(),
             'user_id' => $rafa->id,
