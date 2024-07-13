@@ -22,7 +22,6 @@ class ShiftMasukRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'user_id' => 'required|exists:users,id',
             'shift_masuk' => 'required|string|min:1|max:255',
         ];
     }

@@ -25,11 +25,6 @@ class User extends Authenticatable
         return $this->role === 'admin';
     }
 
-    public function shiftMasuk()
-    {
-        return $this->hasOne(ShiftMasuk::class);
-    }
-
     public function laporanHarian()
     {
         return $this->hasMany(LaporanHarian::class);

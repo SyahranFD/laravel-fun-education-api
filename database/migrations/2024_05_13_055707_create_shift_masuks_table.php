@@ -12,12 +12,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('shift_masuks', function (Blueprint $table) {
-            $table->string('id')->primary();
-            $table->string('user_id');
+            $table->id();
             $table->string('shift_masuk');
             $table->timestamps();
-
-            $table->foreign('user_id')->references('id')->on('users')->cascadeOnDelete();
         });
     }
 

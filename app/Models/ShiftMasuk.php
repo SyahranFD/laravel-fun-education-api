@@ -9,12 +9,5 @@ class ShiftMasuk extends Model
 {
     use HasFactory;
 
-    public $incrementing = false;
-
     protected $guarded = [];
-
-    public function user()
-    {
-        return $this->belongsTo(User::class);
-    }
 }
