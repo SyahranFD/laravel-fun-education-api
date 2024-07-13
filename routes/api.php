@@ -114,6 +114,7 @@ Route::prefix('/tabungan')->group(function () {
     Route::get('/index', [SavingController::class, 'index']);
     Route::get('/show/{id}', [SavingController::class, 'showById']);
     Route::get('/show-current', [SavingController::class, 'showCurrent'])->middleware('auth:sanctum');
+    Route::get('/show-by-user/{userId}', [SavingController::class, 'showByUserId']);
 
     Route::put('/update/{id}', [SavingController::class, 'update'])->middleware('auth:sanctum');
     Route::delete('/delete/{id}', [SavingController::class, 'destroy'])->middleware('auth:sanctum');

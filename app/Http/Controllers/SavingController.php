@@ -44,6 +44,16 @@ class SavingController extends Controller
         return new SavingResource($saving);
     }
 
+    public function showByUserId($userId)
+    {
+        $saving = Saving::where('user_id', $userId)->first();
+        if (! $saving) {
+            return $this->resDataNotFound('saving');
+        }
+
+        return new SavingResource($saving);
+    }
+
     public function showCurrent()
     {
         $saving = auth()->user()->savings;
