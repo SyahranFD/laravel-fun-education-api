@@ -6,6 +6,7 @@ namespace Database\Seeders;
 use App\Models\Album;
 use App\Models\CatatanDarurat;
 use App\Models\Gallery;
+use App\Models\ShiftMasuk;
 use App\Models\User;
 use App\Models\TugasCategory;
 use App\Models\Tugas;
@@ -45,23 +46,19 @@ class DatabaseSeeder extends Seeder
             'nickname' => 'Syahran',
             'birth' => 'Semarang, 15 Mei 2015',
             'address' => 'Jl. Kaliurang KM 5, Semarang',
-            'shift' => '08:00-10:00',
+            'shift' => '08.00 - 10.00',
             'password' => Hash::make('rafapass'),
             'gender' => 'Laki-Laki',
             'profile_picture' => 'https://ui-avatars.com/api/?name=Syahran+Fadhil&color=7F9CF5&background=EBF4FF&size=128',
             'role' => 'student',
         ]);
 
-        $rafa->shiftMasuk()->create([
-            'id' => 'shift-masuk-'.fake()->uuid(),
-            'user_id' => $rafa->id,
-            'shift_masuk' => '08:00-10:00',
-        ]);
-
-        CatatanDarurat::create([
-            'id' => 'catatan-darurat-'.fake()->uuid(),
-            'catatan' => 'Diharapkan ananda membawa payung/jas hujan karena kondisi mendung.',
-        ]);
+        ShiftMasuk::create(['shift_masuk' => '08.00 - 10.00',]);
+        ShiftMasuk::create(['shift_masuk' => '10.00 - 11.30',]);
+        ShiftMasuk::create(['shift_masuk' => '11.30 - 13.00',]);
+        ShiftMasuk::create(['shift_masuk' => '13.00 - 14.00',]);
+        ShiftMasuk::create(['shift_masuk' => '14.00 - 15.00',]);
+        CatatanDarurat::create(['id' => 'catatan-darurat-'.fake()->uuid(), 'catatan' => 'Diharapkan ananda membawa payung/jas hujan karena kondisi mendung.',]);
 
         $rafa->laporanHarian()->create([
             'id' => 'laporan-harian-'.fake()->uuid(),

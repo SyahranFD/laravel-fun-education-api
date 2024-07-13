@@ -16,7 +16,6 @@ class ShiftMasukResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'user_id' => $this->user_id,
             'shift_masuk' => $this->shift_masuk,
         ];
     }
