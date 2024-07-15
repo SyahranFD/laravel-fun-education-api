@@ -42,7 +42,17 @@ class TugasUserController extends Controller
         return TugasUserResource::collection($tugasUser);
     }
 
-    public function show($tugasId)
+    public function show($id)
+    {
+        $tugasUser = TugasUser::find($id);
+        if (! $tugasUser) {
+            return $this->resNotFound();
+        }
+
+        return new TugasUserResource($tugasUser);
+    }
+
+    public function showByTugasId($tugasId)
     {
         $tugasUser = TugasUser::where('tugas_id', $tugasId)->get();
         if (! $tugasUser) {

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\TugasRequest;
+use App\Http\Resources\TugasCountResource;
 use App\Http\Resources\TugasResource;
 use App\Models\Tugas;
 use Illuminate\Support\Str;
@@ -49,6 +50,14 @@ class TugasController extends Controller
         return TugasResource::collection($tugasData);
     }
 
+    public function showStatusCount(Request $request)
+    {
+        $shift = $request->query('shift');
+        $tugas = Tugas::where('shift', $shift)->first();
+
+        return new TugasCountResource($tugas);
+    }
+
     public function showById($id)
     {
         $tugas = Tugas::find($id);
@@ -57,6 +66,18 @@ class TugasController extends Controller
         }
 
         return new TugasResource($tugas);
+    }
+
+    public function showCurrent()
+    {
+        $user = auth()->user();
+        if (! $user) {
+            return $this->resUserNotFound();
+        }
+
+        $tugas = Tugas::where('shift', $user->shift)->where('status', 'Tersedia')->get();
+
+        return TugasResource::collection($tugas);
     }
 
     public function update(TugasRequest $request, $id)
