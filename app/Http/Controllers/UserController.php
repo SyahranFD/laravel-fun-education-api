@@ -6,6 +6,7 @@ use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Http\Resources\UserResource;
+use App\Models\Saving;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
@@ -31,6 +32,7 @@ class UserController extends Controller
         } while (User::where('id', $userData['id'])->exists());
 
         $user = User::create($userData);
+        $tabungan = Saving::create(['user_id' => $user->id, 'saving' => 0]);
         $user = new UserResource($user);
         $token = $user->createToken('fun-education')->plainTextToken;
 
@@ -67,7 +69,7 @@ class UserController extends Controller
         } else {
             $users = User::where('role', 'student')->get();
         }
-        
+
         return UserResource::collection($users);
     }
 

@@ -126,6 +126,7 @@ Route::prefix('/transaksi')->group(function () {
     Route::get('/index', [TransactionController::class, 'index']);
     Route::get('/show/{id}', [TransactionController::class, 'showById']);
     Route::get('/show-current', [TransactionController::class, 'showCurrent'])->middleware('auth:sanctum');
+    Route::get('/show-by-user/{userId}', [TransactionController::class, 'showByUserId']);
 
     Route::put('/update/{id}', [TransactionController::class, 'update'])->middleware('auth:sanctum');
     Route::delete('/delete/{id}', [TransactionController::class, 'delete'])->middleware('auth:sanctum');
@@ -137,6 +138,7 @@ Route::prefix('/pengajuan-tabungan')->group(function () {
     Route::get('/index', [SavingApplicationController::class, 'index']);
     Route::get('/show/{id}', [SavingApplicationController::class, 'showById']);
     Route::get('/show-current', [SavingApplicationController::class, 'showCurrent'])->middleware('auth:sanctum');
+    Route::get('/show-by-user/{userId}', [SavingApplicationController::class, 'showByUserId']);
 
     Route::put('/update/{id}', [SavingApplicationController::class, 'update'])->middleware('auth:sanctum');
     Route::delete('/delete/{id}', [SavingApplicationController::class, 'destroy'])->middleware('auth:sanctum');
