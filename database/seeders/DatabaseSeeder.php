@@ -6,7 +6,10 @@ namespace Database\Seeders;
 use App\Models\Album;
 use App\Models\CatatanDarurat;
 use App\Models\Gallery;
+use App\Models\Saving;
+use App\Models\SavingApplication;
 use App\Models\ShiftMasuk;
+use App\Models\Transaction;
 use App\Models\User;
 use App\Models\TugasCategory;
 use App\Models\Tugas;
@@ -47,13 +50,26 @@ class DatabaseSeeder extends Seeder
         }
 
         for ($i = 1; $i <= 30; $i++) {
-            $full_name = implode(' ', array_slice(explode(' ', fake()->name), 0, 2));
-            $nickname = explode(' ', $full_name)[0];
+            do {
+                $full_name = implode(' ', array_slice(explode(' ', fake()->name), 0, 2));
+                $nickname = explode(' ', $full_name)[0];
+            } while (User::where('nickname', $nickname)->exists());
             $backgroundColor = randomDarkColor();
             $profile_picture_user = 'https://ui-avatars.com/api/?name=' . urlencode($full_name) . '&color=FFFFFF&background=' . $backgroundColor . '&size=128';
             $birth = fake()->dateTimeBetween('-10 years', '-6 years')->format('Y-m-d');
 
-            User::create(['id' => 'user-' . fake()->uuid(), 'full_name' => $full_name, 'nickname' => $nickname, 'birth' => $birth, 'address' => fake()->address, 'shift' => $shifts[($i - 1) % count($shifts)], 'password' => Hash::make('pass'), 'gender' => fake()->randomElement(['Laki-Laki', 'Perempuan']), 'profile_picture' => $profile_picture_user, 'role' => 'student',]);
+            $user = User::create(['id' => 'user-' . fake()->uuid(), 'full_name' => $full_name, 'nickname' => $nickname, 'birth' => $birth, 'address' => fake()->address, 'shift' => $shifts[($i - 1) % count($shifts)], 'password' => Hash::make('pass'), 'gender' => fake()->randomElement(['Laki-Laki', 'Perempuan']), 'profile_picture' => $profile_picture_user, 'role' => 'student',]);
+
+            $randomBase = rand(20, 50);
+            $tabungan = $randomBase * 10000;
+            $tabunganFinal = $tabungan - 100000;
+            $transaksi = $tabungan / 2;
+
+            Saving::create(['id' => 'saving-' . fake()->uuid(), 'user_id' => $user->id, 'saving' => $tabunganFinal,]);
+            SavingApplication::create(['id' => 'saving-application-' . fake()->uuid(), 'user_id' => $user->id, 'category' => 'SPP', 'status' => 'pending',]);
+            Transaction::create(['id' => 'transaction-' . fake()->uuid(), 'user_id' => $user->id, 'category' => 'income', 'amount' => $transaksi, 'created_at' => fake()->dateTimeBetween('-1 month', 'now'),]);
+            Transaction::create(['id' => 'transaction-' . fake()->uuid(), 'user_id' => $user->id, 'category' => 'income', 'amount' => $transaksi, 'created_at' => fake()->dateTimeBetween('-1 month', 'now'),]);
+            Transaction::create(['id' => 'transaction-' . fake()->uuid(), 'user_id' => $user->id, 'category' => 'outcome', 'amount' => 100000, 'created_at' => fake()->dateTimeBetween('-1 month', 'now'), 'desc' => 'Untuk Bayar SPP',]);
         }
 
         CatatanDarurat::create(['id' => 'catatan-darurat-'.fake()->uuid(), 'catatan' => 'Diharapkan ananda membawa payung/jas hujan karena kondisi mendung.',]);
@@ -78,10 +94,6 @@ class DatabaseSeeder extends Seeder
 
         $rafa->savings()->create(['id' => 'saving-'.fake()->uuid(),
             'saving' => 250000,]);
-
-        $rafa->savingApplication()->create(['id' => 'saving-application-'.fake()->uuid(),
-            'category' => 'SPP',
-            'status' => 'pending',]);
 
         $rafa->transaction()->create(['id' => 'transaction-'.fake()->uuid(),
             'category' => 'income',
