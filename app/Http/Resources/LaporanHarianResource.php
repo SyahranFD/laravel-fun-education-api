@@ -17,16 +17,9 @@ class LaporanHarianResource extends JsonResource
         return [
             'id' => $this->id,
             'user_id' => $this->user_id,
-            'datang_tepat_pada_waktunya' => $this->datang_tepat_pada_waktunya,
-            'berpakaian_rapi' => $this->berpakaian_rapi,
-            'berbuat_baik_dengan_teman' => $this->berbuat_baik_dengan_teman,
-            'mau_menolong_dan_berbagi_dengan_teman' => $this->mau_menolong_dan_berbagi_dengan_teman,
-            'merapikan_alat_belajar_dan_mainan_sendiri' => $this->merapikan_alat_belajar_dan_mainan_sendiri,
-            'menyelesaikan_tugas' => $this->menyelesaikan_tugas,
-            'membaca' => $this->membaca,
-            'menulis' => $this->menulis,
-            'dikte' => $this->dikte,
-            'keterampilan' => $this->keterampilan,
+            'activity' => Activity::find($this->activity_id)->name,
+            'grade' => $this->grade,
+            'point' => $this->point
         ];
     }
 }

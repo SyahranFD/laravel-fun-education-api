@@ -14,19 +14,14 @@ return new class extends Migration
         Schema::create('laporan_harians', function (Blueprint $table) {
             $table->string('id')->primary();
             $table->string('user_id');
-            $table->string('datang_tepat_pada_waktunya');
-            $table->string('berpakaian_rapi');
-            $table->string('berbuat_baik_dengan_teman');
-            $table->string('mau_menolong_dan_berbagi_dengan_teman');
-            $table->string('merapikan_alat_belajar_dan_mainan_sendiri');
-            $table->string('menyelesaikan_tugas');
-            $table->string('membaca');
-            $table->string('menulis');
-            $table->string('dikte');
-            $table->string('keterampilan');
+            $table->foreignId('activity_id');
+            $table->string('grade');
+            $table->integer('point');
+            $table->string('note')->nullable();
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users')->cascadeOnDelete();
+            $table->foreign('activity_id')->references('id')->on('activities')->cascadeOnDelete();
         });
     }
 

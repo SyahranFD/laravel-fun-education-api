@@ -15,6 +15,7 @@ use App\Models\TugasCategory;
 use App\Models\Tugas;
 use App\Models\TugasImage;
 use App\Models\TugasUser;
+use App\Models\Activity;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Hash;
@@ -74,19 +75,124 @@ class DatabaseSeeder extends Seeder
 
         CatatanDarurat::create(['id' => 'catatan-darurat-'.fake()->uuid(), 'catatan' => 'Diharapkan ananda membawa payung/jas hujan karena kondisi mendung.',]);
 
+        $activity1 = Activity::create([
+
+            'name' => 'Datang Tepat Pada Waktunya',
+        ]);
+
+        $activity2 = Activity::create([
+
+            'name' => 'Berpakaian Rapi',
+        ]);
+
+        $activity3 = Activity::create([
+
+            'name' => 'Berbuat Baik Dengan Teman',
+        ]);
+
+        $activity4 = Activity::create([
+
+            'name' => 'Mau Menolong dan Berbagi Dengan Teman',
+        ]);
+
+        $activity5 = Activity::create([
+
+            'name' => 'Merapikan Alat Belajar dan Mainan Sendiri',
+        ]);
+
+        $activity6 = Activity::create([
+
+            'name' => 'Menyelesaikan Tugas',
+        ]);
+
+        $activity7 = Activity::create([
+
+            'name' => 'Membaca',
+        ]);
+
+        $activity8 = Activity::create([
+
+            'name' => 'Menulis',
+        ]);
+
+        $activity9 = Activity::create([
+
+            'name' => 'Dikte',
+        ]);
+
+        $activity10 = Activity::create([
+
+            'name' => 'Keterampilan',
+        ]);
+
         $rafa->laporanHarian()->create([
             'id' => 'laporan-harian-'.fake()->uuid(),
-            'user_id' => $rafa->id,
-            'datang_tepat_pada_waktunya' => chr(rand(65, 67)), // A-C
-            'berpakaian_rapi' => chr(rand(65, 67)), // A-C
-            'berbuat_baik_dengan_teman' => chr(rand(65, 67)), // A-C
-            'mau_menolong_dan_berbagi_dengan_teman' => chr(rand(65, 67)), // A-C
-            'merapikan_alat_belajar_dan_mainan_sendiri' => chr(rand(65, 67)), // A-C
-            'menyelesaikan_tugas' => chr(rand(65, 67)), // A-C
-            'membaca' => chr(rand(65, 67)), // A-C
-            'menulis' => chr(rand(65, 67)), // A-C
-            'dikte' => chr(rand(65, 67)), // A-C
-            'keterampilan' => chr(rand(65, 67)), // A-C
+            'activity_id' => 1,
+            'grade' => 'A',
+            'point' => 10,
+        ]);
+
+        $rafa->laporanHarian()->create([
+            'id' => 'laporan-harian-'.fake()->uuid(),
+            'activity_id' => 2,
+            'grade' => 'A',
+            'point' => 10,
+        ]);
+
+        $rafa->laporanHarian()->create([
+            'id' => 'laporan-harian-'.fake()->uuid(),
+            'activity_id' => 3,
+            'grade' => 'B',
+            'point' => 4,
+        ]);
+
+        $rafa->laporanHarian()->create([
+            'id' => 'laporan-harian-'.fake()->uuid(),
+            'activity_id' => 4,
+            'grade' => 'B',
+            'point' => 4,
+        ]);
+
+        $rafa->laporanHarian()->create([
+            'id' => 'laporan-harian-'.fake()->uuid(),
+            'activity_id' => 5,
+            'grade' => 'C',
+            'point' => 3,
+        ]);
+
+        $rafa->laporanHarian()->create([
+            'id' => 'laporan-harian-'.fake()->uuid(),
+            'activity_id' => 6,
+            'grade' => 'C',
+            'point' => 3,
+        ]);
+
+        $rafa->laporanHarian()->create([
+            'id' => 'laporan-harian-'.fake()->uuid(),
+            'activity_id' => 7,
+            'grade' => 'B',
+            'point' => 4,
+        ]);
+
+        $rafa->laporanHarian()->create([
+            'id' => 'laporan-harian-'.fake()->uuid(),
+            'activity_id' => 8,
+            'grade' => 'B',
+            'point' => 4,
+        ]);
+
+        $rafa->laporanHarian()->create([
+            'id' => 'laporan-harian-'.fake()->uuid(),
+            'activity_id' => 9,
+            'grade' => 'A',
+            'point' => 10,
+        ]);
+
+        $rafa->laporanHarian()->create([
+            'id' => 'laporan-harian-'.fake()->uuid(),
+            'activity_id' => 10,
+            'grade' => 'A',
+            'point' => 10,
         ]);
 
         $rafa->alurBelajar()->create(['id' => 'alur-belajar-'.fake()->uuid(),
