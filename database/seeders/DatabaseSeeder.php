@@ -10,6 +10,7 @@ use App\Models\Saving;
 use App\Models\SavingApplication;
 use App\Models\ShiftMasuk;
 use App\Models\Transaction;
+use App\Models\TugasUserImage;
 use App\Models\User;
 use App\Models\TugasCategory;
 use App\Models\Tugas;
@@ -218,6 +219,17 @@ class DatabaseSeeder extends Seeder
             foreach ($shifts as $shift) {
                 $tugas = Tugas::create(['id' => 'tugas-'.fake()->uuid(), 'shift' => $shift, 'category' => $task['category'], 'title' => $task['title'], 'description' => $task['description'], 'status' => $task['status'], 'created_at' => $task['created_at'], 'deadline' => $task['deadline'],]);
                 TugasImage::create(['id' => 'tugas-image-'.fake()->uuid(), 'tugas_id' => $tugas->id, 'image' => $task['image'],]);
+            }
+        }
+
+        $tugasList = Tugas::all();
+
+        foreach (User::all() as $user) {
+            if ($user->nickname === 'Syahran') { continue; }
+            if ($user->role === 'admin') { continue; }
+            foreach ($tugasList as $tugas) {
+                $tugasUser = TugasUser::create(['id' => 'tugas-user-'.fake()->uuid(), 'tugas_id' => $tugas->id, 'user_id' => $user->id, 'note' => 'Ini ya bu tugasnya',]);
+                TugasUserImage::create(['id' => 'tugas-user-image-'.fake()->uuid(), 'tugas_user_id' => $tugasUser->id, 'image' => 'https://i.ytimg.com/vi/b2q4Pc8f7jM/hqdefault.jpg']);
             }
         }
     }

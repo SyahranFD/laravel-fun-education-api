@@ -181,6 +181,7 @@ Route::prefix('/tugas')->group(function () {
     Route::get('/index', [TugasController::class, 'index']);
     Route::get('/show/{id}', [TugasController::class, 'showById']);
     Route::get('/show-current', [TugasController::class, 'showCurrent'])->middleware('auth:sanctum');
+    Route::get('/show-status-count', [TugasController::class, 'showStatusCount']);
 
     Route::put('/update/{id}', [TugasController::class, 'update'])->middleware('auth:sanctum');
     Route::put('/update-status/{id}', [TugasController::class, 'updateStatus'])->middleware('auth:sanctum');
@@ -201,7 +202,8 @@ Route::prefix('/tugas-user')->group(function () {
     Route::post('/store', [TugasUserController::class, 'store'])->middleware('auth:sanctum');
 
     Route::get('/index', [TugasUserController::class, 'index']);
-    Route::get('/show/{tugasId}', [TugasUserController::class, 'show']);
+    Route::get('/show/{id}', [TugasUserController::class, 'show']);
+    Route::get('/show-by-tugas-id/{tugasId}', [TugasUserController::class, 'showByTugasId']);
     Route::get('/show-current/{tugasId}', [TugasUserController::class, 'showCurrent'])->middleware('auth:sanctum');
 
     Route::put('/update/{id}', [TugasUserController::class, 'update'])->middleware('auth:sanctum');
