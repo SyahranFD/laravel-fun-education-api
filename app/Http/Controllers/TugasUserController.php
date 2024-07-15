@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\TugasUserRequest;
 use App\Http\Resources\TugasUserResource;
+use App\Models\Tugas;
 use App\Models\TugasUser;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
@@ -18,7 +19,7 @@ class TugasUserController extends Controller
         $tugasUserData = $request->all();
         $tugasUserData['user_id'] = $user->id;
         do {
-            $tugasUserData['id'] = 'tugas-user'.Str::uuid();
+            $tugasUserData['id'] = 'tugas-user-'.Str::uuid();
         } while (Tugas::where('id', $tugasUserData['id'])->exists());
 
         $tugasUser = TugasUser::create($tugasUserData);

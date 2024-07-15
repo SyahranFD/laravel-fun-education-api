@@ -184,8 +184,6 @@ Route::prefix('/tugas')->group(function () {
 
     Route::put('/update/{id}', [TugasController::class, 'update'])->middleware('auth:sanctum');
     Route::put('/update-status/{id}', [TugasController::class, 'updateStatus'])->middleware('auth:sanctum');
-    Route::put('/update-grade/{id}', [TugasController::class, 'updateGrade'])->middleware('auth:sanctum');
-    Route::put('/send-tugas/{id}', [TugasController::class, 'sendTugas'])->middleware('auth:sanctum');
     Route::delete('/delete/{id}', [TugasController::class, 'destroy'])->middleware('auth:sanctum');
 });
 

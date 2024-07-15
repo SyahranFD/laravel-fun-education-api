@@ -12,9 +12,4 @@ class TugasCategory extends Model
     public $incrementing = false;
 
     protected $guarded = [];
-
-    public function tugas()
-    {
-        return $this->hasMany(Tugas::class);
-    }
 }
