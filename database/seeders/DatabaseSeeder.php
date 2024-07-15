@@ -35,7 +35,7 @@ class DatabaseSeeder extends Seeder
 
         $background_color_random = randomDarkColor();
         $full_name_admin = Config::get('admin.nama');
-        $nickname_admin = $nickname = explode(' ', $full_name_admin)[0];
+        $nickname_admin = explode(' ', $full_name_admin)[0];
         $profile_picture_admin = 'https://ui-avatars.com/api/?name=' . urlencode($full_name_admin) . '&color=FFFFFF&background=' . $background_color_random . '&size=128';
 
         $admin = User::create(['id' => 'user-'.fake()->uuid(), 'full_name' => $full_name_admin, 'nickname' => $nickname_admin, 'birth' => 'Batam, 10 Agustus 1980', 'address' => 'Griya Batu Aji Ari Blok G1, No 06', 'password' => Hash::make(Config::get('admin.password')), 'gender' => 'Perempuan', 'profile_picture' => $profile_picture_admin,
