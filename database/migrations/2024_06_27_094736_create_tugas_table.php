@@ -13,14 +13,13 @@ return new class extends Migration
     {
         Schema::create('tugas', function (Blueprint $table) {
             $table->string('id')->primary();
-            $table->foreignId('tugas_category_id');
+            $table->foreignId('category');
             $table->string('title');
             $table->text('description');
-            $table->string('status')->nullable()->default('tersedia');
+            $table->string('status')->nullable()->default('Tersedia');
+            $table->integer('point')->default(100);
             $table->date('deadline');
             $table->timestamps();
-
-            $table->foreign('tugas_category_id')->references('id')->on('tugas_categories')->cascadeOnDelete();
         });
     }
 

@@ -249,10 +249,11 @@ class DatabaseSeeder extends Seeder
         $tugasCategory3 = TugasCategory::create(['id' => 3, 'name' => 'Membaca',]);
         $tugasCategory4 = TugasCategory::create(['id' => 4, 'name' => 'Berhitung',]);
 
-        $tugas = Tugas::create(['id' => 'tugas-'.fake()->uuid(), 'tugas_category_id' => $tugasCategory1->id,
+        $tugas = Tugas::create(['id' => 'tugas-'.fake()->uuid(),
+            'category' => 'Dikte & Menulis',
             'title' => 'Menulis 5 benda yang sering dilihat oleh ananda',
             'description' => 'Berdasarkan gambar tersebut ambil lima barang yang ingin didiktekan, setelah selesai foto hasil tugas anak lalu kumpulkan.',
-            'deadline' => '2024-06-30',]);
+            'deadline' => '2024-08-15',]);
 
         TugasImage::create(['id' => 'tugas-image-'.fake()->uuid(), 'tugas_id' => $tugas->id,
             'image' => 'https://lh3.googleusercontent.com/p/AF1QipPFRtcGA5Ix9TJl2APPrZyUrcCWB7UjOSlDdB7Z=s1360-w1360-h1020',]);

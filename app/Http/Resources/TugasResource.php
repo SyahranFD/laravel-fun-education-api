@@ -16,12 +16,11 @@ class TugasResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'category' => $this->category->name,
+            'category' => $this->category,
             'title' => $this->title,
             'description' => $this->description,
             'status' => $this->status,
-            'grade' => $this->grade,
-            'parent_note' => $this->parent_note,
+            'point' => $this->point,
             'deadline' => $this->deadline,
             'created_at' => $this->created_at->format('Y-m-d'),
             'images' => TugasImageResource::collection($this->tugasImages),

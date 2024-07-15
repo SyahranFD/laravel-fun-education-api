@@ -22,7 +22,7 @@ class TugasRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'tugas_category_id' => 'required|exists:tugas_categories,id',
+            'category' => 'required|string|min:1|max:255',
             'title' => 'required|string|min:1|max:255',
             'description' => 'required|string|min:1|max:255',
             'deadline' => 'required|date',

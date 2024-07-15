@@ -13,11 +13,6 @@ class Tugas extends Model
 
     protected $guarded = [];
 
-    public function tugasCategory()
-    {
-        return $this->belongsTo(TugasCategory::class);
-    }
-
     public function tugasImages()
     {
         return $this->hasMany(TugasImage::class);
