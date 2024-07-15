@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('user_id');
             $table->string('category');
             $table->integer('amount');
-            $table->string('desc');
+            $table->string('desc')->nullable();
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
