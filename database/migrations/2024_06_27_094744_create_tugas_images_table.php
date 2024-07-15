@@ -11,15 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('transactions', function (Blueprint $table) {
+        Schema::create('tugas_images', function (Blueprint $table) {
             $table->string('id')->primary();
-            $table->string('user_id');
-            $table->string('category');
-            $table->integer('amount');
-            $table->string('desc')->nullable();
+            $table->string('tugas_id');
+            $table->string('image');
             $table->timestamps();
 
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('tugas_id')->references('id')->on('tugas')->cascadeOnDelete();
         });
     }
 
@@ -28,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('transactions');
+        Schema::dropIfExists('tugas_images');
     }
 };

@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Saving extends Model
+class TugasUserImage extends Model
 {
     use HasFactory;
 
@@ -13,8 +13,8 @@ class Saving extends Model
 
     protected $guarded = [];
 
-    public function user()
+    public function tugasUser()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(TugasUser::class);
     }
 }

@@ -4,8 +4,9 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use App\Models\User;
 
-class ShiftMasukResource extends JsonResource
+class TugasUserResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -16,7 +17,12 @@ class ShiftMasukResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'shift_masuk' => $this->shift_masuk,
+            'tugas_id' => $this->tugas_id,
+            'full_name' => $this->user->full_name,
+            'status' => $this->status,
+            'note' => $this->note,
+            'grade' => $this->grade,
+            'created_at' => $this->created_at,
         ];
     }
 }

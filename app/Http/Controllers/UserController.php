@@ -6,9 +6,11 @@ use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Http\Resources\UserResource;
+use App\Models\Saving;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
+use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
@@ -16,15 +18,11 @@ class UserController extends Controller
     {
         $request->validated();
 
-        $userData = [
-            'username' => $request->username,
-            'password' => Hash::make($request->password),
-            'tempat_tanggal_lahir' => $request->tempat_tanggal_lahir,
-            'alamat' => $request->alamat,
-            'role' => 'student',
-        ];
+        $userData = $request->all();
+        $userData['password'] = Hash::make($request->password);
+        $userData['role'] = 'student';
 
-        $nameParts = explode(' ', $request->username);
+        $nameParts = explode(' ', $request->nickname);
         $firstName = $nameParts[0];
         $lastName = $nameParts[1] ?? '';
         $userData['profile_picture'] = 'https://ui-avatars.com/api/?name='.urlencode($firstName.' '.$lastName).'&color=7F9CF5&background=EBF4FF&size=128';
@@ -34,6 +32,7 @@ class UserController extends Controller
         } while (User::where('id', $userData['id'])->exists());
 
         $user = User::create($userData);
+        $tabungan = Saving::create(['user_id' => $user->id, 'saving' => 0]);
         $user = new UserResource($user);
         $token = $user->createToken('fun-education')->plainTextToken;
 
@@ -46,7 +45,7 @@ class UserController extends Controller
     public function login(LoginRequest $request)
     {
         $request->validated();
-        $user = User::where('username', $request->username)->first();
+        $user = User::where('nickname', $request->nickname)->first();
 
         if (! $user || ! Hash::check($request->password, $user->password)) {
             return $this->resInvalidLogin();
@@ -61,9 +60,17 @@ class UserController extends Controller
         ], 200);
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        return UserResource::collection(User::all());
+        $shift = $request->query('shift');
+        $users = [];
+        if ($shift) {
+            $users = User::where('shift', $shift)->where('role', 'student')->get();
+        } else {
+            $users = User::where('role', 'student')->get();
+        }
+
+        return UserResource::collection($users);
     }
 
     public function showById($id)
@@ -99,12 +106,8 @@ class UserController extends Controller
             return $this->resUserNotFound();
         }
 
-        $userData = [
-            'user_name' => $request->username,
-            'password' => Hash::make($request->password),
-            'tempat_tanggal_lahir' => $request->tempat_tanggal_lahir,
-            'alamat' => $request->alamat,
-        ];
+        $userData = $request->all();
+        $userData['password'] = Hash::make($request->password);
 
         $user->update($userData);
 

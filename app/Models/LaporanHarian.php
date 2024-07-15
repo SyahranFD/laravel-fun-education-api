@@ -11,13 +11,7 @@ class LaporanHarian extends Model
 
     public $incrementing = false;
 
-    protected $fillable = [
-        'id',
-        'user_id',
-        'activity_id',
-        'grade',
-        'point'
-    ];
+    protected $guarded = [];
 
     protected $casting = [
         'created_at' => 'date',

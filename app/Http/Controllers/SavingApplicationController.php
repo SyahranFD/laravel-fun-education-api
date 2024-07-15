@@ -51,6 +51,16 @@ class SavingApplicationController extends Controller
         return SavingApplicationResource::collection($savingApplication);
     }
 
+    public function showByUserId($userId)
+    {
+        $savingApplication = SavingApplication::where('user_id', $userId)->first();
+        if (! $savingApplication) {
+            return $this->resDataNotFound('Saving Application');
+        }
+
+        return new SavingApplicationResource($savingApplication);
+    }
+
     public function update(SavingApplicationRequest $request, $id)
     {
         $request->validated();

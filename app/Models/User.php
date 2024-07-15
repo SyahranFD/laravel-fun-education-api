@@ -14,16 +14,7 @@ class User extends Authenticatable
 
     public $incrementing = false;
 
-    protected $fillable = [
-        'id',
-        'username',
-        'password',
-        'tempat_tanggal_lahir',
-        'alamat',
-        'profile_picture',
-        'role',
-        'fcm_token',
-    ];
+    protected $guarded = [];
 
     protected $hidden = [
         'password',
@@ -32,11 +23,6 @@ class User extends Authenticatable
     public function isAdmin()
     {
         return $this->role === 'admin';
-    }
-
-    public function shiftMasuk()
-    {
-        return $this->hasOne(ShiftMasuk::class);
     }
 
     public function laporanHarian()
@@ -72,5 +58,10 @@ class User extends Authenticatable
     public function minimumApplication()
     {
         return $this->hasMany(MinimumApplication::class);
+    }
+
+    public function tugasUser()
+    {
+        return $this->hasMany(TugasUser::class);
     }
 }

@@ -5,7 +5,7 @@ namespace App\Http\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class ShiftMasukResource extends JsonResource
+class TugasUserImageResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -16,7 +16,8 @@ class ShiftMasukResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'shift_masuk' => $this->shift_masuk,
+            'tugas_user_id' => $this->tugas_user_id,
+            'image' => $this->image,
         ];
     }
 }

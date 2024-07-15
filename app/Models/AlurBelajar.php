@@ -11,11 +11,7 @@ class AlurBelajar extends Model
 
     public $incrementing = false;
 
-    protected $fillable = [
-        'id',
-        'user_id',
-        'tahap',
-    ];
+    protected $guarded = [];
 
     public function user()
     {

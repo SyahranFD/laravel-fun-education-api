@@ -89,7 +89,43 @@ class TransactionController extends Controller
         })
         ->map(function ($item, $key) {
             return [
-                'date' => $key,
+                'month' => $key,
+                'transaction' => $item,
+            ];
+        })
+        ->values();
+
+        return response()->json(['data' => $groupedtransaction]);
+    }
+
+    public function showByUserId($userId)
+    {
+        $transaction = Transaction::where('user_id', $userId)->get();
+        if (! $transaction) {
+            return $this->resDataNotFound('transaction');
+        }
+        $formattedtransaction = [];
+        foreach ($transaction as $transactions) {
+            $formattedtransaction[] = [
+                'id' => $transactions->id,
+                'user_id' => $transactions->user_id,
+                'amount' => number_format($transactions->amount, 0, '.', '.'),
+                'category' => $transactions->category,
+                'desc' => $transactions->desc,
+                'date' => $transactions->created_at->format('d-m-Y'),
+            ];
+        }
+
+        $groupedtransaction = collect($formattedtransaction)
+        ->sortByDesc(function ($item) {
+            return date('Ym', strtotime($item['date']));
+        })
+        ->groupBy(function ($item) {
+            return date('m-Y', strtotime($item['date']));
+        })
+        ->map(function ($item, $key) {
+            return [
+                'month' => $key,
                 'transaction' => $item,
             ];
         })

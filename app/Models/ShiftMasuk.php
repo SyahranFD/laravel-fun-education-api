@@ -9,16 +9,5 @@ class ShiftMasuk extends Model
 {
     use HasFactory;
 
-    public $incrementing = false;
-
-    protected $fillable = [
-        'id',
-        'user_id',
-        'shift_masuk',
-    ];
-
-    public function user()
-    {
-        return $this->belongsTo(User::class);
-    }
+    protected $guarded = [];
 }
