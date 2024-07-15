@@ -13,10 +13,11 @@ return new class extends Migration
     {
         Schema::create('tugas', function (Blueprint $table) {
             $table->string('id')->primary();
-            $table->foreignId('category');
+            $table->string('shift');
+            $table->string('category');
             $table->string('title');
             $table->text('description');
-            $table->string('status')->nullable()->default('Tersedia');
+            $table->string('status')->default('Tersedia');
             $table->integer('point')->default(100);
             $table->date('deadline');
             $table->timestamps();

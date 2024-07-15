@@ -22,6 +22,7 @@ class TugasRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'shift' => 'required|string|min:1|max:255',
             'category' => 'required|string|min:1|max:255',
             'title' => 'required|string|min:1|max:255',
             'description' => 'required|string|min:1|max:255',

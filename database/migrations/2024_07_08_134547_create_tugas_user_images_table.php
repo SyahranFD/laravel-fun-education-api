@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('tugas_user_images', function (Blueprint $table) {
             $table->string('id')->primary();
             $table->string('tugas_user_id');
-            $table->string('image');
+            $table->text('image');
             $table->timestamps();
 
             $table->foreign('tugas_user_id')->references('id')->on('tugas_users')->onDelete('cascade');
