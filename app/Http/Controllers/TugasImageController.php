@@ -30,7 +30,7 @@ class TugasImageController extends Controller
         } while (TugasImage::where('id', $tugasImageData['id'])->exists());
 
         if ($request->hasFile('image')) {
-            $imagePath = $request->file('image')->store('public/tugas');
+            $imagePath = $request->file('image')->store('public');
             $tugasImageData['image'] = $this->url.Storage::url($imagePath);
         }
 
@@ -70,7 +70,7 @@ class TugasImageController extends Controller
 
         $tugasImageData = $request->all();
         if ($request->hasFile('image')) {
-            $imagePath = $request->file('image')->store('public/tugas');
+            $imagePath = $request->file('image')->store('public');
             $galleryData['image'] = $this->url.Storage::url($imagePath);
         }
 

@@ -30,7 +30,7 @@ class AlbumController extends Controller
         } while (Album::where('id', $albumData['id'])->exists());
 
         if ($request->hasFile('cover')) {
-            $imagePath = $request->file('cover')->store('public/cover-album');
+            $imagePath = $request->file('cover')->store('public');
             $albumData['cover'] = $this->url.Storage::url($imagePath);
         }
 
@@ -66,6 +66,11 @@ class AlbumController extends Controller
         $album = Album::with('gallery')->find($id);
         if (! $album) {
             return $this->resDataNotFound('Album');
+        }
+
+        if ($request->hasFile('cover')) {
+            $imagePath = $request->file('cover')->store('public');
+            $albumData['cover'] = $this->url.Storage::url($imagePath);
         }
 
         $albumData = $request->all();

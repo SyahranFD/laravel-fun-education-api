@@ -31,7 +31,7 @@ class GalleryController extends Controller
         } while (Gallery::where('id', $galleryData['id'])->exists());
 
         if ($request->hasFile('image')) {
-            $imagePath = $request->file('image')->store('public/gallery');
+            $imagePath = $request->file('image')->store('public');
             $galleryData['image'] = $this->url.Storage::url($imagePath);
         }
 
@@ -71,7 +71,7 @@ class GalleryController extends Controller
 
         $galleryData = $request->all();
         if ($request->hasFile('image')) {
-            $imagePath = $request->file('image')->store('public/gallery');
+            $imagePath = $request->file('image')->store('public');
             $galleryData['image'] = $this->url.Storage::url($imagePath);
         }
 
