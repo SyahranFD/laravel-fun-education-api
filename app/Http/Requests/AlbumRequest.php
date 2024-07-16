@@ -24,6 +24,7 @@ class AlbumRequest extends FormRequest
         return [
             'name' => 'required|min:1|max:255',
             'desc' => 'required|min:1|max:255',
+            'cover' => 'required',
         ];
     }
 }
