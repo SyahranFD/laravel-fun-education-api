@@ -5,10 +5,17 @@ namespace App\Http\Controllers;
 use App\Http\Requests\AlbumRequest;
 use App\Http\Resources\AlbumResource;
 use App\Models\Album;
+use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class AlbumController extends Controller
 {
+    public $url;
+    public function __construct()
+    {
+        $this->url = Config::get('url.hosting');
+    }
     public function store(AlbumRequest $request)
     {
         $request->validated();
@@ -21,6 +28,11 @@ class AlbumController extends Controller
         do {
             $albumData['id'] = 'album-'.Str::uuid();
         } while (Album::where('id', $albumData['id'])->exists());
+
+        if ($request->hasFile('cover')) {
+            $imagePath = $request->file('cover')->store('public');
+            $albumData['cover'] = $this->url.Storage::url($imagePath);
+        }
 
         $album = Album::create($albumData);
         $album = new AlbumResource($album);
@@ -54,6 +66,11 @@ class AlbumController extends Controller
         $album = Album::with('gallery')->find($id);
         if (! $album) {
             return $this->resDataNotFound('Album');
+        }
+
+        if ($request->hasFile('cover')) {
+            $imagePath = $request->file('cover')->store('public');
+            $albumData['cover'] = $this->url.Storage::url($imagePath);
         }
 
         $albumData = $request->all();
