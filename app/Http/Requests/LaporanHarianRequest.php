@@ -23,9 +23,17 @@ class LaporanHarianRequest extends FormRequest
     {
         return [
             'user_id' => 'required|exists:users,id',
-            'activity_id' => 'required|exists:activities,id',
-            'grade' => 'required|string|min:1|max:255',
-            'point' => 'required|integer|min:0'
+            'note' => 'string|max:1000',
+            'activity_1' => 'required|string|min:1|max:255',
+            'activity_2' => 'required|string|min:1|max:255',
+            'activity_3' => 'required|string|min:1|max:255',
+            'activity_4' => 'required|string|min:1|max:255',
+            'activity_5' => 'required|string|min:1|max:255',
+            'activity_6' => 'required|string|min:1|max:255',
+            'activity_7' => 'required|string|min:1|max:255',
+            'activity_8' => 'required|string|min:1|max:255',
+            'activity_9' => 'required|string|min:1|max:255',
+            'activity_10' => 'required|string|min:1|max:255',
         ];
     }
 }

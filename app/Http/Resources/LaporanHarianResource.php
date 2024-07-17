@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Models\Activity;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -16,10 +17,8 @@ class LaporanHarianResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'user_id' => $this->user_id,
             'activity' => Activity::find($this->activity_id)->name,
             'grade' => $this->grade,
-            'point' => $this->point
         ];
     }
 }
