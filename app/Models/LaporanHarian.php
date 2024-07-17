@@ -13,11 +13,6 @@ class LaporanHarian extends Model
 
     protected $guarded = [];
 
-    protected $casting = [
-        'created_at' => 'date',
-        'updated_at' => 'date',
-    ];
-
     public function user()
     {
         return $this->belongsTo(User::class);
@@ -26,5 +21,10 @@ class LaporanHarian extends Model
     public function activity()
     {
         return $this->belongsTo(Activity::class);
+    }
+
+    public function laporanHarianNotes()
+    {
+        return $this->hasMany(LaporanHarianNote::class);
     }
 }

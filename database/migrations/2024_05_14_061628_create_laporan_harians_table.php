@@ -17,7 +17,7 @@ return new class extends Migration
             $table->foreignId('activity_id');
             $table->string('grade');
             $table->integer('point');
-            $table->string('note')->nullable();
+            $table->text('note')->nullable();
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users')->cascadeOnDelete();

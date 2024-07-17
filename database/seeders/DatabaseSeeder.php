@@ -4,8 +4,10 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use App\Models\Album;
+use App\Models\AlurBelajar;
 use App\Models\CatatanDarurat;
 use App\Models\Gallery;
+use App\Models\LaporanHarian;
 use App\Models\Saving;
 use App\Models\SavingApplication;
 use App\Models\ShiftMasuk;
@@ -17,9 +19,11 @@ use App\Models\Tugas;
 use App\Models\TugasImage;
 use App\Models\TugasUser;
 use App\Models\Activity;
+use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
 class DatabaseSeeder extends Seeder
 {
@@ -76,123 +80,46 @@ class DatabaseSeeder extends Seeder
 
         CatatanDarurat::create(['id' => 'catatan-darurat-'.fake()->uuid(), 'catatan' => 'Diharapkan ananda membawa payung/jas hujan karena kondisi mendung.',]);
 
-        $activity1 = Activity::create(['name' => 'Datang Tepat Pada Waktunya',]);
-        $activity2 = Activity::create(['name' => 'Berpakaian Rapi',]);
-        $activity3 = Activity::create(['name' => 'Berbuat Baik Dengan Teman',]);
-        $activity4 = Activity::create(['name' => 'Mau Menolong dan Berbagi Dengan Teman',]);
-        $activity5 = Activity::create(['name' => 'Merapikan Alat Belajar dan Mainan Sendiri',]);
-        $activity6 = Activity::create(['name' => 'Menyelesaikan Tugas',]);
-        $activity7 = Activity::create(['name' => 'Membaca',]);
-        $activity8 = Activity::create(['name' => 'Menulis',]);
-        $activity9 = Activity::create(['name' => 'Dikte',]);
-        $activity10 = Activity::create(['name' => 'Keterampilan',]);
+        Activity::create(['name' => 'Datang Tepat Pada Waktunya',]);
+        Activity::create(['name' => 'Berpakaian Rapi',]);
+        Activity::create(['name' => 'Berbuat Baik Dengan Teman',]);
+        Activity::create(['name' => 'Mau Menolong dan Berbagi Dengan Teman',]);
+        Activity::create(['name' => 'Merapikan Alat Belajar dan Mainan Sendiri',]);
+        Activity::create(['name' => 'Menyelesaikan Tugas',]);
+        Activity::create(['name' => 'Membaca',]);
+        Activity::create(['name' => 'Menulis',]);
+        Activity::create(['name' => 'Dikte',]);
+        Activity::create(['name' => 'Keterampilan',]);
 
-        $rafa->laporanHarian()->create([
-            'id' => 'laporan-harian-'.fake()->uuid(),
-            'activity_id' => 1,
-            'grade' => 'A',
-            'point' => 10,
-        ]);
 
-        $rafa->laporanHarian()->create([
-            'id' => 'laporan-harian-'.fake()->uuid(),
-            'activity_id' => 2,
-            'grade' => 'A',
-            'point' => 10,
-        ]);
+        $activityList = Activity::all();
 
-        $rafa->laporanHarian()->create([
-            'id' => 'laporan-harian-'.fake()->uuid(),
-            'activity_id' => 3,
-            'grade' => 'B',
-            'point' => 4,
-        ]);
+        for ($i = 0; $i < 30; $i++) {
+            foreach ($activityList as $activity) {
+                $grade = ['A', 'B', 'C'][rand(0, 2)];
+                $point = $grade == 'A' ? 10 : ($grade == 'B' ? 4 : 3);
+                $date = Carbon::now()->subDays($i)->format('Y-m-d H:i:s');
 
-        $rafa->laporanHarian()->create([
-            'id' => 'laporan-harian-'.fake()->uuid(),
-            'activity_id' => 4,
-            'grade' => 'B',
-            'point' => 4,
-        ]);
+                LaporanHarian::create([
+                    'activity_id' => $activity->id,
+                    'id' => 'laporan-harian-'.Str::uuid(),
+                    'user_id' => $rafa->id,
+                    'grade' => $grade,
+                    'point' => $point,
+                    'note' => 'Sangat Bagus, Tetap Ditingkatkan ya Bu',
+                    'created_at' => $date,
+                    'updated_at' => $date,
+                ]);
+            }
+        }
 
-        $rafa->laporanHarian()->create([
-            'id' => 'laporan-harian-'.fake()->uuid(),
-            'activity_id' => 5,
-            'grade' => 'C',
-            'point' => 3,
-        ]);
-
-        $rafa->laporanHarian()->create([
-            'id' => 'laporan-harian-'.fake()->uuid(),
-            'activity_id' => 6,
-            'grade' => 'C',
-            'point' => 3,
-        ]);
-
-        $rafa->laporanHarian()->create([
-            'id' => 'laporan-harian-'.fake()->uuid(),
-            'activity_id' => 7,
-            'grade' => 'B',
-            'point' => 4,
-        ]);
-
-        $rafa->laporanHarian()->create([
-            'id' => 'laporan-harian-'.fake()->uuid(),
-            'activity_id' => 8,
-            'grade' => 'B',
-            'point' => 4,
-        ]);
-
-        $rafa->laporanHarian()->create([
-            'id' => 'laporan-harian-'.fake()->uuid(),
-            'activity_id' => 9,
-            'grade' => 'A',
-            'point' => 10,
-        ]);
-
-        $rafa->laporanHarian()->create([
-            'id' => 'laporan-harian-'.fake()->uuid(),
-            'activity_id' => 10,
-            'grade' => 'A',
-            'point' => 10,
-        ]);
-
-        $rafa->alurBelajar()->create(['id' => 'alur-belajar-'.fake()->uuid(),
-            'tahap' => 'B',]);
-
-        $rafa->savings()->create(['id' => 'saving-'.fake()->uuid(),
-            'saving' => 250000,]);
-
-        $rafa->transaction()->create(['id' => 'transaction-'.fake()->uuid(),
-            'category' => 'income',
-            'amount' => 15000,
-            'created_at' => '2024-05-28 08:00:00',]);
-        $rafa->transaction()->create(['id' => 'transaction-'.fake()->uuid(),
-            'category' => 'outcome',
-            'amount' => 75000,
-            'desc' => 'Untuk Bayar SPP',
-            'created_at' => '2024-05-02 08:00:00',]);
-        $rafa->transaction()->create(['id' => 'transaction-'.fake()->uuid(),
-            'category' => 'income',
-            'amount' => 25000,
-            'created_at' => '2024-04-29 08:00:00',]);
-        $rafa->transaction()->create(['id' => 'transaction-'.fake()->uuid(),
-            'category' => 'income',
-            'amount' => 15000,
-            'created_at' => '2024-04-12 08:00:00',]);
-
-        $rafa->transaction()->create(['id' => 'transaction-'.fake()->uuid(),
-            'category' => 'outcome',
-            'amount' => 140000,
-            'desc' => 'Untuk membayar biaya outbound',
-            'created_at' => '2024-03-27 08:00:00',]);
-        $rafa->minimumApplication()->create(['id' => 'minimum-application-'.fake()->uuid(),
-            'category' => 'SPP',
-            'minimum' => 200000,]);
-
-        $rafa->minimumApplication()->create(['id' => 'minimum-application-'.fake()->uuid(),
-            'category' => 'Kegiatan Belajar Diluar',
-            'minimum' => 300000,]);
+        AlurBelajar::create(['id' => 'alur-belajar-'.fake()->uuid(), 'user_id' => $rafa->id, 'tahap' => 'B',]);
+        Saving::create(['id' => 'saving-'.fake()->uuid(), 'user_id' => $rafa->id, 'saving' => 250000,]);
+        Transaction::create(['id' => 'transaction-'.fake()->uuid(), 'user_id' => $rafa->id, 'amount' => 15000, 'category' => 'income', 'created_at' => '2024-05-28',]);
+        Transaction::create(['id' => 'transaction-'.fake()->uuid(), 'user_id' => $rafa->id, 'category' => 'income', 'amount' => 25000, 'created_at' => '2024-04-29',]);
+        Transaction::create(['id' => 'transaction-'.fake()->uuid(), 'user_id' => $rafa->id, 'category' => 'income', 'amount' => 15000, 'created_at' => '2024-04-12',]);
+        Transaction::create(['id' => 'transaction-'.fake()->uuid(), 'user_id' => $rafa->id, 'category' => 'outcome', 'amount' => 75000, 'desc' => 'Untuk Bayar SPP', 'created_at' => '2024-05-02',]);
+        Transaction::create(['id' => 'transaction-'.fake()->uuid(), 'user_id' => $rafa->id, 'category' => 'outcome', 'amount' => 140000, 'desc' => 'Untuk membayar biaya outbound', 'created_at' => '2024-03-27',]);
 
         $album = Album::create(['id' => 'album-'.fake()->uuid(),
             'name' => 'Museum Batam Raja Ali Haji',
