@@ -31,6 +31,7 @@ class LaporanHarianController extends Controller
             $laporanHarianData['activity_id'] = $activity->id;
             $laporanHarianData['user_id'] = $request->get('user_id');
             $laporanHarianData['grade'] = $request->get('activity_'.($index+1));
+            $laporanHarianData['note'] = $request->get('note');
             do {
                 $laporanHarianData['id'] = 'laporan-harian-'.Str::uuid();
             } while (LaporanHarian::where('id', $laporanHarianData['id'])->exists());
@@ -51,8 +52,6 @@ class LaporanHarianController extends Controller
         }
 
         $laporanHarianList = LaporanHarianResource::collection($laporanHarianList);
-        if ($request->has('note')) {
-        }
 
         return response([
             'data' => $laporanHarianList,
@@ -83,7 +82,13 @@ class LaporanHarianController extends Controller
         $date = $request->query('date');
         $laporanHarian = LaporanHarian::where('user_id', $user->id)
             ->whereDate('created_at', $date)
-            ->get();
+            ->orderBy('activity_id')
+            ->orderBy('created_at', 'desc')
+            ->get()
+            ->groupBy('activity_id')
+            ->map(function ($grouped) {
+                return $grouped->first();
+            });
         if (! $laporanHarian) {
             return $this->resDataNotFound('Laporan Harian');
         }
@@ -104,7 +109,13 @@ class LaporanHarianController extends Controller
         $date = $request->query('date');
         $laporanHarian = LaporanHarian::where('user_id', $userId)
             ->whereDate('created_at', $date)
-            ->first();
+            ->orderBy('activity_id')
+            ->orderBy('created_at', 'desc')
+            ->get()
+            ->groupBy('activity_id')
+            ->map(function ($grouped) {
+                return $grouped->first();
+            });
         if (! $laporanHarian) {
             return $this->resDataNotFound('Laporan Harian');
         }
