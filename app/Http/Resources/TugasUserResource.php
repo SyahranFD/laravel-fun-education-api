@@ -19,6 +19,7 @@ class TugasUserResource extends JsonResource
             'id' => $this->id,
             'tugas_id' => $this->tugas_id,
             'full_name' => $this->user->full_name,
+            'profile_picture' => $this->user->profile_picture,
             'status' => $this->status,
             'note' => $this->note,
             'grade' => $this->grade,
