@@ -143,7 +143,7 @@ class DatabaseSeeder extends Seeder
             [ 'category' => 'Dikte & Menulis', 'title' => 'Menulis Huruf K-T', 'description' => 'Ananda diminta untuk menulis huruf K-T. Setelah selesai, foto hasil tugas anak lalu kumpulkan.', 'status' => 'Diarsipkan', 'image' => 'https://asset-a.grid.id/crop/0x0:0x0/x/photo/2023/09/14/huruf-kapitaljpg-20230914090831.jpg' ]
         ];
 
-        foreach ($tasks as $task) {
+        foreach ($tasks as $index => $task) {
             $createdAt = (new \DateTime())->modify('-' . rand(1, 7) . ' days');
             $deadline = (new \DateTime())->modify('+' . rand(1, 7) . ' days');
 
@@ -166,5 +166,11 @@ class DatabaseSeeder extends Seeder
                 TugasUserImage::create(['id' => 'tugas-user-image-'.fake()->uuid(), 'tugas_user_id' => $tugasUser->id, 'image' => 'https://i.ytimg.com/vi/b2q4Pc8f7jM/hqdefault.jpg']);
             }
         }
+
+        $tugasRafaList = Tugas::where('status', 'Tersedia')->where('shift', $rafa->shift)->orderBy('created_at', 'desc')->get();
+        $rafaTugasUser1 = TugasUser::create(['status' => 'Diperiksa', 'id' => 'tugas-user-'.fake()->uuid(), 'tugas_id' => $tugasRafaList[2]->id, 'user_id' => $rafa->id, 'note' => 'Ini ya bu tugasnya',]);
+        $rafaTugasUser2 = TugasUser::create(['status' => 'Selesai', 'id' => 'tugas-user-'.fake()->uuid(), 'tugas_id' => $tugasRafaList[3]->id, 'user_id' => $rafa->id, 'note' => 'Ini ya bu tugasnya',]);
+        TugasUserImage::create(['id' => 'tugas-user-image-'.fake()->uuid(), 'tugas_user_id' => $rafaTugasUser1->id, 'image' => 'https://i.ytimg.com/vi/b2q4Pc8f7jM/hqdefault.jpg']);
+        TugasUserImage::create(['id' => 'tugas-user-image-'.fake()->uuid(), 'tugas_user_id' => $rafaTugasUser2->id, 'image' => 'https://i.ytimg.com/vi/b2q4Pc8f7jM/hqdefault.jpg']);
     }
 }
