@@ -75,7 +75,7 @@ class TugasController extends Controller
             return $this->resUserNotFound();
         }
 
-        $tugas = Tugas::where('shift', $user->shift)->where('status', 'Tersedia')->get();
+        $tugas = Tugas::where('shift', $user->shift)->where('status', 'Tersedia')->orderBy('created_at', 'desc')->get();
 
         return TugasResource::collection($tugas);
     }

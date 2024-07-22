@@ -46,7 +46,7 @@ class TugasUserController extends Controller
     {
         $tugasUser = TugasUser::find($id);
         if (! $tugasUser) {
-            return $this->resNotFound();
+            return $this->resDataNotFound('Tugas User');
         }
 
         return new TugasUserResource($tugasUser);
@@ -56,7 +56,7 @@ class TugasUserController extends Controller
     {
         $tugasUser = TugasUser::where('tugas_id', $tugasId)->get();
         if (! $tugasUser) {
-            return $this->resNotFound();
+            return $this->resDataNotFound('Tugas User');
         }
 
         return TugasUserResource::collection($tugasUser);
@@ -67,7 +67,7 @@ class TugasUserController extends Controller
         $user = auth()->user();
         $tugasUser = TugasUser::where('tugas_id', $tugasId)->where('user_id', $user->id)->first();
         if (! $tugasUser) {
-            return $this->resNotFound();
+            return $this->resDataNotFound('Tugas User');
         }
 
         return new TugasUserResource($tugasUser);
