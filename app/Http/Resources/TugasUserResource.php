@@ -23,7 +23,7 @@ class TugasUserResource extends JsonResource
             'status' => $this->status,
             'note' => $this->note,
             'grade' => $this->grade,
-            'created_at' => $this->created_at,
+            'created_at' => $this->created_at->format('Y-m-d H:i:s'),
             'images' => TugasUserImageResource::collection($this->tugasUserImages),
         ];
     }

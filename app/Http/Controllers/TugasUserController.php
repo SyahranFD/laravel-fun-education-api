@@ -6,6 +6,7 @@ use App\Http\Requests\TugasUserRequest;
 use App\Http\Resources\TugasUserResource;
 use App\Models\Tugas;
 use App\Models\TugasUser;
+use App\Models\User;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 
@@ -28,18 +29,9 @@ class TugasUserController extends Controller
         return $this->resStoreData($tugasUser);
     }
 
-    public function index(Request $request)
+    public function index()
     {
-        $shift = $request->query('shift');
-        $tugasUser = [];
-        if ($shift) {
-            $user = User::where('shift', $shift)->where('role', 'student')->get();
-            $tugasUser = TugasUser::where('user_id', $user->id)->get();
-        } else {
-            $tugasUser = TugasUser::all();
-        }
-
-        return TugasUserResource::collection($tugasUser);
+        return TugasUserResource::collection(TugasUser::orderBy('created_at', 'desc')->get());
     }
 
     public function show($id)
@@ -54,7 +46,7 @@ class TugasUserController extends Controller
 
     public function showByTugasId($tugasId)
     {
-        $tugasUser = TugasUser::where('tugas_id', $tugasId)->get();
+        $tugasUser = TugasUser::where('tugas_id', $tugasId)->orderBy('created_at', 'desc')->get();
         if (! $tugasUser) {
             return $this->resDataNotFound('Tugas User');
         }

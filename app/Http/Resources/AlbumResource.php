@@ -19,7 +19,7 @@ class AlbumResource extends JsonResource
             'name' => $this->name,
             'desc' => $this->desc,
             'cover' => $this->cover,
-            'created_at' => $this->created_at,
+            'created_at' => $this->created_at->format('Y-m-d H:i:s'),
             'gallery_count' => $this->gallery->count(),
             'gallery' => GalleryResource::collection($this->gallery)
         ];

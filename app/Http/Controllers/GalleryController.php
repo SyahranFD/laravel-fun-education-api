@@ -43,7 +43,7 @@ class GalleryController extends Controller
 
     public function index()
     {
-        return GalleryResource::collection(Gallery::all());
+        return GalleryResource::collection(Gallery::orderBy('created_at', 'desc')->get());
     }
 
     public function showById($id)

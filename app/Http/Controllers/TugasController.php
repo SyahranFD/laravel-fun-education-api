@@ -45,7 +45,7 @@ class TugasController extends Controller
             $query->where('status', $status);
         }
 
-        $tugasData = $query->get();
+        $tugasData = $query->orderBy('created_at', 'desc')->get();
 
         return TugasResource::collection($tugasData);
     }

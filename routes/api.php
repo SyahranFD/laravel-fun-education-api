@@ -9,7 +9,6 @@ use App\Http\Controllers\AlurBelajarController;
 use App\Http\Controllers\CatatanDaruratController;
 use App\Http\Controllers\FirebasePushController;
 use App\Http\Controllers\GalleryController;
-use App\Http\Controllers\LaporanBulananController;
 use App\Http\Controllers\LaporanHarianController;
 use App\Http\Controllers\MinimumApplicationController;
 use App\Http\Controllers\SavingApplicationController;

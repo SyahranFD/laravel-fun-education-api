@@ -31,7 +31,7 @@ class SavingController extends Controller
 
     public function index()
     {
-        return SavingResource::collection(Saving::all());
+        return SavingResource::collection(Saving::orderBy('created_at', 'desc')->get());
     }
 
     public function showById($id)
@@ -56,32 +56,12 @@ class SavingController extends Controller
 
     public function showCurrent()
     {
-        $saving = auth()->user()->savings;
+        $saving = Saving::where('user_id', auth()->user()->id)->first();
         if (! $saving) {
             return $this->resDataNotFound('Saving');
         }
-        $saving['saving'] = number_format($saving->saving, 0, '.', '.');
 
-        $transaction = auth()->user()->transaction;
-        if (! $transaction) {
-            return $this->resDataNotFound('Transaction');
-        }
-
-        $pemasukanTerakhir = number_format($transaction->where('category', 'income')->sortByDesc('created_at')->first()['amount'] ?? 0, 0, '.', '.');
-        $pengeluaranTerakhir = number_format($transaction->where('category', 'outcome')->sortByDesc('created_at')->first()['amount'] ?? 0, 0, '.', '.');
-
-        $responseBody = array_merge(
-            $saving->toArray(),
-            [
-                'pemasukan_terakhir' => $pemasukanTerakhir,
-                'pengeluaran_terakhir' => $pengeluaranTerakhir,
-            ]
-        );
-
-        unset($responseBody['created_at']);
-        unset($responseBody['updated_at']);
-
-        return response()->json(['data' => $responseBody]);
+        return new SavingResource($saving);
     }
 
     public function update(SavingRequest $request, $id)

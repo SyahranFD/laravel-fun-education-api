@@ -135,22 +135,28 @@ class DatabaseSeeder extends Seeder
         Gallery::create(['id' => 'gallery-'.fake()->uuid(), 'album_id' => $album->id, 'image' => 'https://lh3.googleusercontent.com/p/AF1QipNqasP4C7KFnojiJXvNBTPo-9y2zUv3OrP5xVSm=s1360-w1360-h1020', 'title' => 'Sejarah Kerajaan', 'description' => 'Tulisan Sejarah Kerajaan di Museum Raja Ali Haji',]);
 
         $tasks = [
-            [ 'category' => 'Dikte & Menulis', 'title' => 'Menulis 5 benda yang sering dilihat oleh ananda', 'description' => 'Ananda diminta untuk menulis 5 benda yang sering dilihat oleh ananda di rumah. Setelah selesai, foto hasil tugas anak lalu kumpulkan.', 'status' => 'Tersedia', 'created_at' => '2024-10-01', 'deadline' => '2024-10-13', 'image' => 'https://storyblok-image.ef.com/unsafe/1500x750/filters:focal(960x375:961x376):quality(70)/f/78828/0ceea5d3e6/ef-id-blog-top-banner-benda-wajib-di-kantor.jpg' ],
-            [ 'category' => 'Kreasi', 'title' => 'Mewarnai gambar', 'description' => 'Ananda diminta untuk mewarnai gambar yang sudah diberikan. Setelah selesai, foto hasil tugas anak lalu kumpulkan.', 'status' => 'Tersedia', 'created_at' => '2024-10-05', 'deadline' => '2024-10-17', 'image' => 'https://i.pinimg.com/736x/77/16/a1/7716a1ac49ce270899d5b0ae61914453.jpg' ],
-            [ 'category' => 'Membaca', 'title' => 'Membaca kartu baju sampai cabe', 'description' => 'Ananda diminta untuk membaca kartu baju sampai cabe. Setelah selesai, videokan anak saat membaca lalu kumpulkan.', 'status' => 'Tersedia', 'created_at' => '2024-10-07', 'deadline' => '2024-10-20', 'image' => 'https://cantol.wordpress.com/wp-content/uploads/2009/04/kartu1.png' ],
-            [ 'category' => 'Berhitung', 'title' => 'Perhatikan soal berikut', 'description' => 'Ananda diminta untuk mengerjakan soal berikut. Setelah selesai, foto hasil tugas anak lalu kumpulkan.', 'status' => 'Tersedia', 'created_at' => '2024-10-08', 'deadline' => '2024-10-22', 'image' => 'https://cdn-2.tstatic.net/bangka/foto/bank/images/soal-tk-1.jpg' ],
-            [ 'category' => 'Dikte & Menulis', 'title' => 'Menulis Huruf A-J', 'description' => 'Ananda diminta untuk menulis 5 benda yang sering dilihat oleh ananda di rumah. Setelah selesai, foto hasil tugas anak lalu kumpulkan.', 'status' => 'Ditutup', 'created_at' => '2024-09-20', 'deadline' => '2024-09-27', 'image' => 'https://asset-a.grid.id/crop/0x0:0x0/x/photo/2023/09/14/huruf-kapitaljpg-20230914090831.jpg' ],
-            [ 'category' => 'Dikte & Menulis', 'title' => 'Menulis Huruf K-T', 'description' => 'Ananda diminta untuk menulis huruf K-T. Setelah selesai, foto hasil tugas anak lalu kumpulkan.', 'status' => 'Diarsipkan', 'created_at' => '2024-09-28', 'deadline' => '2024-10-05', 'image' => 'https://asset-a.grid.id/crop/0x0:0x0/x/photo/2023/09/14/huruf-kapitaljpg-20230914090831.jpg' ]
+            [ 'category' => 'Dikte & Menulis', 'title' => 'Menulis 5 benda yang sering dilihat oleh ananda', 'description' => 'Ananda diminta untuk menulis 5 benda yang sering dilihat oleh ananda di rumah. Setelah selesai, foto hasil tugas anak lalu kumpulkan.', 'status' => 'Tersedia', 'image' => 'https://storyblok-image.ef.com/unsafe/1500x750/filters:focal(960x375:961x376):quality(70)/f/78828/0ceea5d3e6/ef-id-blog-top-banner-benda-wajib-di-kantor.jpg' ],
+            [ 'category' => 'Kreasi', 'title' => 'Mewarnai gambar', 'description' => 'Ananda diminta untuk mewarnai gambar yang sudah diberikan. Setelah selesai, foto hasil tugas anak lalu kumpulkan.', 'status' => 'Tersedia', 'image' => 'https://i.pinimg.com/736x/77/16/a1/7716a1ac49ce270899d5b0ae61914453.jpg' ],
+            [ 'category' => 'Membaca', 'title' => 'Membaca kartu baju sampai cabe', 'description' => 'Ananda diminta untuk membaca kartu baju sampai cabe. Setelah selesai, videokan anak saat membaca lalu kumpulkan.', 'status' => 'Tersedia', 'image' => 'https://cantol.wordpress.com/wp-content/uploads/2009/04/kartu1.png' ],
+            [ 'category' => 'Berhitung', 'title' => 'Perhatikan soal berikut', 'description' => 'Ananda diminta untuk mengerjakan soal berikut. Setelah selesai, foto hasil tugas anak lalu kumpulkan.', 'status' => 'Tersedia', 'image' => 'https://cdn-2.tstatic.net/bangka/foto/bank/images/soal-tk-1.jpg' ],
+            [ 'category' => 'Dikte & Menulis', 'title' => 'Menulis Huruf A-J', 'description' => 'Ananda diminta untuk menulis 5 benda yang sering dilihat oleh ananda di rumah. Setelah selesai, foto hasil tugas anak lalu kumpulkan.', 'status' => 'Ditutup', 'image' => 'https://asset-a.grid.id/crop/0x0:0x0/x/photo/2023/09/14/huruf-kapitaljpg-20230914090831.jpg' ],
+            [ 'category' => 'Dikte & Menulis', 'title' => 'Menulis Huruf K-T', 'description' => 'Ananda diminta untuk menulis huruf K-T. Setelah selesai, foto hasil tugas anak lalu kumpulkan.', 'status' => 'Diarsipkan', 'image' => 'https://asset-a.grid.id/crop/0x0:0x0/x/photo/2023/09/14/huruf-kapitaljpg-20230914090831.jpg' ]
         ];
 
         foreach ($tasks as $task) {
+            $createdAt = (new \DateTime())->modify('-' . rand(1, 7) . ' days');
+            $deadline = (new \DateTime())->modify('+' . rand(1, 7) . ' days');
+
+            $task['created_at'] = $createdAt->format('Y-m-d');
+            $task['deadline'] = $deadline->format('Y-m-d');
+
             foreach ($shifts as $shift) {
                 $tugas = Tugas::create(['id' => 'tugas-'.fake()->uuid(), 'shift' => $shift, 'category' => $task['category'], 'title' => $task['title'], 'description' => $task['description'], 'status' => $task['status'], 'created_at' => $task['created_at'], 'deadline' => $task['deadline'],]);
                 TugasImage::create(['id' => 'tugas-image-'.fake()->uuid(), 'tugas_id' => $tugas->id, 'image' => $task['image'],]);
             }
         }
 
-        $tugasList = Tugas::all();
+        $tugasList = Tugas::where('status', 'Tersedia')->get();
 
         foreach (User::all() as $user) {
             if ($user->nickname === 'Syahran') { continue; }
