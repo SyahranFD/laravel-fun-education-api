@@ -115,11 +115,11 @@ class DatabaseSeeder extends Seeder
 
         AlurBelajar::create(['id' => 'alur-belajar-'.fake()->uuid(), 'user_id' => $rafa->id, 'tahap' => 'B',]);
         Saving::create(['id' => 'saving-'.fake()->uuid(), 'user_id' => $rafa->id, 'saving' => 250000,]);
-        Transaction::create(['id' => 'transaction-'.fake()->uuid(), 'user_id' => $rafa->id, 'amount' => 15000, 'category' => 'income', 'created_at' => '2024-05-28',]);
-        Transaction::create(['id' => 'transaction-'.fake()->uuid(), 'user_id' => $rafa->id, 'category' => 'income', 'amount' => 25000, 'created_at' => '2024-04-29',]);
-        Transaction::create(['id' => 'transaction-'.fake()->uuid(), 'user_id' => $rafa->id, 'category' => 'income', 'amount' => 15000, 'created_at' => '2024-04-12',]);
-        Transaction::create(['id' => 'transaction-'.fake()->uuid(), 'user_id' => $rafa->id, 'category' => 'outcome', 'amount' => 75000, 'desc' => 'Untuk Bayar SPP', 'created_at' => '2024-05-02',]);
-        Transaction::create(['id' => 'transaction-'.fake()->uuid(), 'user_id' => $rafa->id, 'category' => 'outcome', 'amount' => 140000, 'desc' => 'Untuk membayar biaya outbound', 'created_at' => '2024-03-27',]);
+        Transaction::create(['id' => 'transaction-'.fake()->uuid(), 'user_id' => $rafa->id, 'amount' => 15000, 'category' => 'income', 'created_at' => '2024-07-19',]);
+        Transaction::create(['id' => 'transaction-'.fake()->uuid(), 'user_id' => $rafa->id, 'category' => 'income', 'amount' => 25000, 'created_at' => '2024-07-18',]);
+        Transaction::create(['id' => 'transaction-'.fake()->uuid(), 'user_id' => $rafa->id, 'category' => 'income', 'amount' => 15000, 'created_at' => '2024-07-17',]);
+        Transaction::create(['id' => 'transaction-'.fake()->uuid(), 'user_id' => $rafa->id, 'category' => 'outcome', 'amount' => 75000, 'desc' => 'Untuk Bayar SPP', 'created_at' => '2024-07-17',]);
+        Transaction::create(['id' => 'transaction-'.fake()->uuid(), 'user_id' => $rafa->id, 'category' => 'outcome', 'amount' => 140000, 'desc' => 'Untuk membayar biaya outbound', 'created_at' => '2024-07-16',]);
 
         $album = Album::create(['id' => 'album-'.fake()->uuid(),
             'name' => 'Museum Batam Raja Ali Haji',
