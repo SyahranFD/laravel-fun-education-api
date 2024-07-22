@@ -30,7 +30,7 @@ class ShiftMasukController extends Controller
 
     public function index()
     {
-        return ShiftMasukResource::collection(ShiftMasuk::all());
+        return ShiftMasukResource::collection(ShiftMasuk::orderBy('created_at', 'desc')->get());
     }
 
     public function showById($id)

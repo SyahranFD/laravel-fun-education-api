@@ -15,6 +15,16 @@ class TugasResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+        $user = auth()->user();
+        $statusTugasUser = null;
+
+        if ($user) {
+            $tugasUser = TugasUser::where('tugas_id', $this->id)->where('user_id', $user->id)->first();
+            if ($tugasUser) {
+                $statusTugasUser = $tugasUser->status;
+            }
+        }
+
         return [
             'id' => $this->id,
             'shift' => $this->shift,
@@ -22,10 +32,10 @@ class TugasResource extends JsonResource
             'title' => $this->title,
             'description' => $this->description,
             'status' => $this->status,
-            'status_tugas_user' => TugasUser::where('tugas_id', $this->id)->where('user_id', auth()->user()->id)->first() ? TugasUser::where('tugas_id', $this->id)->where('user_id', auth()->user()->id)->first()->status : null,
+            'status_tugas_user' => $statusTugasUser,
             'point' => $this->point,
             'deadline' => $this->deadline,
-            'created_at' => $this->created_at->format('Y-m-d'),
+            'created_at' => $this->created_at->format('Y-m-d H:i:s'),
             'images' => TugasImageResource::collection($this->tugasImages),
         ];
     }

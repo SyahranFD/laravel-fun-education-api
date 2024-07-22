@@ -28,7 +28,7 @@ class SavingApplicationController extends Controller
 
     public function index()
     {
-        return SavingApplicationResource::collection(SavingApplication::all());
+        return SavingApplicationResource::collection(SavingApplication::orderBy('created_at', 'desc')->get());
     }
 
     public function showById($id)
@@ -43,12 +43,17 @@ class SavingApplicationController extends Controller
 
     public function showCurrent()
     {
-        $savingApplication = auth()->user()->savingApplication;
+        $user = auth()->user();
+        if (! $user) {
+            return $this->resUserNotFound();
+        }
+
+        $savingApplication = SavingApplication::where('user_id', $user->id)->first();
         if (! $savingApplication) {
             return $this->resDataNotFound('Saving Application');
         }
 
-        return SavingApplicationResource::collection($savingApplication);
+        return new SavingApplicationResource($savingApplication);
     }
 
     public function showByUserId($userId)

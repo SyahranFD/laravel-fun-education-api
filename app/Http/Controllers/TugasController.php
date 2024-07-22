@@ -45,7 +45,7 @@ class TugasController extends Controller
             $query->where('status', $status);
         }
 
-        $tugasData = $query->get();
+        $tugasData = $query->orderBy('created_at', 'desc')->get();
 
         return TugasResource::collection($tugasData);
     }
@@ -75,7 +75,7 @@ class TugasController extends Controller
             return $this->resUserNotFound();
         }
 
-        $tugas = Tugas::where('shift', $user->shift)->where('status', 'Tersedia')->get();
+        $tugas = Tugas::where('shift', $user->shift)->where('status', 'Tersedia')->orderBy('created_at', 'desc')->get();
 
         return TugasResource::collection($tugas);
     }

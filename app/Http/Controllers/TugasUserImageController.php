@@ -42,7 +42,7 @@ class TugasUserImageController extends Controller
 
     public function index()
     {
-        return TugasUserImageResource::collection(TugasUserImage::all());
+        return TugasUserImageResource::collection(TugasUserImage::orderBy('created_at', 'desc')->get());
     }
 
     public function show($id)

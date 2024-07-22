@@ -42,7 +42,7 @@ class AlbumController extends Controller
 
     public function index()
     {
-        return AlbumResource::collection(Album::all());
+        return AlbumResource::collection(Album::orderBy('created_at', 'desc')->get());
     }
 
     public function showById($id)
