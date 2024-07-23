@@ -64,4 +64,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(TugasUser::class);
     }
+
+    public function leaderboard()
+    {
+        return $this->hasMany(Leaderboard::class);
+    }
 }
