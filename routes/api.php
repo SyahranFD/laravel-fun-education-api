@@ -81,6 +81,7 @@ Route::prefix('/laporan-harian')->group(function () {
     Route::get('/show-current', [LaporanHarianController::class, 'showCurrent'])->middleware('auth:sanctum');
     Route::get('/show-current-point', [LaporanHarianController::class, 'showCurrentPoint'])->middleware('auth:sanctum');
     Route::get('/show-filter', [LaporanHarianController::class, 'showFilter']);
+    Route::get('/user', [LaporanHarianController::class, 'user']);
 
     Route::put('/update/{id}', [LaporanHarianController::class, 'update'])->middleware('auth:sanctum');
     Route::delete('/delete/{id}', [LaporanHarianController::class, 'delete'])->middleware('auth:sanctum');
