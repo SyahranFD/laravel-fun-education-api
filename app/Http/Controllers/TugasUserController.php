@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\TugasUserRequest;
 use App\Http\Resources\TugasUserResource;
+use App\Models\Leaderboard;
 use App\Models\Tugas;
 use App\Models\TugasUser;
 use App\Models\User;
@@ -82,6 +83,13 @@ class TugasUserController extends Controller
         $tugasUserData = $request->all();
         $tugasUserData['status'] = 'Selesai';
         $tugasUser->update($tugasUserData);
+
+        $leaderboardId = 0;
+        do {
+            $leaderboardId = 'leaderboard-'.Str::uuid();
+        } while (Leaderboard::where('id', $leaderboardId)->exists());
+        Leaderboard::create(['id' => $leaderboardId, 'user_id' => $tugasUser->user_id, 'tugas_user_id' => $tugasUser->id, 'point' => 100]);
+
 
         return new TugasUserResource($tugasUser);
     }

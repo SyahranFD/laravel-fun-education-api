@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class TugasUser extends Model
+class Leaderboard extends Model
 {
     use HasFactory;
 
@@ -13,23 +13,18 @@ class TugasUser extends Model
 
     protected $guarded = [];
 
-    public function tugas()
-    {
-        return $this->belongsTo(Tugas::class);
-    }
-
     public function user()
     {
         return $this->belongsTo(User::class);
     }
 
-    public function tugasUserImages()
+    public function laporanHarian()
     {
-        return $this->hasMany(TugasUserImage::class);
+        return $this->belongsTo(LaporanHarian::class);
     }
 
-    public function leaderboard()
+    public function tugasUser()
     {
-        return $this->hasOne(Leaderboard::class);
+        return $this->belongsTo(TugasUser::class);
     }
 }

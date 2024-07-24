@@ -22,4 +22,9 @@ class Tugas extends Model
     {
         return $this->hasMany(TugasUser::class);
     }
+
+    public function leaderboard()
+    {
+        return $this->hasOne(Leaderboard::class);
+    }
 }

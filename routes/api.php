@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\LeaderboardController;
 use App\Http\Controllers\TugasUserImageController;
 use App\Http\Controllers\TugasUserController;
 use App\Http\Controllers\TugasImageController;
@@ -208,4 +209,8 @@ Route::prefix('/tugas-user-image')->group(function () {
 
     Route::put('/update/{id}', [TugasUserImageController::class, 'update'])->middleware('auth:sanctum');
     Route::delete('/delete/{id}', [TugasUserImageController::class, 'destroy'])->middleware('auth:sanctum');
+});
+
+Route::prefix('/leaderboard')->group(function () {
+    Route::get('/index', [LeaderboardController::class, 'index'])->middleware('auth:sanctum');
 });

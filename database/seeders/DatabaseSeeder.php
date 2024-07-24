@@ -8,6 +8,7 @@ use App\Models\AlurBelajar;
 use App\Models\CatatanDarurat;
 use App\Models\Gallery;
 use App\Models\LaporanHarian;
+use App\Models\Leaderboard;
 use App\Models\Saving;
 use App\Models\SavingApplication;
 use App\Models\ShiftMasuk;
@@ -96,20 +97,30 @@ class DatabaseSeeder extends Seeder
 
         for ($i = 0; $i < 30; $i++) {
             foreach ($activityList as $activity) {
-                $grade = ['A', 'B', 'C'][rand(0, 2)];
-                $point = $grade == 'A' ? 10 : ($grade == 'B' ? 4 : 3);
-                $date = Carbon::now()->subDays($i)->format('Y-m-d H:i:s');
+                foreach (User::all() as $user) {
+                    $grade = ['A', 'B', 'C'][rand(0, 2)];
+                    $point = $grade == 'A' ? 10 : ($grade == 'B' ? 4 : 3);
+                    $date = Carbon::now()->subDays($i)->format('Y-m-d H:i:s');
+                    if ($user->role === 'admin') { continue; }
+                    $laporanHarian = LaporanHarian::create([
+                        'activity_id' => $activity->id,
+                        'id' => 'laporan-harian-'.Str::uuid(),
+                        'user_id' => $user->id,
+                        'grade' => $grade,
+                        'point' => $point,
+                        'note' => 'Sangat Bagus, Tetap Ditingkatkan ya Bu',
+                        'created_at' => $date,
+                        'updated_at' => $date,
+                    ]);
 
-                LaporanHarian::create([
-                    'activity_id' => $activity->id,
-                    'id' => 'laporan-harian-'.Str::uuid(),
-                    'user_id' => $rafa->id,
-                    'grade' => $grade,
-                    'point' => $point,
-                    'note' => 'Sangat Bagus, Tetap Ditingkatkan ya Bu',
-                    'created_at' => $date,
-                    'updated_at' => $date,
-                ]);
+                    Leaderboard::create([
+                        'id' => 'leaderboard-'.Str::uuid(),
+                        'user_id' => $user->id,
+                        'laporan_harian_id' => $laporanHarian->id,
+                        'point' => $point,
+                        'created_at' => $date,
+                    ]);
+                }
             }
         }
 
