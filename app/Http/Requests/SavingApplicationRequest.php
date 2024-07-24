@@ -22,9 +22,7 @@ class SavingApplicationRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'user_id' => 'required|exists:users,id',
             'category' => 'required|string|max:255',
-            'status' => 'string|max:255',
         ];
     }
 }

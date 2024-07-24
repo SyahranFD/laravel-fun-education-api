@@ -5,17 +5,19 @@ namespace App\Http\Controllers;
 use App\Http\Requests\SavingApplicationRequest;
 use App\Http\Resources\SavingApplicationResource;
 use App\Models\SavingApplication;
+use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
 class SavingApplicationController extends Controller
 {
-    public function store(SavingApplicationRequest $request)
+    public function store(Request $request)
     {
-        $request->validated();
+        $request->validate(['category' => 'required|string',]);
         auth()->user();
 
         $savingApplicationData = $request->all();
         $savingApplicationData['status'] = 'Pending';
+        $savingApplicationData['user_id'] = auth()->id();
         do {
             $savingApplicationData['id'] = 'saving-application-'.Str::uuid();
         } while (SavingApplication::where('id', $savingApplicationData['id'])->exists());

@@ -213,4 +213,5 @@ Route::prefix('/tugas-user-image')->group(function () {
 
 Route::prefix('/leaderboard')->group(function () {
     Route::get('/index', [LeaderboardController::class, 'index'])->middleware('auth:sanctum');
+    Route::get('/point', [LeaderboardController::class, 'point'])->middleware('auth:sanctum');
 });
