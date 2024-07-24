@@ -53,4 +53,16 @@ class LeaderboardController extends Controller
 
         return LeaderboardResource::collection($leaderboards);
     }
+
+    public function point()
+    {
+        $user = auth()->user();
+        $point = Leaderboard::where('user_id', $user->id)->sum('point');
+        $point = number_format($point, 0, '.', '.');
+        if (! $point) {
+            return $this->resDataNotFound('Leaderboard');
+        }
+
+        return response(['point' => $point,]);
+    }
 }
