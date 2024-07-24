@@ -14,6 +14,7 @@ class LeaderboardController extends Controller
     public function index(Request $request)
     {
         $type = $request->query('type');
+        $shift = $request->query('shift');
         $now = now();
 
         if ($type === 'weekly') {
@@ -30,6 +31,12 @@ class LeaderboardController extends Controller
         $query = Leaderboard::select('user_id', DB::raw('SUM(point) as total_points'))
             ->groupBy('user_id')
             ->orderBy('total_points', 'desc');
+
+        if ($shift) {
+            $query->whereHas('user', function ($query) use ($shift) {
+                $query->where('shift', $shift);
+            });
+        }
 
         if ($startDate && $endDate) {
             $query->whereBetween('created_at', [$startDate, $endDate]);
