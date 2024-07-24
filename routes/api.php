@@ -83,7 +83,7 @@ Route::prefix('/laporan-harian')->group(function () {
     Route::get('/show-filter', [LaporanHarianController::class, 'showFilter']);
     Route::get('/user', [LaporanHarianController::class, 'user']);
 
-    Route::put('/update/{id}', [LaporanHarianController::class, 'update'])->middleware('auth:sanctum');
+    Route::put('/update', [LaporanHarianController::class, 'update'])->middleware('auth:sanctum');
     Route::delete('/delete/{id}', [LaporanHarianController::class, 'delete'])->middleware('auth:sanctum');
 });
 

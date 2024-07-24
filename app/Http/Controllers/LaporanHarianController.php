@@ -232,22 +232,56 @@ class LaporanHarianController extends Controller
         }
     }
 
-    public function update(LaporanHarianRequest $request, $id)
+    public function update(LaporanHarianRequest $request)
     {
         $request->validated();
+        $date = $request->query('date');
         $admin = auth()->user();
         if (! $admin->isAdmin()) {
             return $this->resUserNotAdmin();
         }
 
-        $laporanHarian = LaporanHarian::find($id);
-        if (! $laporanHarian) {
+        $laporanHarianList = LaporanHarian::where('user_id', $request->get('user_id'))
+            ->whereDate('created_at', $date)
+            ->orderBy('activity_id')
+            ->get();
+
+        if ($laporanHarianList->isEmpty()) {
             return $this->resDataNotFound('Laporan Harian');
         }
 
-        $laporanHarian->update($request->all());
+        $activityList = Activity::orderBy('id')->get();
+        $note = $request->get('note');
+        $totalPoint = 0;
 
-        return new LaporanHarianResource($laporanHarian);
+        foreach ($activityList as $index => $activity) {
+            $laporanHarianData = [];
+            $laporanHarianData['activity_id'] = $activity->id;
+            $laporanHarianData['grade'] = $request->get('activity_'.($index+1));
+            $laporanHarianData['note'] = $request->get('note');
+
+            if ($laporanHarianData['grade'] == 'A') {
+                $laporanHarianData['point'] = 10;
+                $totalPoint += 10;
+            } elseif ($laporanHarianData['grade'] == 'B') {
+                $laporanHarianData['point'] = 4;
+                $totalPoint += 4;
+            } elseif ($laporanHarianData['grade'] == 'C') {
+                $laporanHarianData['point'] = 3;
+                $totalPoint += 3;
+            }
+
+            $laporanHarian = $laporanHarianList->where('activity_id', $activity->id)->first();
+            if ($laporanHarian) {
+                $laporanHarian->update($laporanHarianData);
+            }
+        }
+
+        return response([
+            'data' => LaporanHarianResource::collection($laporanHarianList),
+            'note' => $note ?? '',
+            'total_point' => $totalPoint,
+        ], 200);
     }
 
     public function delete($id)
