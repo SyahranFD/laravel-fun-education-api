@@ -27,4 +27,9 @@ class TugasUser extends Model
     {
         return $this->hasMany(TugasUserImage::class);
     }
+
+    public function leaderboard()
+    {
+        return $this->hasOne(Leaderboard::class);
+    }
 }

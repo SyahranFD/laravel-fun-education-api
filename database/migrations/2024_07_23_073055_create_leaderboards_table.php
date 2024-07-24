@@ -15,13 +15,13 @@ return new class extends Migration
             $table->string('id')->primary();
             $table->string('user_id');
             $table->string('laporan_harian_id')->nullable();
-            $table->string('tugas_id')->nullable();
+            $table->string('tugas_user_id')->nullable();
             $table->integer('point');
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users')->cascadeOnDelete();
             $table->foreign('laporan_harian_id')->references('id')->on('laporan_harians')->cascadeOnDelete();
-            $table->foreign('tugas_id')->references('id')->on('tugas')->cascadeOnDelete();
+            $table->foreign('tugas_user_id')->references('id')->on('tugas_users')->cascadeOnDelete();
         });
     }
 

@@ -17,7 +17,7 @@ class LeaderboardResource extends JsonResource
     {
         return [
             'full_name' => $this->user->full_name,
-            'point' => Leaderboard::where('user_id', $this->user_id)->sum('point'),
+            'point' => $this->total_points,
             'is_user' => $this->user_id === auth()->id(),
             'rank' => $this->rank,
         ];

@@ -23,8 +23,8 @@ class Leaderboard extends Model
         return $this->belongsTo(LaporanHarian::class);
     }
 
-    public function tugas()
+    public function tugasUser()
     {
-        return $this->belongsTo(Tugas::class);
+        return $this->belongsTo(TugasUser::class);
     }
 }
