@@ -77,7 +77,7 @@ class TugasUserController extends Controller
 
         $tugasUser = TugasUser::find($id);
         if (! $tugasUser) {
-            return $this->resNotFound();
+            return $this->resDataNotFound('Tugas User');
         }
 
         $tugasUserData = $request->all();
@@ -101,7 +101,7 @@ class TugasUserController extends Controller
 
         $tugasUser = TugasUser::where('tugas_id', $tugasId)->first();
         if (! $tugasUser) {
-            return $this->resNotFound();
+            return $this->resDataNotFound('Tugas User');
         }
 
         $tugasUserData = $request->all();
@@ -115,7 +115,7 @@ class TugasUserController extends Controller
     {
         $tugasUser = TugasUser::find($id);
         if (! $tugasUser) {
-            return $this->resNotFound();
+            return $this->resDataNotFound('Tugas User');
         }
 
         $tugasUser->delete();
