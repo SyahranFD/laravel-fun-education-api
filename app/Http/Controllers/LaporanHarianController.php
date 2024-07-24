@@ -7,6 +7,7 @@ use App\Http\Resources\LaporanHarianResource;
 use App\Models\Activity;
 use App\Models\LaporanHarian;
 use App\Models\LaporanHarianNote;
+use App\Models\Leaderboard;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -49,6 +50,12 @@ class LaporanHarianController extends Controller
 
             $laporanHarian = LaporanHarian::create($laporanHarianData);
             $laporanHarianList[] = $laporanHarian;
+
+            $leaderboardId = 0;
+            do {
+                $leaderboardId = 'leaderboard-'.Str::uuid();
+            } while (Leaderboard::where('id', $leaderboardId)->exists());
+            Leaderboard::create(['id' => $leaderboardId, 'user_id' => $laporanHarianData['user_id'], 'laporan_harian_id' => $laporanHarianData['id'], 'point' => $laporanHarianData['point'],]);
         }
 
         $laporanHarianList = LaporanHarianResource::collection($laporanHarianList);
