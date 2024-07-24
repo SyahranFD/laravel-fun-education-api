@@ -4,10 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\LaporanHarianRequest;
 use App\Http\Resources\LaporanHarianResource;
+use App\Http\Resources\UserResource;
 use App\Models\Activity;
 use App\Models\LaporanHarian;
 use App\Models\LaporanHarianNote;
 use App\Models\Leaderboard;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -83,11 +85,11 @@ class LaporanHarianController extends Controller
         return new LaporanHarianResource($laporanHarian);
     }
 
-    public function showCurrent(Request $request)
+    public function showFilter(Request $request)
     {
-        $user = auth()->user();
+        $userId = $request->query('userId');
         $date = $request->query('date');
-        $laporanHarian = LaporanHarian::where('user_id', $user->id)
+        $laporanHarian = LaporanHarian::where('user_id', $userId)
             ->whereDate('created_at', $date)
             ->orderBy('activity_id')
             ->orderBy('created_at', 'desc')
@@ -110,11 +112,28 @@ class LaporanHarianController extends Controller
         ], 200);
     }
 
-    public function showFilter(Request $request)
+    public function user(Request $request)
     {
-        $userId = $request->query('userId');
+        $is_done = $request->query('is_done') === 'true';
+        $shift = $request->query('shift');
         $date = $request->query('date');
-        $laporanHarian = LaporanHarian::where('user_id', $userId)
+
+        if ($is_done) {
+            $userIds = LaporanHarian::whereDate('created_at', $date)->pluck('user_id')->toArray();
+            $users = User::whereIn('id', $userIds)->where('shift', $shift)->get();
+        } else {
+            $userIds = LaporanHarian::whereDate('created_at', $date)->pluck('user_id')->toArray();
+            $users = User::whereNotIn('id', $userIds)->where('shift', $shift)->get();
+        }
+
+        return UserResource::collection($users);
+    }
+
+    public function showCurrent(Request $request)
+    {
+        $user = auth()->user();
+        $date = $request->query('date');
+        $laporanHarian = LaporanHarian::where('user_id', $user->id)
             ->whereDate('created_at', $date)
             ->orderBy('activity_id')
             ->orderBy('created_at', 'desc')
