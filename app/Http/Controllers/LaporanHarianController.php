@@ -305,7 +305,7 @@ class LaporanHarianController extends Controller
             $laporanHarian->delete();
         }
 
-        return $laporanHarianList;
+        return $this->resDataDeleted('Laporan Harian');
     }
 
     public function notification($id)
