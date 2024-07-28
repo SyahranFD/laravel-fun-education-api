@@ -159,12 +159,16 @@ class LaporanHarianController extends Controller
     public function showCurrentPoint(Request $request)
     {
         $type = $request->query('type');
+        $userId = $request->query('user_id');
+        if (! $userId) {
+            $userId = auth()->user()->id;
+        }
 
         if ($type == 'weekly') {
             $startOfWeek = Carbon::now()->startOfWeek();
             $endOfWeek = Carbon::now()->endOfWeek();
 
-            $laporanHarian = LaporanHarian::where('user_id', auth()->user()->id)
+            $laporanHarian = LaporanHarian::where('user_id', $userId)
                 ->whereBetween('created_at', [$startOfWeek, $endOfWeek])
                 ->get();
 
@@ -204,7 +208,7 @@ class LaporanHarianController extends Controller
             $startOfMonth = Carbon::now()->startOfMonth();
             $endOfMonth = Carbon::now()->endOfMonth();
 
-            $laporanHarian = LaporanHarian::where('user_id', auth()->user()->id)
+            $laporanHarian = LaporanHarian::where('user_id', $userId)
                 ->whereBetween('created_at', [$startOfMonth, $endOfMonth])
                 ->get();
 
@@ -284,21 +288,24 @@ class LaporanHarianController extends Controller
         ], 200);
     }
 
-    public function delete($id)
+    public function delete(Request $request)
     {
+        $date = $request->query('date');
+        $userId = $request->query('user_id');
         $admin = auth()->user();
         if (! $admin->isAdmin()) {
             return $this->resUserNotAdmin();
         }
 
-        $laporanHarian = LaporanHarian::find($id);
-        if (! $laporanHarian) {
-            return $this->resDataNotFound('Laporan Harian');
+        $laporanHarianList = LaporanHarian::where('user_id', $userId)
+            ->whereDate('created_at', $date)
+            ->get();
+
+        foreach ($laporanHarianList as $laporanHarian) {
+            $laporanHarian->delete();
         }
 
-        $laporanHarian->delete();
-
-        return $this->resDataDeleted('Laporan Harian');
+        return $laporanHarianList;
     }
 
     public function notification($id)
