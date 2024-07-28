@@ -84,7 +84,7 @@ Route::prefix('/laporan-harian')->group(function () {
     Route::get('/user', [LaporanHarianController::class, 'user']);
 
     Route::put('/update', [LaporanHarianController::class, 'update'])->middleware('auth:sanctum');
-    Route::delete('/delete/{id}', [LaporanHarianController::class, 'delete'])->middleware('auth:sanctum');
+    Route::delete('/delete', [LaporanHarianController::class, 'delete'])->middleware('auth:sanctum');
 });
 
 Route::prefix('/alur-belajar')->group(function () {
