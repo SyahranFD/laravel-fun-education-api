@@ -53,6 +53,16 @@ class AlurBelajarController extends Controller
         return new AlurBelajarResource($alurBelajar);
     }
 
+    public function showByUserId($userId)
+    {
+        $alurBelajar = AlurBelajar::where('user_id', $userId)->first();
+        if (! $alurBelajar) {
+            return $this->resDataNotFound('Alur Belajar');
+        }
+
+        return new AlurBelajarResource($alurBelajar);
+    }
+
     public function update(AlurBelajarRequest $request, $id)
     {
         $request->validated();

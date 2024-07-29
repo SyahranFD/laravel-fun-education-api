@@ -93,6 +93,7 @@ Route::prefix('/alur-belajar')->group(function () {
     Route::get('/index', [AlurBelajarController::class, 'index']);
     Route::get('/show/{id}', [AlurBelajarController::class, 'showById']);
     Route::get('/show-current', [AlurBelajarController::class, 'showCurrent'])->middleware('auth:sanctum');
+    Route::get('/show-by-user/{userId}', [AlurBelajarController::class, 'showByUserId']);
 
     Route::put('/update/{id}', [AlurBelajarController::class, 'update'])->middleware('auth:sanctum');
     Route::delete('/delete/{id}', [AlurBelajarController::class, 'delete'])->middleware('auth:sanctum');
