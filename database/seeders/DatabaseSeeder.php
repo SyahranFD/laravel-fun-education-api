@@ -77,6 +77,7 @@ class DatabaseSeeder extends Seeder
             Transaction::create(['id' => 'transaction-' . fake()->uuid(), 'user_id' => $user->id, 'category' => 'income', 'amount' => $transaksi, 'created_at' => fake()->dateTimeBetween('-1 month', 'now'),]);
             Transaction::create(['id' => 'transaction-' . fake()->uuid(), 'user_id' => $user->id, 'category' => 'income', 'amount' => $transaksi, 'created_at' => fake()->dateTimeBetween('-1 month', 'now'),]);
             Transaction::create(['id' => 'transaction-' . fake()->uuid(), 'user_id' => $user->id, 'category' => 'outcome', 'amount' => 100000, 'created_at' => fake()->dateTimeBetween('-1 month', 'now'), 'desc' => 'Untuk Bayar SPP',]);
+            AlurBelajar::create(['id' => 'alur-belajar-' . fake()->uuid(), 'user_id' => $user->id, 'tahap' => chr(rand(65, 67)),]);
         }
 
         CatatanDarurat::create(['id' => 'catatan-darurat-'.fake()->uuid(), 'catatan' => 'Diharapkan ananda membawa payung/jas hujan karena kondisi mendung.',]);
