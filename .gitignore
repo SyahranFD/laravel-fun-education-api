@@ -3,7 +3,7 @@
 /public/build
 /public/hot
 /public/google-services.json
-/public/firebase-messaging-sw.js
+/public
 /public/storage
 /storage/*.key
 /vendor

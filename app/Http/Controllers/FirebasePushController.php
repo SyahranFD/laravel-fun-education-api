@@ -35,6 +35,8 @@ class FirebasePushController extends Controller
                 'title' => $request->title,
                 'body' => $request->body,
             ],
+        ])->withData([
+            'route' => $request->route,
         ]);
 
         $this->notification->send($message);
