@@ -40,5 +40,6 @@ class FirebasePushController extends Controller
         ]);
 
         $this->notification->send($message);
+        return response()->json(['message' => 'Notification sent successfully', 'data' => $message]);
     }
 }

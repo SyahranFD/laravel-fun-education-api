@@ -10,8 +10,12 @@ class Controller extends BaseController
 {
     use AuthorizesRequests, ValidatesRequests;
 
-    public function resStoreData($data)
+    public function resStoreData($data, $notification = null)
     {
+        if ($notification) {
+            return response(['data' => $data, 'notification' => $notification], 201);
+        }
+
         return response(['data' => $data], 201);
     }
 
