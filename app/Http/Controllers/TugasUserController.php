@@ -8,6 +8,7 @@ use App\Models\Leaderboard;
 use App\Models\Tugas;
 use App\Models\TugasUser;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Kreait\Firebase\Messaging\CloudMessage;
@@ -72,6 +73,77 @@ class TugasUserController extends Controller
         return new TugasUserResource($tugasUser);
     }
 
+    public function showStatistic(Request $request)
+    {
+        $amount = $request->query('amount');
+        $userId = $request->query('user_id');
+        if (! $userId) {
+            $userId = auth()->user()->id;
+        }
+
+        $currentDate = Carbon::now();
+        $statistics = [];
+        $bottomTitle = [];
+        $count = 1;
+        $noDataCount = 0;
+
+        while ($count <= $amount) {
+            $tugasUser = TugasUser::where('user_id', $userId)
+                ->whereDate('created_at', $currentDate)
+                ->where('status', 'Selesai')
+                ->get();
+
+            if (!$tugasUser->isEmpty()) {
+                $totalPoint = $tugasUser->sum('grade');
+                $statistics[] = [
+                    'date' => $currentDate->toDateString(),
+                    'title' => $tugasUser->first()->tugas->title,
+                    'total_point' => $totalPoint,
+                    'spot' => $count,
+                ];
+
+                $bottomTitle[$count]['date'] = $currentDate->format('d/m/y');
+                $bottomTitle[$count]['case'] = $count;
+                $count++;
+                $noDataCount = 0;
+            } else {
+                $noDataCount++;
+                if ($noDataCount >= 60) {
+                    break;
+                }
+            }
+
+            $currentDate->subDay();
+        }
+
+        $statistics = array_reverse($statistics);
+        $bottomTitle = array_reverse($bottomTitle);
+
+        $currentSpot = 1;
+        foreach ($statistics as &$statistic) {
+            $statistic['spot'] = $currentSpot++;
+        }
+
+        $currentCase = 1;
+        foreach ($bottomTitle as &$title) {
+            $title['case'] = $currentCase++;
+        }
+
+        $interval = ceil(count($bottomTitle) / 5);
+
+        $bottomTitle = array_filter($bottomTitle, function($key) use ($interval) {
+            return $key % $interval == 0;
+        }, ARRAY_FILTER_USE_KEY);
+
+        $bottomTitle = array_values($bottomTitle);
+
+        return response([
+            'total_data' => $count - 1,
+            'data' => $statistics,
+            'bottom_title' => $bottomTitle,
+        ]);
+    }
+
     public function sendGrade(Request $request, $id)
     {
         $admin = auth()->user();
@@ -94,7 +166,7 @@ class TugasUserController extends Controller
         do {
             $leaderboardId = 'leaderboard-'.Str::uuid();
         } while (Leaderboard::where('id', $leaderboardId)->exists());
-        Leaderboard::create(['id' => $leaderboardId, 'user_id' => $tugasUser->user_id, 'tugas_user_id' => $tugasUser->id, 'point' => 100]);
+        Leaderboard::create(['id' => $leaderboardId, 'user_id' => $tugasUser->user_id, 'tugas_user_id' => $tugasUser->id, 'point' => $request->grade]);
 
 
         return new TugasUserResource($tugasUser);
