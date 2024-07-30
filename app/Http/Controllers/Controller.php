@@ -17,7 +17,7 @@ class Controller extends BaseController
 
     public function resInvalidLogin()
     {
-        return response(['message' => 'Nama Lengkap or Password Is Invalid'], 409);
+        return response(['message' => 'Nickname or Password Is Invalid'], 409);
     }
 
     public function resUserNotFound()

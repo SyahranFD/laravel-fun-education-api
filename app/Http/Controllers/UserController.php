@@ -6,6 +6,7 @@ use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Http\Resources\UserResource;
+use App\Http\Resources\UserWithSecretResource;
 use App\Models\AlurBelajar;
 use App\Models\Saving;
 use App\Models\User;
@@ -20,7 +21,6 @@ class UserController extends Controller
         $request->validated();
 
         $userData = $request->all();
-        $userData['password'] = Hash::make($request->password);
         $userData['role'] = 'student';
 
         $nameParts = explode(' ', $request->nickname);
@@ -47,9 +47,11 @@ class UserController extends Controller
     public function login(LoginRequest $request)
     {
         $request->validated();
-        $user = User::where('nickname', $request->nickname)->first();
+        $user = User::where('nickname', $request->nickname)
+            ->where('password', $request->password)
+            ->first();
 
-        if (! $user || ! Hash::check($request->password, $user->password)) {
+        if (! $user) {
             return $this->resInvalidLogin();
         }
 
@@ -83,6 +85,21 @@ class UserController extends Controller
         }
 
         return new UserResource($user);
+    }
+
+    public function showByIdSecret($id)
+    {
+        $admin = auth()->user();
+        if (! $admin->isAdmin()) {
+            return $this->resUserNotAdmin();
+        }
+
+        $user = User::find($id);
+        if (! $user) {
+            return $this->resUserNotFound();
+        }
+
+        return new UserWithSecretResource($user);
     }
 
     public function showCurrent()
