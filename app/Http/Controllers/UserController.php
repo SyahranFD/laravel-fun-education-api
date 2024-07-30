@@ -7,6 +7,7 @@ use App\Http\Requests\RegisterRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Http\Resources\UserResource;
 use App\Models\AlurBelajar;
+use App\Models\Leaderboard;
 use App\Models\Saving;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
@@ -35,6 +36,7 @@ class UserController extends Controller
         $user = User::create($userData);
         $tabungan = Saving::create(['id' => 'saving-'.Str::uuid(), 'user_id' => $user->id, 'saving' => 0]);
         $alurBelajar = AlurBelajar::create(['id' => 'alur-belajar-'.Str::uuid(), 'user_id' => $user->id, 'tahap' => 'A']);
+        $leaderboard = Leaderboard::create(['id' => 'leaderboard-'.Str::uuid(), 'user_id' => $user->id, 'point' => 0]);
         $user = new UserResource($user);
         $token = $user->createToken('fun-education')->plainTextToken;
 
