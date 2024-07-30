@@ -152,7 +152,13 @@ class DatabaseSeeder extends Seeder
             [ 'category' => 'Membaca', 'title' => 'Membaca kartu baju sampai cabe', 'description' => 'Ananda diminta untuk membaca kartu baju sampai cabe. Setelah selesai, videokan anak saat membaca lalu kumpulkan.', 'status' => 'Tersedia', 'image' => 'https://cantol.wordpress.com/wp-content/uploads/2009/04/kartu1.png' ],
             [ 'category' => 'Berhitung', 'title' => 'Perhatikan soal berikut', 'description' => 'Ananda diminta untuk mengerjakan soal berikut. Setelah selesai, foto hasil tugas anak lalu kumpulkan.', 'status' => 'Tersedia', 'image' => 'https://cdn-2.tstatic.net/bangka/foto/bank/images/soal-tk-1.jpg' ],
             [ 'category' => 'Dikte & Menulis', 'title' => 'Menulis Huruf A-J', 'description' => 'Ananda diminta untuk menulis 5 benda yang sering dilihat oleh ananda di rumah. Setelah selesai, foto hasil tugas anak lalu kumpulkan.', 'status' => 'Ditutup', 'image' => 'https://asset-a.grid.id/crop/0x0:0x0/x/photo/2023/09/14/huruf-kapitaljpg-20230914090831.jpg' ],
-            [ 'category' => 'Dikte & Menulis', 'title' => 'Menulis Huruf K-T', 'description' => 'Ananda diminta untuk menulis huruf K-T. Setelah selesai, foto hasil tugas anak lalu kumpulkan.', 'status' => 'Diarsipkan', 'image' => 'https://asset-a.grid.id/crop/0x0:0x0/x/photo/2023/09/14/huruf-kapitaljpg-20230914090831.jpg' ]
+            [ 'category' => 'Dikte & Menulis', 'title' => 'Menulis Huruf K-T,', 'description' => 'Ananda diminta untuk menulis huruf K-T. Setelah selesai, foto hasil tugas anak lalu kumpulkan.', 'status' => 'Diarsipkan', 'image' => 'https://asset-a.grid.id/crop/0x0:0x0/x/photo/2023/09/14/huruf-kapitaljpg-20230914090831.jpg' ],
+            [ 'category' => 'Dikte & Menulis', 'title' => 'Menulis Huruf U-Z', 'description' => 'Ananda diminta untuk menulis huruf U-Z. Setelah selesai, foto hasil tugas anak lalu kumpulkan.', 'status' => 'Ditutup', 'image' => 'https://asset-a.grid.id/crop/0x0:0x0/x/photo/2023/09/14/huruf-kapitaljpg-20230914090831.jpg' ],
+            [ 'category' => 'Dikte & Menulis', 'title' => 'Menulis Cerita Pendek', 'description' => 'Ananda diminta untuk menulis cerita pendek tentang keluarga. Setelah selesai, foto hasil tugas anak lalu kumpulkan.', 'status' => 'Ditutup', 'image' => 'https://i.pinimg.com/736x/77/16/a1/7716a1ac49ce270899d5b0ae61914453.jpg' ],
+            [ 'category' => 'Kreasi', 'title' => 'Membuat Kerajinan Tangan', 'description' => 'Ananda diminta untuk membuat kerajinan tangan dari bahan-bahan yang ada di rumah. Setelah selesai, foto hasil tugas anak lalu kumpulkan.', 'status' => 'Ditutup', 'image' => 'https://i.pinimg.com/736x/77/16/a1/7716a1ac49ce270899d5b0ae61914453.jpg' ],
+            [ 'category' => 'Membaca', 'title' => 'Membaca Buku Cerita', 'description' => 'Ananda diminta untuk membaca buku cerita yang diberikan. Setelah selesai, videokan anak saat membaca lalu kumpulkan.', 'status' => 'Ditutup', 'image' => 'https://i.pinimg.com/736x/77/16/a1/7716a1ac49ce270899d5b0ae61914453.jpg' ],
+            [ 'category' => 'Berhitung', 'title' => 'Menghitung Jumlah Buah', 'description' => 'Ananda diminta untuk menghitung jumlah buah yang ada di gambar. Setelah selesai, foto hasil tugas anak lalu kumpulkan.', 'status' => 'Ditutup', 'image' => 'https://i.pinimg.com/736x/77/16/a1/7716a1ac49ce270899d5b0ae61914453.jpg' ],
+            [ 'category' => 'Dikte & Menulis', 'title' => 'Menulis Nama-nama Binatang', 'description' => 'Ananda diminta untuk menulis nama-nama binatang yang ada di kebun binatang. Setelah selesai, foto hasil tugas anak lalu kumpulkan.', 'status' => 'Ditutup', 'image' => 'https://i.pinimg.com/736x/77/16/a1/7716a1ac49ce270899d5b0ae61914453.jpg' ]
         ];
 
         foreach ($tasks as $index => $task) {
@@ -168,20 +174,33 @@ class DatabaseSeeder extends Seeder
             }
         }
 
-        $tugasList = Tugas::where('status', 'Tersedia')->get();
+        $statuses = ['Tersedia', 'Ditutup'];
+        foreach ($shifts as $shift) {
+            foreach ($statuses as $status) {
+                $tugasList = Tugas::where('status', $status)->where('shift', $shift)->get();
+                $userAll = User::where('role', 'student')->where('shift', $shift)->get();
 
-        foreach (User::all() as $user) {
-            if ($user->nickname === 'Syahran') { continue; }
-            if ($user->role === 'admin') { continue; }
-            foreach ($tugasList as $tugas) {
-                $tugasUser = TugasUser::create(['id' => 'tugas-user-'.fake()->uuid(), 'tugas_id' => $tugas->id, 'user_id' => $user->id, 'note' => 'Ini ya bu tugasnya',]);
-                TugasUserImage::create(['id' => 'tugas-user-image-'.fake()->uuid(), 'tugas_user_id' => $tugasUser->id, 'image' => 'https://i.ytimg.com/vi/b2q4Pc8f7jM/hqdefault.jpg']);
+                foreach ($userAll as $user) {
+                    if ($user->nickname === 'Syahran' || $user->role === 'admin') { continue; }
+
+                    foreach ($tugasList as $tugas) {
+                        TugasUser::create([
+                            'id' => 'tugas-user-'.fake()->uuid(),
+                            'tugas_id' => $tugas->id,
+                            'user_id' => $user->id,
+                            'note' => 'Ini ya bu tugasnya',
+                            'status' => $status === 'Ditutup' ? 'Selesai' : 'Diperiksa',
+                            'grade' => $status === 'Ditutup' ? rand(10, 20) * 5 : 0,
+                            'created_at' => $status === 'Ditutup' ? Carbon::now()->subDays(rand(0, 30)) : null,
+                        ]);
+                    }
+                }
             }
         }
 
         $tugasRafaList = Tugas::where('status', 'Tersedia')->where('shift', $rafa->shift)->orderBy('created_at', 'desc')->get();
         $rafaTugasUser1 = TugasUser::create(['status' => 'Diperiksa', 'id' => 'tugas-user-'.fake()->uuid(), 'tugas_id' => $tugasRafaList[2]->id, 'user_id' => $rafa->id, 'note' => 'Ini ya bu tugasnya',]);
-        $rafaTugasUser2 = TugasUser::create(['status' => 'Selesai', 'id' => 'tugas-user-'.fake()->uuid(), 'tugas_id' => $tugasRafaList[3]->id, 'user_id' => $rafa->id, 'note' => 'Ini ya bu tugasnya',]);
+        $rafaTugasUser2 = TugasUser::create(['status' => 'Selesai', 'id' => 'tugas-user-'.fake()->uuid(), 'tugas_id' => $tugasRafaList[3]->id, 'user_id' => $rafa->id, 'note' => 'Ini ya bu tugasnya', 'grade' => 100,]);
         TugasUserImage::create(['id' => 'tugas-user-image-'.fake()->uuid(), 'tugas_user_id' => $rafaTugasUser1->id, 'image' => 'https://i.ytimg.com/vi/b2q4Pc8f7jM/hqdefault.jpg']);
         TugasUserImage::create(['id' => 'tugas-user-image-'.fake()->uuid(), 'tugas_user_id' => $rafaTugasUser2->id, 'image' => 'https://i.ytimg.com/vi/b2q4Pc8f7jM/hqdefault.jpg']);
     }

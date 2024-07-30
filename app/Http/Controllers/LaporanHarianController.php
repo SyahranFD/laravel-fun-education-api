@@ -201,6 +201,19 @@ class LaporanHarianController extends Controller
             $currentDate->subDay();
         }
 
+        $statistics = array_reverse($statistics);
+        $bottomTitle = array_reverse($bottomTitle);
+
+        $currentSpot = 1;
+        foreach ($statistics as &$statistic) {
+            $statistic['spot'] = $currentSpot++;
+        }
+
+        $currentCase = 1;
+        foreach ($bottomTitle as &$title) {
+            $title['case'] = $currentCase++;
+        }
+
         $interval = ceil(count($bottomTitle) / 5);
 
         $bottomTitle = array_filter($bottomTitle, function($key) use ($interval) {
