@@ -13,6 +13,8 @@ use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Kreait\Firebase\Messaging\CloudMessage;
+use Kreait\Laravel\Firebase\Facades\Firebase;
 
 class LaporanHarianController extends Controller
 {
@@ -154,6 +156,64 @@ class LaporanHarianController extends Controller
             'note' => $note,
             'total_point' => $totalPoint,
         ], 200);
+    }
+
+    public function showStatistic(Request $request)
+    {
+        $amount = $request->query('amount');
+        $userId = $request->query('user_id');
+        if (! $userId) {
+            $userId = auth()->user()->id;
+        }
+
+        $currentDate = Carbon::now();
+        $statistics = [];
+        $bottomTitle = [];
+        $count = 1;
+        $noDataCount = 0;
+
+        while ($count <= $amount) {
+            $laporanHarian = LaporanHarian::where('user_id', $userId)
+                ->whereDate('created_at', $currentDate)
+                ->orderBy('activity_id')
+                ->take(10)
+                ->get();
+
+            if (!$laporanHarian->isEmpty()) {
+                $totalPoint = $laporanHarian->sum('point');
+                $statistics[] = [
+                    'date' => $currentDate->toDateString(),
+                    'total_point' => $totalPoint,
+                    'spot' => $count,
+                ];
+
+                $bottomTitle[$count]['date'] = $currentDate->format('d/m/y');
+                $bottomTitle[$count]['case'] = $count;
+                $count++;
+                $noDataCount = 0;
+            } else {
+                $noDataCount++;
+                if ($noDataCount >= 60) {
+                    break;
+                }
+            }
+
+            $currentDate->subDay();
+        }
+
+        $interval = ceil(count($bottomTitle) / 5);
+
+        $bottomTitle = array_filter($bottomTitle, function($key) use ($interval) {
+            return $key % $interval == 0;
+        }, ARRAY_FILTER_USE_KEY);
+
+        $bottomTitle = array_values($bottomTitle);
+
+        return response([
+            'total_data' => $count - 1,
+            'data' => $statistics,
+            'bottom_title' => $bottomTitle,
+        ]);
     }
 
     public function showCurrentPoint(Request $request)
@@ -308,15 +368,17 @@ class LaporanHarianController extends Controller
         return $this->resDataDeleted('Laporan Harian');
     }
 
-    public function notification($id)
+    public function notification($userId, $title, $body, $route)
     {
-        $FcmToken = User::find($id)->fcm_token;
+        $FcmToken = User::find($userId)->fcm_token;
         $message = CloudMessage::fromArray([
             'token' => $FcmToken,
             'notification' => [
                 'title' => 'Laporan Harian',
                 'body' => 'Anda memiliki laporan harian yang belum dibaca.',
             ],
+        ])->withData([
+            'route' => $route,
         ]);
 
         Firebase::messaging()->send($message);

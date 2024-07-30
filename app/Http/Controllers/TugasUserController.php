@@ -10,6 +10,8 @@ use App\Models\TugasUser;
 use App\Models\User;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Kreait\Firebase\Messaging\CloudMessage;
+use Kreait\Laravel\Firebase\Facades\Firebase;
 
 class TugasUserController extends Controller
 {
@@ -27,7 +29,11 @@ class TugasUserController extends Controller
         $tugasUser = TugasUser::create($tugasUserData);
         $tugasUser = new TugasUserResource($tugasUser);
 
-        return $this->resStoreData($tugasUser);
+        $tugas = Tugas::find($tugasUserData['tugas_id']);
+        $admin = User::where('role', 'admin')->first();
+        $notification = $this->notification($admin->id, 'Tugas Baru Untuk Diperiksa', 'Tugas '. strtolower($tugas->title) .' dari '. strtolower($user->nickname) . ' siap untuk diperiksa', '/saving-information-page', $tugasUser->tugas_id, $tugasUser->id);
+
+        return $this->resStoreData($tugasUser, $notification);
     }
 
     public function index()
@@ -121,5 +127,26 @@ class TugasUserController extends Controller
         $tugasUser->delete();
 
         return $this->resDataDeleted("Tugas User");
+    }
+
+    public function notification($userId, $title, $body, $route, $tugasId, $tugasUserId)
+    {
+        $FcmToken = User::find($userId)->fcm_token;
+        $tugas = Tugas::find($tugasId);
+        $message = CloudMessage::fromArray([
+            'token' => $FcmToken,
+            'notification' => [
+                'title' => $title,
+                'body' => $body,
+            ],
+        ])->withData([
+            'route' => $route,
+            'tugas_id' => $tugasId,
+            'tugas_user_id' => $tugasUserId,
+            'shift' => $tugas->shift,
+        ]);
+
+        Firebase::messaging()->send($message);
+        return $message;
     }
 }
