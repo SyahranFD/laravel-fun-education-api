@@ -63,7 +63,9 @@ class DatabaseSeeder extends Seeder
             } while (User::where('nickname', $nickname)->exists());
             $backgroundColor = randomDarkColor();
             $profile_picture_user = 'https://ui-avatars.com/api/?name=' . urlencode($full_name) . '&color=FFFFFF&background=' . $backgroundColor . '&size=128';
-            $birth = fake()->dateTimeBetween('-10 years', '-6 years')->format('Y-m-d');
+            $cities = ['Semarang', 'Jakarta', 'Surabaya', 'Bandung', 'Yogyakarta'];
+            $city = $cities[array_rand($cities)];
+            $birth = $city . ', ' . fake()->dateTimeBetween('-10 years', '-6 years')->format('j F Y');
 
             $user = User::create(['id' => 'user-' . fake()->uuid(), 'full_name' => $full_name, 'nickname' => $nickname, 'birth' => $birth, 'address' => fake()->address, 'shift' => $shifts[($i - 1) % count($shifts)], 'password' => 'pass', 'gender' => fake()->randomElement(['Laki-Laki', 'Perempuan']), 'profile_picture' => $profile_picture_user, 'role' => 'student',]);
 
@@ -203,5 +205,10 @@ class DatabaseSeeder extends Seeder
         $rafaTugasUser2 = TugasUser::create(['status' => 'Selesai', 'id' => 'tugas-user-'.fake()->uuid(), 'tugas_id' => $tugasRafaList[3]->id, 'user_id' => $rafa->id, 'note' => 'Ini ya bu tugasnya', 'grade' => 100,]);
         TugasUserImage::create(['id' => 'tugas-user-image-'.fake()->uuid(), 'tugas_user_id' => $rafaTugasUser1->id, 'image' => 'https://i.ytimg.com/vi/b2q4Pc8f7jM/hqdefault.jpg']);
         TugasUserImage::create(['id' => 'tugas-user-image-'.fake()->uuid(), 'tugas_user_id' => $rafaTugasUser2->id, 'image' => 'https://i.ytimg.com/vi/b2q4Pc8f7jM/hqdefault.jpg']);
+
+        $tugasRafaDitutup = Tugas::where('status', 'Ditutup')->where('shift', $rafa->shift)->orderBy('created_at', 'desc')->get();
+        foreach ($tugasRafaDitutup as $tugas) {
+            TugasUser::create(['status' => 'Selesai', 'id' => 'tugas-user-'.fake()->uuid(), 'tugas_id' => $tugas->id, 'user_id' => $rafa->id, 'note' => 'Ini ya bu tugasnya', 'grade' => rand(10, 20) * 5, 'created_at' => Carbon::now()->subDays(rand(0, 30)),]);
+        }
     }
 }
