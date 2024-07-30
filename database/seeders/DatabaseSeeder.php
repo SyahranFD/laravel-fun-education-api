@@ -45,9 +45,9 @@ class DatabaseSeeder extends Seeder
         $nickname_admin = explode(' ', $full_name_admin)[0];
         $profile_picture_admin = 'https://ui-avatars.com/api/?name=' . urlencode($full_name_admin) . '&color=FFFFFF&background=' . $background_color_random . '&size=128';
 
-        $admin = User::create(['id' => 'user-'.fake()->uuid(), 'full_name' => $full_name_admin, 'nickname' => $nickname_admin, 'birth' => 'Batam, 10 Agustus 1980', 'address' => 'Griya Batu Aji Ari Blok G1, No 06', 'password' => Hash::make(Config::get('admin.password')), 'gender' => 'Perempuan', 'profile_picture' => $profile_picture_admin,
+        $admin = User::create(['id' => 'user-'.fake()->uuid(), 'full_name' => $full_name_admin, 'nickname' => $nickname_admin, 'birth' => 'Batam, 10 Agustus 1980', 'address' => 'Griya Batu Aji Ari Blok G1, No 06', 'password' => Config::get('admin.password'), 'gender' => 'Perempuan', 'profile_picture' => $profile_picture_admin,
             'role' => 'admin',]);
-        $rafa = User::create(['id' => 'user-'.fake()->uuid(), 'full_name' => 'Syahran Fadhil', 'nickname' => 'Syahran', 'birth' => 'Semarang, 15 Mei 2015', 'address' => 'Jl. Kaliurang KM 5, Semarang', 'shift' => '08.00 - 10.00', 'password' => Hash::make('rafapass'), 'gender' => 'Laki-Laki', 'profile_picture' => 'https://ui-avatars.com/api/?name=Syahran+Fadhil&color=FFFFFF&background=' . $background_color_random . '&size=128',
+        $rafa = User::create(['id' => 'user-'.fake()->uuid(), 'full_name' => 'Syahran Fadhil', 'nickname' => 'Syahran', 'birth' => 'Semarang, 15 Mei 2015', 'address' => 'Jl. Kaliurang KM 5, Semarang', 'shift' => '08.00 - 10.00', 'password' => 'rafapass', 'gender' => 'Laki-Laki', 'profile_picture' => 'https://ui-avatars.com/api/?name=Syahran+Fadhil&color=FFFFFF&background=' . $background_color_random . '&size=128',
             'role' => 'student',]);
 
         $shifts = ['08.00 - 10.00', '10.00 - 11.30', '11.30 - 13.00', '13.00 - 14.00', '14.00 - 15.00',];
@@ -65,7 +65,7 @@ class DatabaseSeeder extends Seeder
             $profile_picture_user = 'https://ui-avatars.com/api/?name=' . urlencode($full_name) . '&color=FFFFFF&background=' . $backgroundColor . '&size=128';
             $birth = fake()->dateTimeBetween('-10 years', '-6 years')->format('Y-m-d');
 
-            $user = User::create(['id' => 'user-' . fake()->uuid(), 'full_name' => $full_name, 'nickname' => $nickname, 'birth' => $birth, 'address' => fake()->address, 'shift' => $shifts[($i - 1) % count($shifts)], 'password' => Hash::make('pass'), 'gender' => fake()->randomElement(['Laki-Laki', 'Perempuan']), 'profile_picture' => $profile_picture_user, 'role' => 'student',]);
+            $user = User::create(['id' => 'user-' . fake()->uuid(), 'full_name' => $full_name, 'nickname' => $nickname, 'birth' => $birth, 'address' => fake()->address, 'shift' => $shifts[($i - 1) % count($shifts)], 'password' => 'pass', 'gender' => fake()->randomElement(['Laki-Laki', 'Perempuan']), 'profile_picture' => $profile_picture_user, 'role' => 'student',]);
 
             $randomBase = rand(20, 50);
             $tabungan = $randomBase * 10000;
@@ -73,7 +73,7 @@ class DatabaseSeeder extends Seeder
             $transaksi = $tabungan / 2;
 
             Saving::create(['id' => 'saving-' . fake()->uuid(), 'user_id' => $user->id, 'saving' => $tabunganFinal,]);
-            SavingApplication::create(['id' => 'saving-application-' . fake()->uuid(), 'user_id' => $user->id, 'category' => 'SPP', 'status' => 'pending',]);
+            SavingApplication::create(['id' => 'saving-application-' . fake()->uuid(), 'user_id' => $user->id, 'category' => 'SPP Bulanan', 'status' => 'Pending',]);
             Transaction::create(['id' => 'transaction-' . fake()->uuid(), 'user_id' => $user->id, 'category' => 'income', 'amount' => $transaksi, 'created_at' => fake()->dateTimeBetween('-1 month', 'now'),]);
             Transaction::create(['id' => 'transaction-' . fake()->uuid(), 'user_id' => $user->id, 'category' => 'income', 'amount' => $transaksi, 'created_at' => fake()->dateTimeBetween('-1 month', 'now'),]);
             Transaction::create(['id' => 'transaction-' . fake()->uuid(), 'user_id' => $user->id, 'category' => 'outcome', 'amount' => 100000, 'created_at' => fake()->dateTimeBetween('-1 month', 'now'), 'desc' => 'Untuk Bayar SPP',]);
