@@ -229,6 +229,23 @@ class LaporanHarianController extends Controller
         ]);
     }
 
+    public function showAvailable(Request $request)
+    {
+        $userId = $request->query('user_id');
+        if (! $userId) {
+            $userId = auth()->user()->id;
+        }
+
+        $dates = LaporanHarian::where('user_id', $userId)
+            ->orderBy('created_at', 'desc')
+            ->selectRaw('DATE(created_at) as date')
+            ->distinct()
+            ->get()
+            ->pluck('date');
+
+        return response(['dates' => $dates]);
+    }
+
     public function showCurrentPoint(Request $request)
     {
         $type = $request->query('type');
