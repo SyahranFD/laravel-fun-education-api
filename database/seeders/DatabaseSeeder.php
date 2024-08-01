@@ -15,7 +15,6 @@ use App\Models\ShiftMasuk;
 use App\Models\Transaction;
 use App\Models\TugasUserImage;
 use App\Models\User;
-use App\Models\TugasCategory;
 use App\Models\Tugas;
 use App\Models\TugasImage;
 use App\Models\TugasUser;
@@ -23,7 +22,6 @@ use App\Models\Activity;
 use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
 class DatabaseSeeder extends Seeder
@@ -164,8 +162,8 @@ class DatabaseSeeder extends Seeder
         ];
 
         foreach ($tasks as $index => $task) {
-            $createdAt = (new \DateTime())->modify('-' . rand(1, 7) . ' days');
-            $deadline = (new \DateTime())->modify('+' . rand(1, 7) . ' days');
+            $createdAt = (new \DateTime())->modify('-' . rand(1, 60) . ' days');
+            $deadline = (new \DateTime())->modify('+' . rand(1, 12) . ' days');
 
             $task['created_at'] = $createdAt->format('Y-m-d');
             $task['deadline'] = $deadline->format('Y-m-d');
@@ -193,7 +191,7 @@ class DatabaseSeeder extends Seeder
                             'note' => 'Ini ya bu tugasnya',
                             'status' => $status === 'Ditutup' ? 'Selesai' : 'Diperiksa',
                             'grade' => $status === 'Ditutup' ? rand(10, 20) * 5 : 0,
-                            'created_at' => $status === 'Ditutup' ? Carbon::now()->subDays(rand(0, 30)) : null,
+                            'created_at' => $status === 'Ditutup' ? Carbon::now()->subDays(rand(0, 120)) : null,
                         ]);
                     }
                 }
@@ -208,7 +206,7 @@ class DatabaseSeeder extends Seeder
 
         $tugasRafaDitutup = Tugas::where('status', 'Ditutup')->where('shift', $rafa->shift)->orderBy('created_at', 'desc')->get();
         foreach ($tugasRafaDitutup as $tugas) {
-            TugasUser::create(['status' => 'Selesai', 'id' => 'tugas-user-'.fake()->uuid(), 'tugas_id' => $tugas->id, 'user_id' => $rafa->id, 'note' => 'Ini ya bu tugasnya', 'grade' => rand(10, 20) * 5, 'created_at' => Carbon::now()->subDays(rand(0, 30)),]);
+            TugasUser::create(['status' => 'Selesai', 'id' => 'tugas-user-'.fake()->uuid(), 'tugas_id' => $tugas->id, 'user_id' => $rafa->id, 'note' => 'Ini ya bu tugasnya', 'grade' => rand(10, 20) * 5, 'created_at' => Carbon::now()->subDays(rand(0, 120)),]);
         }
     }
 }

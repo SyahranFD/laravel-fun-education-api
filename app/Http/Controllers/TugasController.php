@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\TugasRequest;
 use App\Http\Resources\TugasCountResource;
 use App\Http\Resources\TugasResource;
+use App\Http\Resources\TugasUserCountResource;
 use App\Models\Tugas;
 use App\Models\TugasUser;
 use Illuminate\Support\Str;
@@ -59,6 +60,12 @@ class TugasController extends Controller
         return new TugasCountResource($tugas);
     }
 
+    public function showCurrentStatusTugasUserCount()
+    {
+        $user = auth()->user();
+        return new TugasUserCountResource($user);
+    }
+
     public function showById($id)
     {
         $tugas = Tugas::find($id);
@@ -77,11 +84,20 @@ class TugasController extends Controller
             return $this->resUserNotFound();
         }
 
-        $query = Tugas::where('shift', $user->shift)->where('status', 'Tersedia')->orderBy('created_at', 'desc');
+        $query = Tugas::where('shift', $user->shift)->orderBy('created_at', 'desc');
+
+        if (! $status) {
+            $query->where('status', 'Tersedia');
+        }
 
         if ($status) {
-            $tugasId = TugasUser::where('user_id', $user->id)->where('status', $status)->pluck('tugas_id');
-            $query->whereIn('id', $tugasId);
+            if ($status == 'Terbaru') {
+                $tugasId = TugasUser::where('user_id', $user->id)->pluck('tugas_id');
+                $query->whereNotIn('id', $tugasId);
+            } else {
+                $tugasId = TugasUser::where('user_id', $user->id)->where('status', $status)->pluck('tugas_id');
+                $query->whereIn('id', $tugasId);
+            }
         }
 
         $tugas = $query->get();
