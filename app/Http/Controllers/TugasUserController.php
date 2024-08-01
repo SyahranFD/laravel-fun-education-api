@@ -32,7 +32,10 @@ class TugasUserController extends Controller
 
         $tugas = Tugas::find($tugasUserData['tugas_id']);
         $admin = User::where('role', 'admin')->first();
-        $notification = $this->notification($admin->id, 'Tugas Baru Untuk Diperiksa', 'Tugas '. strtolower($tugas->title) .' dari '. strtolower($user->nickname) . ' siap untuk diperiksa', '/saving-information-page', $tugasUser->tugas_id, $tugasUser->id);
+        $notification = 'Admin tidak memiliki fcm_token atau fcm_token tidak valid';
+        if ($admin->fcm_token) {
+            $notification = $this->notification($admin->id, 'Tugas Baru Untuk Diperiksa', 'Tugas '. strtolower($tugas->title) .' dari '. strtolower($user->nickname) . ' siap untuk diperiksa', '/detail-mark-page', $tugasUser->tugas_id, $tugasUser->id);
+        }
 
         return $this->resStoreData($tugasUser, $notification);
     }
