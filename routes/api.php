@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CalendarController;
 use App\Http\Controllers\LeaderboardController;
 use App\Http\Controllers\TugasUserImageController;
 use App\Http\Controllers\TugasUserController;
@@ -222,4 +223,14 @@ Route::prefix('/tugas-user-image')->group(function () {
 Route::prefix('/leaderboard')->group(function () {
     Route::get('/index', [LeaderboardController::class, 'index'])->middleware('auth:sanctum');
     Route::get('/point', [LeaderboardController::class, 'point'])->middleware('auth:sanctum');
+});
+
+Route::prefix('/calendar')->group(function () {
+    Route::post('/store', [CalendarController::class, 'store'])->middleware('auth:sanctum');
+
+    Route::get('/index', [CalendarController::class, 'index']);
+    Route::get('/show/{id}', [CalendarController::class, 'show']);
+
+    Route::put('/update/{id}', [CalendarController::class, 'update'])->middleware('auth:sanctum');
+    Route::delete('/delete/{id}', [CalendarController::class, 'destroy'])->middleware('auth:sanctum');
 });
