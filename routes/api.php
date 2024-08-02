@@ -178,6 +178,7 @@ Route::prefix('/tugas')->group(function () {
     Route::get('/show/{id}', [TugasController::class, 'showById']);
     Route::get('/show-current', [TugasController::class, 'showCurrent'])->middleware('auth:sanctum');
     Route::get('/show-status-count', [TugasController::class, 'showStatusCount']);
+    Route::get('/show-current-status-count', [TugasController::class, 'showCurrentStatusTugasUserCount'])->middleware('auth:sanctum');
 
     Route::put('/update/{id}', [TugasController::class, 'update'])->middleware('auth:sanctum');
     Route::put('/update-status/{id}', [TugasController::class, 'updateStatus'])->middleware('auth:sanctum');
