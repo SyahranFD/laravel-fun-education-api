@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('calendars', function (Blueprint $table) {
             $table->string('id')->primary();
-            $table->string('calendar_category_id');
+            $table->foreignId('calendar_category_id');
             $table->string('title');
             $table->text('description');
             $table->string('date');

@@ -9,8 +9,6 @@ class CalendarCategory extends Model
 {
     use HasFactory;
 
-    public $incrementing = false;
-
     protected $guarded = [];
 
     public function calendars()
