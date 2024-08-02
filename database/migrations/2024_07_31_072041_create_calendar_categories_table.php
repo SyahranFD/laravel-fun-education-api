@@ -11,15 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('calendars', function (Blueprint $table) {
+        Schema::create('calendar_categories', function (Blueprint $table) {
             $table->string('id')->primary();
-            $table->string('calendar_category_id');
-            $table->string('title');
-            $table->text('description');
-            $table->string('date');
+            $table->string('name');
+            $table->string('color');
             $table->timestamps();
-
-            $table->foreign('calendar_category_id')->references('id')->on('calendar_categories')->cascadeOnDelete();
         });
     }
 
@@ -28,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('calendars');
+        Schema::dropIfExists('calendar_categories');
     }
 };
