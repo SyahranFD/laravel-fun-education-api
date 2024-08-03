@@ -41,6 +41,7 @@ class DatabaseSeeder extends Seeder
             LaporanHarianSeeder::class,
             GallerySeeder::class,
             RafaSeeder::class,
+            CalendarSeeder::class
         ]);
     }
 }

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CalendarCategoryController;
 use App\Http\Controllers\CalendarController;
 use App\Http\Controllers\LeaderboardController;
 use App\Http\Controllers\TugasUserImageController;
@@ -233,4 +234,14 @@ Route::prefix('/calendar')->group(function () {
 
     Route::put('/update/{id}', [CalendarController::class, 'update'])->middleware('auth:sanctum');
     Route::delete('/delete/{id}', [CalendarController::class, 'destroy'])->middleware('auth:sanctum');
+});
+
+Route::prefix('/calendar-category')->group(function () {
+    Route::post('/store', [CalendarCategoryController::class, 'store'])->middleware('auth:sanctum');
+
+    Route::get('/index', [CalendarCategoryController::class, 'index']);
+    Route::get('/show/{id}', [CalendarCategoryController::class, 'show']);
+
+    Route::put('/update/{id}', [CalendarCategoryController::class, 'update'])->middleware('auth:sanctum');
+    Route::delete('/delete/{id}', [CalendarCategoryController::class, 'destroy'])->middleware('auth:sanctum');
 });
