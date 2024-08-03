@@ -13,11 +13,13 @@ return new class extends Migration
     {
         Schema::create('calendars', function (Blueprint $table) {
             $table->string('id')->primary();
+            $table->foreignId('calendar_category_id');
             $table->string('title');
             $table->text('description');
             $table->string('date');
-            $table->string('color')->default('#FFFFFF');
             $table->timestamps();
+
+            $table->foreign('calendar_category_id')->references('id')->on('calendar_categories')->cascadeOnDelete();
         });
     }
 

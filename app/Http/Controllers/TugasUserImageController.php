@@ -19,10 +19,6 @@ class TugasUserImageController extends Controller
     public function store(TugasUserImageRequest $request)
     {
         $request->validated();
-        $admin = auth()->user();
-        if (! $admin->isAdmin()) {
-            return $this->resUserNotAdmin();
-        }
 
         $tugasUserImageData = $request->all();
         do {
@@ -58,10 +54,6 @@ class TugasUserImageController extends Controller
     public function update(TugasUserImageRequest $request, $id)
     {
         $request->validated();
-        $admin = auth()->user();
-        if (! $admin->isAdmin()) {
-            return $this->resUserNotAdmin();
-        }
 
         $tugasUserImage = TugasUserImage::find($id);
         if (! $tugasUserImage) {
@@ -81,11 +73,6 @@ class TugasUserImageController extends Controller
 
     public function destroy($id)
     {
-        $admin = auth()->user();
-        if (! $admin->isAdmin()) {
-            return $this->resUserNotAdmin();
-        }
-
         $tugasUserImage = TugasUserImage::find($id);
         if (! $tugasUserImage) {
             return $this->resNotFound();
