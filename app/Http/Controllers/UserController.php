@@ -71,9 +71,9 @@ class UserController extends Controller
         $shift = $request->query('shift');
         $users = [];
         if ($shift) {
-            $users = User::where('shift', $shift)->where('role', 'student')->get();
+            $users = User::where('shift', $shift)->where('role', 'student')->orderBy('created_at', 'desc')->get();
         } else {
-            $users = User::where('role', 'student')->get();
+            $users = User::where('role', 'student')->orderBy('created_at', 'desc')->get();
         }
 
         return UserResource::collection($users);
