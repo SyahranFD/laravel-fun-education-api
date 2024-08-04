@@ -7,7 +7,6 @@ use App\Http\Resources\LaporanHarianResource;
 use App\Http\Resources\UserResource;
 use App\Models\Activity;
 use App\Models\LaporanHarian;
-use App\Models\LaporanHarianNote;
 use App\Models\Leaderboard;
 use App\Models\User;
 use Carbon\Carbon;
@@ -64,10 +63,17 @@ class LaporanHarianController extends Controller
 
         $laporanHarianList = LaporanHarianResource::collection($laporanHarianList);
 
+        $user = User::find($request->get('user_id'));
+        $notification = 'User tidak memiliki fcm_token atau fcm_token tidak valid';
+        if ($user->fcm_token) {
+            $notification = $this->notification($user, 'Laporan Harian Telah Dikirim', 'Laporan harian telah dikirim', Carbon::now()->format('Y-m-d'));
+        }
+
         return response([
             'data' => $laporanHarianList,
             'note' => $note ?? '',
             'total_point' => $totalPoint,
+            'notification' => $notification,
         ], 201);
     }
 
@@ -398,19 +404,21 @@ class LaporanHarianController extends Controller
         return $this->resDataDeleted('Laporan Harian');
     }
 
-    public function notification($userId, $title, $body, $route)
+    public function notification($user, $title, $body, $date)
     {
-        $FcmToken = User::find($userId)->fcm_token;
+        $FcmToken = $user->fcm_token;
         $message = CloudMessage::fromArray([
             'token' => $FcmToken,
             'notification' => [
-                'title' => 'Laporan Harian',
-                'body' => 'Anda memiliki laporan harian yang belum dibaca.',
+                'title' => $title,
+                'body' => $body,
             ],
         ])->withData([
-            'route' => $route,
+            'route' => '/detail-laporan-harian-page',
+            'date' => $date,
         ]);
 
         Firebase::messaging()->send($message);
+        return $message;
     }
 }

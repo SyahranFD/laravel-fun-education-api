@@ -34,7 +34,7 @@ class TugasUserController extends Controller
         $admin = User::where('role', 'admin')->first();
         $notification = 'Admin tidak memiliki fcm_token atau fcm_token tidak valid';
         if ($admin->fcm_token) {
-            $notification = $this->notification($admin->id, 'Tugas Baru Untuk Diperiksa', 'Tugas '. strtolower($tugas->title) .' dari '. strtolower($user->nickname) . ' siap untuk diperiksa', '/detail-mark-page', $tugasUser->tugas_id, $tugasUser->id);
+            $notification = $this->notification($admin, 'Tugas Baru Untuk Diperiksa', 'Tugas '. strtolower($tugas->title) .' dari '. strtolower($user->nickname) . ' siap untuk diperiksa', '/detail-mark-page', $tugas, $tugasUser);
         }
 
         return $this->resStoreData($tugasUser, $notification);
@@ -164,6 +164,7 @@ class TugasUserController extends Controller
         $tugasUserData = $request->all();
         $tugasUserData['status'] = 'Selesai';
         $tugasUser->update($tugasUserData);
+        $tugasUser = new TugasUserResource($tugasUser);
 
         $leaderboardId = 0;
         do {
@@ -171,8 +172,14 @@ class TugasUserController extends Controller
         } while (Leaderboard::where('id', $leaderboardId)->exists());
         Leaderboard::create(['id' => $leaderboardId, 'user_id' => $tugasUser->user_id, 'tugas_user_id' => $tugasUser->id, 'point' => $request->grade]);
 
+        $user = User::find($tugasUser->user_id);
+        $tugas = Tugas::find($tugasUser->tugas_id);
+        $notification = 'Admin tidak memiliki fcm_token atau fcm_token tidak valid';
+        if ($user->fcm_token) {
+            $notification = $this->notification($user, 'Tugas Selesai Dinilai', 'Tugas '. strtolower($tugas->title) .' sudah selesai dinilai, mohon untuk dilihat', '/detail-tugas-page', $tugas, $tugasUser);
+        }
 
-        return new TugasUserResource($tugasUser);
+        return $this->resStoreData($tugasUser, $notification);
     }
 
     public function update(TugasUserRequest $request, $tugasId)
@@ -204,20 +211,18 @@ class TugasUserController extends Controller
         return $this->resDataDeleted("Tugas User");
     }
 
-    public function notification($userId, $title, $body, $route, $tugasId, $tugasUserId)
+    public function notification($user, $title, $body, $route, $tugas, $tugasUser)
     {
-        $FcmToken = User::find($userId)->fcm_token;
-        $tugas = Tugas::find($tugasId);
         $message = CloudMessage::fromArray([
-            'token' => $FcmToken,
+            'token' => $user->fcm_token,
             'notification' => [
                 'title' => $title,
                 'body' => $body,
             ],
         ])->withData([
             'route' => $route,
-            'tugas_id' => $tugasId,
-            'tugas_user_id' => $tugasUserId,
+            'tugas_id' => $tugas->id,
+            'tugas_user_id' => $tugasUser->id,
             'shift' => $tugas->shift,
         ]);
 
