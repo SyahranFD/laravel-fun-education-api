@@ -5,7 +5,10 @@ namespace App\Http\Controllers;
 use App\Http\Requests\CatatanDaruratRequest;
 use App\Http\Resources\CatatanDaruratResource;
 use App\Models\CatatanDarurat;
+use App\Models\User;
 use Illuminate\Support\Str;
+use Kreait\Firebase\Messaging\CloudMessage;
+use Kreait\Laravel\Firebase\Facades\Firebase;
 
 class CatatanDaruratController extends Controller
 {
@@ -25,7 +28,15 @@ class CatatanDaruratController extends Controller
         $catatanDarurat = CatatanDarurat::create($catatanDaruratData);
         $catatanDarurat = new CatatanDaruratResource($catatanDarurat);
 
-        return $this->resStoreData($catatanDarurat);
+        $users = User::whereNotNull('fcm_token')->get();
+        $notification = "";
+        foreach ($users as $user) {
+            if ($user->fcm_token) {
+                $notification = $this->notification($user, 'Laporan Harian Telah Dikirim', 'Laporan harian telah dikirim');
+            }
+        }
+
+        return $this->resStoreData($catatanDarurat, $notification);
     }
 
     public function index()
@@ -88,5 +99,21 @@ class CatatanDaruratController extends Controller
         $catatanDarurat->update(['is_deleted' => true]);
 
         return $this->resDataDeleted('Catatan Darurat');
+    }
+
+    public function notification($user, $title, $body)
+    {
+        $message = CloudMessage::fromArray([
+            'token' => $user->fcm_token,
+            'notification' => [
+                'title' => $title,
+                'body' => $body,
+            ],
+        ])->withData([
+            'route' => '/home-page',
+        ]);
+
+        Firebase::messaging()->send($message);
+        return $message;
     }
 }
