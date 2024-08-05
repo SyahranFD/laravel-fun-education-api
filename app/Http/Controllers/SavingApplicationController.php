@@ -88,10 +88,7 @@ class SavingApplicationController extends Controller
 
     public function destroy($id)
     {
-        $admin = auth()->user();
-        if (! $admin->isAdmin()) {
-            return $this->resUserNotAdmin();
-        }
+        auth()->user();
 
         $savingApplication = SavingApplication::find($id);
         if (! $savingApplication) {
