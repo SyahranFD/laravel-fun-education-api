@@ -24,6 +24,7 @@ class LoginRequest extends FormRequest
         return [
             'nickname' => 'required|string|min:1|max:255',
             'password' => 'required|string|min:1|max:255',
+            'fcm_token' => 'string|min:1|max:255'
         ];
     }
 }
