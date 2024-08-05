@@ -155,6 +155,9 @@ class LaporanHarianController extends Controller
         }
 
         $totalPoint = $laporanHarian->sum('point');
+        if ($totalPoint == 0) {
+            $totalPoint = null;
+        }
         $note = $laporanHarian->first()->note ?? null;
 
         return response([
