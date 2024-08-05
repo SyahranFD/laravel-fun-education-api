@@ -38,9 +38,9 @@ class DatabaseSeeder extends Seeder
             ActivitySeeder::class,
             TugasSeeder::class,
             TugasUserSeeder::class,
+            RafaSeeder::class,
             LaporanHarianSeeder::class,
             GallerySeeder::class,
-            RafaSeeder::class,
             CalendarSeeder::class
         ]);
     }
