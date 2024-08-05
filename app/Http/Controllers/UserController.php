@@ -137,7 +137,11 @@ class UserController extends Controller
 
     public function logout()
     {
-        auth()->user()->tokens()->delete();
+        $user = auth()->user();
+        $user->fcm_token = null;
+        $user->save();
+
+        $user->tokens()->delete();
 
         return response(['message' => 'Logged Out'], 200);
     }
