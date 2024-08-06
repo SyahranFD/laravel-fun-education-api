@@ -97,17 +97,23 @@ class TugasUserController extends Controller
                 ->get();
 
             if (!$tugasUser->isEmpty()) {
-                $totalPoint = $tugasUser->sum('grade');
-                $statistics[] = [
-                    'date' => $currentDate->toDateString(),
-                    'title' => $tugasUser->first()->tugas->title,
-                    'total_point' => $totalPoint,
-                    'spot' => $count,
-                ];
+                // Group by title
+                $groupedTugasUser = $tugasUser->groupBy('tugas.title');
 
-                $bottomTitle[$count]['date'] = $currentDate->format('d/m/y');
-                $bottomTitle[$count]['case'] = $count;
-                $count++;
+                foreach ($groupedTugasUser as $title => $groupedData) {
+                    $totalPoint = $groupedData->sum('grade');
+                    $statistics[] = [
+                        'date' => $currentDate->toDateString(),
+                        'title' => $title,
+                        'total_point' => $totalPoint,
+                        'spot' => $count,
+                    ];
+
+                    $bottomTitle[$count]['date'] = $currentDate->format('d/m/y');
+                    $bottomTitle[$count]['case'] = $count;
+                    $count++;
+                }
+
                 $noDataCount = 0;
             } else {
                 $noDataCount++;
