@@ -122,14 +122,31 @@ class TugasUserController extends Controller
         $statistics = array_reverse($statistics);
         $bottomTitle = array_reverse($bottomTitle);
 
-        $currentSpot = 1;
+        $currentSpot = 0;
         foreach ($statistics as &$statistic) {
             $statistic['spot'] = $currentSpot++;
         }
 
-        $currentCase = 1;
+        $currentCase = 0;
         foreach ($bottomTitle as &$title) {
             $title['case'] = $currentCase++;
+        }
+
+        if ($amount == 5 || $amount == 10 || $amount == 21 || $amount == 30) {
+            $indices = [];
+            if ($amount == 5) { $indices = [0, 1, 2, 3, 4];
+            } elseif ($amount == 10) { $indices = [0, 3, 6, 9];
+            } elseif ($amount == 21) { $indices = [0, 5, 10, 15, 20];
+            } elseif ($amount == 30) { $indices = [0, 10, 20, 29]; }
+
+            $bottomTitle = array_intersect_key($bottomTitle, array_flip($indices));
+
+            foreach ($indices as $i) {
+                if (empty($bottomTitle[$i]['date'])) {
+                    $bottomTitle[$i]['date'] = '';
+                    $bottomTitle[$i]['case'] = $i;
+                }
+            }
         }
 
         $interval = ceil(count($bottomTitle) / 5);
