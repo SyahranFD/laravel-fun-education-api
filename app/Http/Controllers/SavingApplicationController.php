@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\SavingApplicationRequest;
 use App\Http\Resources\SavingApplicationResource;
+use App\Models\Saving;
 use App\Models\SavingApplication;
+use App\Models\Transaction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
@@ -82,6 +84,17 @@ class SavingApplicationController extends Controller
         }
 
         $savingApplication->update($request->all());
+        if ($request->status == 'Accepted' && $savingApplication->category == 'SPP') {
+            Transaction::create([
+                'id' => 'transaction-'.Str::uuid(),
+                'user_id' => $savingApplication->user_id,
+                'category' => 'outcome',
+                'amount' => 100000,
+                'desc' => 'Pengajuan tabungan untuk '.$savingApplication->category.' diterima',
+            ]);
+            $saving = Saving::where('user_id', $request->user_id)->first();
+            $saving->update(['saving' => $saving->saving - 100000,]);
+        }
 
         return new SavingApplicationResource($savingApplication);
     }
