@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\LeaderboardRequest;
 use App\Http\Resources\LeaderboardResource;
 use App\Models\Leaderboard;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
@@ -15,14 +16,13 @@ class LeaderboardController extends Controller
     {
         $type = $request->query('type');
         $shift = $request->query('shift');
-        $now = now();
 
         if ($type === 'weekly') {
-            $startDate = $now->copy()->subWeek();
-            $endDate = $now;
+            $startDate = Carbon::now()->subDays(7);
+            $endDate = Carbon::now();
         } elseif ($type === 'monthly') {
-            $startDate = $now->copy()->subMonth();
-            $endDate = $now;
+            $startDate = Carbon::now()->subDays(30);
+            $endDate = Carbon::now();
         } else {
             $startDate = null;
             $endDate = null;
@@ -64,7 +64,7 @@ class LeaderboardController extends Controller
     public function point()
     {
         $user = auth()->user();
-        $point = Leaderboard::where('user_id', $user->id)->sum('point');
+        $point = Leaderboard::where('user_id', $user->id)->whereDate('created_at', Carbon::now())->sum('point');
         $point = number_format($point, 0, '.', '.');
         if (! $point) {
             return $this->resDataNotFound('Leaderboard');
