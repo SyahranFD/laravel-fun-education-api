@@ -24,6 +24,7 @@ class LaporanHarianRequest extends FormRequest
         return [
             'user_id' => 'required|exists:users,id',
             'note' => 'string|max:1000',
+            'created_at' => '',
             'activity_1' => 'required|string|min:1|max:255',
             'activity_2' => 'required|string|min:1|max:255',
             'activity_3' => 'required|string|min:1|max:255',
