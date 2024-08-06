@@ -31,7 +31,7 @@ class CalendarController extends Controller
 
     public function index()
     {
-        return CalendarResource::collection(Calendar::all()->orderBy('date', 'asc'));
+        return CalendarResource::collection(Calendar::orderBy('date', 'desc')->get());
     }
 
     public function show($id)
