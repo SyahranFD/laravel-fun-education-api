@@ -19,14 +19,15 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        function randomDarkColor(){
-            do { $r = mt_rand(50, 200);$g = mt_rand(50, 200);$b = mt_rand(50, 200);$brightness = ($r * 299 + $g * 587 + $b * 114) / 1000;
-            } while ($brightness > 150);
+        function randomColor() {
+            $r = mt_rand(0, 225);
+            $g = mt_rand(0, 225);
+            $b = mt_rand(0, 225);
 
             return sprintf('%02X%02X%02X', $r, $g, $b);
         }
 
-        $background_color_random = randomDarkColor();
+        $background_color_random = randomColor();
         $full_name_admin = Config::get('admin.nama');
         $nickname_admin = explode(' ', $full_name_admin)[0];
         $profile_picture_admin = 'https://ui-avatars.com/api/?name=' . urlencode($full_name_admin) . '&color=FFFFFF&background=' . $background_color_random . '&size=128';
@@ -45,7 +46,7 @@ class UserSeeder extends Seeder
                 $full_name = implode(' ', array_slice(explode(' ', fake()->name), 0, 2));
                 $nickname = explode(' ', $full_name)[0];
             } while (User::where('nickname', $nickname)->exists());
-            $backgroundColor = randomDarkColor();
+            $backgroundColor = randomColor();
             $profile_picture_user = 'https://ui-avatars.com/api/?name=' . urlencode($full_name) . '&color=FFFFFF&background=' . $backgroundColor . '&size=128';
             $cities = ['Semarang', 'Jakarta', 'Surabaya', 'Bandung', 'Yogyakarta'];
             $city = $cities[array_rand($cities)];
