@@ -51,7 +51,7 @@ class TransactionController extends Controller
 
     public function index()
     {
-        return TransactionResource::collection(Transaction::all());
+        return TransactionResource::collection(Transaction::orderBy('created_at', 'desc')->get());
     }
 
     public function showById($id)
@@ -100,7 +100,7 @@ class TransactionController extends Controller
 
     public function showByUserId(Request $request, $userId)
     {
-        $transaction = Transaction::where('user_id', $userId);
+        $transaction = Transaction::where('user_id', $userId)->orderBy('created_at', 'desc');
         if (! $transaction) {
             return $this->resDataNotFound('transaction');
         }
