@@ -25,7 +25,7 @@ class TransactionRequest extends FormRequest
             'user_id' => 'required|exists:users,id',
             'amount' => 'required|numeric|min:1',
             'category' => 'required|string|min:1|max:255',
-            'desc' => 'required|string|min:1|max:255',
+            'desc' => 'string|min:1|max:255',
         ];
     }
 }
