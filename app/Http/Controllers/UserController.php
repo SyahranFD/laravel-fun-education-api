@@ -58,7 +58,9 @@ class UserController extends Controller
         }
 
         $user = new UserResource($user);
-        $user->fcm_token = $request->fcm_token;
+        if ($request->fcm_token) {
+            $user->update(['fcm_token' => $request->fcm_token]);
+        }
         $token = $user->createToken('fun-education')->plainTextToken;
 
         return response([
