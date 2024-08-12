@@ -28,6 +28,7 @@ class UserController extends Controller
         $firstName = $nameParts[0];
         $lastName = $nameParts[1] ?? '';
         $userData['profile_picture'] = 'https://ui-avatars.com/api/?name='.urlencode($firstName.' '.$lastName).'&color=7F9CF5&background=EBF4FF&size=128';
+        $userData['is_verified'] = false;
 
         do {
             $userData['id'] = 'user-'.Str::uuid();
@@ -72,11 +73,17 @@ class UserController extends Controller
     public function index(Request $request)
     {
         $shift = $request->query('shift');
+        $is_verified = $request->query('is_verified');
         $users = [];
         if ($shift) {
             $users = User::where('shift', $shift)->where('role', 'student')->orderBy('created_at', 'desc')->get();
         } else {
             $users = User::where('role', 'student')->orderBy('created_at', 'desc')->get();
+        }
+
+        if ($is_verified) {
+            $is_verified = filter_var($is_verified, FILTER_VALIDATE_BOOLEAN);
+            $users = $users->where('is_verified', $is_verified);
         }
 
         return UserResource::collection($users);
@@ -136,6 +143,28 @@ class UserController extends Controller
         $user->update($userData);
 
         return new UserResource($user);
+    }
+
+    public function verify(Request $request, $id)
+    {
+        $admin = auth()->user();
+        if (! $admin->isAdmin()) {
+            return $this->resUserNotAdmin();
+        }
+
+        $user = User::find($id);
+        if (! $user) {
+            return $this->resUserNotFound();
+        }
+
+        if ($request->is_verified == true) {
+            $user->update(['is_verified' => true]);
+            return response(['message' => 'User Verified', 'data' => $user], 200);
+
+        } elseif ($request->is_verified == false) {
+            $user->delete();
+            return $this->resDataDeleted('User');
+        }
     }
 
     public function logout()

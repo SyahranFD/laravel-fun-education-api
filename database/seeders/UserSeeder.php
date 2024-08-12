@@ -41,7 +41,9 @@ class UserSeeder extends Seeder
             ShiftMasuk::create(['shift_masuk' => $shift]);
         }
 
-        for ($i = 1; $i <= 30; $i++) {
+        $verifiedCount = 0;
+
+        for ($i = 1; $i <= 40; $i++) {
             do {
                 $full_name = implode(' ', array_slice(explode(' ', fake()->name), 0, 2));
                 $nickname = explode(' ', $full_name)[0];
@@ -52,7 +54,13 @@ class UserSeeder extends Seeder
             $city = $cities[array_rand($cities)];
             $birth = $city . ', ' . fake()->dateTimeBetween('-10 years', '-6 years')->format('j F Y');
 
-            $user = User::create(['id' => 'user-' . fake()->uuid(), 'full_name' => $full_name, 'nickname' => $nickname, 'birth' => $birth, 'address' => fake()->address, 'shift' => $shifts[($i - 1) % count($shifts)], 'password' => 'pass', 'gender' => fake()->randomElement(['Laki-Laki', 'Perempuan']), 'profile_picture' => $profile_picture_user, 'role' => 'student',]);
+            $is_verified = false;
+            if ($verifiedCount < 30) {
+                $is_verified = true;
+                $verifiedCount++;
+            }
+
+            $user = User::create(['id' => 'user-' . fake()->uuid(), 'full_name' => $full_name, 'nickname' => $nickname, 'birth' => $birth, 'address' => fake()->address, 'shift' => $shifts[($i - 1) % count($shifts)], 'password' => 'pass', 'gender' => fake()->randomElement(['Laki-Laki', 'Perempuan']), 'profile_picture' => $profile_picture_user, 'role' => 'student', 'is_verified' => $is_verified,]);
 
             $randomBase = rand(20, 50);
             $tabungan = $randomBase * 10000;

@@ -52,6 +52,7 @@ Route::prefix('/users')->group(function () {
     Route::delete('/delete/{id}', [UserController::class, 'delete'])->middleware('auth:sanctum');
 
     Route::put('/update-fcm-token', [FirebasePushController::class, 'setToken'])->middleware('auth:sanctum');
+    Route::put('/update-verify/{id}', [UserController::class, 'verify'])->middleware('auth:sanctum');
     Route::post('/send-notification/{id}', [FirebasePushController::class, 'notification']);
 });
 

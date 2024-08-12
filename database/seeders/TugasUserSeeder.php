@@ -21,7 +21,7 @@ class TugasUserSeeder extends Seeder
         foreach ($shifts as $shift) {
             foreach ($statuses as $status) {
                 $tugasList = Tugas::where('status', $status)->where('shift', $shift)->get();
-                $userAll = User::where('role', 'student')->where('shift', $shift)->get();
+                $userAll = User::where('role', 'student')->where('shift', $shift)->where('is_verified', true)->get();
 
                 foreach ($userAll as $user) {
                     if ($user->nickname === 'Syahran' || $user->role === 'admin') { continue; }
