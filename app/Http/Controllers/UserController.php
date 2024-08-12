@@ -14,6 +14,8 @@ use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Kreait\Firebase\Messaging\CloudMessage;
+use Kreait\Laravel\Firebase\Facades\Firebase;
 
 class UserController extends Controller
 {
@@ -157,13 +159,29 @@ class UserController extends Controller
             return $this->resUserNotFound();
         }
 
+        $notification = 'User tidak memiliki fcm_token atau fcm_token tidak valid';
+        $title = '';
+        $body = '';
+
+        if ($request->is_verified == true) {
+            $title = 'Pembuatan Akun Anda Disetujui';
+            $body = 'Selamat, akun Anda telah disetujui!';
+        } elseif ($request->is_verified == false) {
+            $title = 'Pembuatan Akun Anda Ditolak';
+            $body = 'Maaf, akun Anda tidak disetujui.';
+        }
+
+        if ($user->fcm_token) {
+            $notification = $this->notification($user, $title, $body);
+        }
+
         if ($request->is_verified == true) {
             $user->update(['is_verified' => true]);
-            return response(['message' => 'User Verified', 'data' => $user], 200);
+            return response(['message' => 'User Verified', 'data' => $user, 'notification' => $notification], 200);
 
         } elseif ($request->is_verified == false) {
             $user->delete();
-            return $this->resDataDeleted('User');
+            return response(['message' => 'User Deleted', 'notification' => $notification], 200);
         }
     }
 
@@ -188,5 +206,20 @@ class UserController extends Controller
         User::destroy($id);
 
         return $this->resDataDeleted('User');
+    }
+
+    public function notification($user, $title, $body)
+    {
+        $FcmToken = $user->fcm_token;
+        $message = CloudMessage::fromArray([
+            'token' => $FcmToken,
+            'notification' => [
+                'title' => $title,
+                'body' => $body,
+            ],
+        ]);
+
+        Firebase::messaging()->send($message);
+        return $message;
     }
 }
