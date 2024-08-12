@@ -8,8 +8,11 @@ use App\Http\Resources\TugasResource;
 use App\Http\Resources\TugasUserCountResource;
 use App\Models\Tugas;
 use App\Models\TugasUser;
+use App\Models\User;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Kreait\Firebase\Messaging\CloudMessage;
+use Kreait\Laravel\Firebase\Facades\Firebase;
 
 class TugasController extends Controller
 {
@@ -26,8 +29,13 @@ class TugasController extends Controller
             $tugasData['id'] = 'tugas-'.Str::uuid();
         } while (Tugas::where('id', $tugasData['id'])->exists());
 
-        $tugas = tugas::create($tugasData);
-        $tugas = new tugasResource($tugas);
+        $tugas = Tugas::create($tugasData);
+        $tugas = new TugasResource($tugas);
+
+        $users = User::whereNotNull('fcm_token')->where('role', 'student')->where('shift', $tugas->shift)->get();
+        foreach ($users as $user) {
+            $this->notification($user, 'Tugas Baru', 'Anda memiliki tugas baru yang siap untuk dikerjakan', '/home-page');
+        }
 
         return $this->resStoreData($tugas);
     }
@@ -152,5 +160,22 @@ class TugasController extends Controller
         $tugas->delete();
 
         return $this->resDataDeleted('Tugas');
+    }
+
+    public function notification($user, $title, $body, $route)
+    {
+        $FcmToken = $user->fcm_token;
+        $message = CloudMessage::fromArray([
+            'token' => $FcmToken,
+            'notification' => [
+                'title' => $title,
+                'body' => $body,
+            ],
+        ])->withData([
+            'route' => $route,
+        ]);
+
+        Firebase::messaging()->send($message);
+        return $message;
     }
 }
