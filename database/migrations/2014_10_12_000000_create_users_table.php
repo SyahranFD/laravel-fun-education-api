@@ -23,6 +23,7 @@ return new class extends Migration
             $table->string('profile_picture');
             $table->string('role');
             $table->string('fcm_token')->nullable();
+            $table->boolean('is_verified')->default(false);
             $table->timestamps();
         });
     }

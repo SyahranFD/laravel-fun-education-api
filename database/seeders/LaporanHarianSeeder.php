@@ -26,7 +26,7 @@ class LaporanHarianSeeder extends Seeder
             $date = Carbon::now()->subDays($i);
             if (!in_array($date->dayOfWeek, [Carbon::FRIDAY, Carbon::SATURDAY, Carbon::SUNDAY])) {
                 foreach ($activityList as $activity) {
-                    foreach (User::all() as $user) {
+                    foreach (User::where('is_verified', true)->get() as $user) {
                         $grade = ['A', 'B', 'C'][rand(0, 2)];
                         $point = $grade == 'A' ? 10 : ($grade == 'B' ? 4 : 3);
                         $formattedDate = $date->format('Y-m-d H:i:s');

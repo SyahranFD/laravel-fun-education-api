@@ -20,7 +20,7 @@ class RafaSeeder extends Seeder
      */
     public function run(): void
     {
-        $rafa = User::create(['id' => 'user-'.fake()->uuid(), 'full_name' => 'Syahran Fadhil', 'nickname' => 'Syahran', 'birth' => 'Semarang, 15 Mei 2015', 'address' => 'Jl. Kaliurang KM 5, Semarang', 'shift' => '08.00 - 10.00', 'password' => 'rafapass', 'gender' => 'Laki-Laki', 'profile_picture' => 'https://ui-avatars.com/api/?name=Syahran+Fadhil&color=FFFFFF&background=47E5BC&size=128', 'role' => 'student',]);
+        $rafa = User::create(['id' => 'user-'.fake()->uuid(), 'full_name' => 'Syahran Fadhil', 'nickname' => 'Syahran', 'birth' => 'Semarang, 15 Mei 2015', 'address' => 'Jl. Kaliurang KM 5, Semarang', 'shift' => '08.00 - 10.00', 'password' => 'rafapass', 'gender' => 'Laki-Laki', 'profile_picture' => 'https://ui-avatars.com/api/?name=Syahran+Fadhil&color=FFFFFF&background=47E5BC&size=128', 'role' => 'student', 'is_verified' => true,]);
 
         AlurBelajar::create(['id' => 'alur-belajar-'.fake()->uuid(), 'user_id' => $rafa->id, 'tahap' => 'B',]);
         Saving::create(['id' => 'saving-'.fake()->uuid(), 'user_id' => $rafa->id, 'saving' => 250000,]);

@@ -29,6 +29,7 @@ class UpdateUserRequest extends FormRequest
             'shift' => 'string|min:1|max:255',
             'gender' => 'string|min:1|max:255',
             'password' => 'string|min:1|max:255',
+            'is_verified' => 'boolean',
         ];
     }
 }
