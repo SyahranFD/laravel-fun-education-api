@@ -37,9 +37,9 @@ class UserController extends Controller
         } while (User::where('id', $userData['id'])->exists());
 
         $user = User::create($userData);
-        $tabungan = Saving::create(['id' => 'saving-'.Str::uuid(), 'user_id' => $user->id, 'saving' => 0]);
-        $alurBelajar = AlurBelajar::create(['id' => 'alur-belajar-'.Str::uuid(), 'user_id' => $user->id, 'tahap' => 'A']);
-        $leaderboard = Leaderboard::create(['id' => 'leaderboard-'.Str::uuid(), 'user_id' => $user->id, 'point' => 0]);
+        Saving::create(['id' => 'saving-'.Str::uuid(), 'user_id' => $user->id, 'saving' => 0]);
+        AlurBelajar::create(['id' => 'alur-belajar-'.Str::uuid(), 'user_id' => $user->id, 'tahap' => 'A']);
+        Leaderboard::create(['id' => 'leaderboard-'.Str::uuid(), 'user_id' => $user->id, 'point' => 0]);
         $user = new UserResource($user);
         $token = $user->createToken('fun-education')->plainTextToken;
 

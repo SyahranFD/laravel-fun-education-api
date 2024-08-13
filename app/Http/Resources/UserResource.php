@@ -26,6 +26,7 @@ class UserResource extends JsonResource
             'role' => $this->role,
             'fcm_token' => $this->fcm_token,
             'is_verified' => $this->is_verified,
+            'created_at' => $this->created_at->format('Y-m-d H:i:s'),
         ];
     }
 }
