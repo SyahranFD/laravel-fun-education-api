@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\OtpController;
 use App\Http\Controllers\CalendarCategoryController;
 use App\Http\Controllers\CalendarController;
 use App\Http\Controllers\LeaderboardController;
@@ -246,4 +247,12 @@ Route::prefix('/calendar-category')->group(function () {
 
     Route::put('/update/{id}', [CalendarCategoryController::class, 'update'])->middleware('auth:sanctum');
     Route::delete('/delete/{id}', [CalendarCategoryController::class, 'destroy'])->middleware('auth:sanctum');
+});
+
+Route::prefix('/otp')->group(function () {
+    Route::post('/store', [OtpController::class, 'store']);
+    Route::post('/check', [OtpController::class, 'check'])->middleware('auth:sanctum');
+
+    Route::get('/index', [OtpController::class, 'show']);
+    Route::get('/show-current', [OtpController::class, 'showCurrent'])->middleware('auth:sanctum');
 });
