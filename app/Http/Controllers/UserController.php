@@ -52,7 +52,7 @@ class UserController extends Controller
     public function login(LoginRequest $request)
     {
         $request->validated();
-        $user = User::where('nickname', $request->nickname)
+        $user = User::where('email', $request->email)
             ->where('password', $request->password)
             ->first();
 
