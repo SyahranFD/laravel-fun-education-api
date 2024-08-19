@@ -31,9 +31,11 @@ class OtpController extends Controller
 
     public function check(Request $request)
     {
+        $user = auth()->user();
         $otp = Otp::where('email', auth()->user()->email)->latest()->first();
         if ($otp->otp == $request->otp) {
             $otp->delete();
+            $user->update(['is_verified_email' => true]);
             return response(['message' => 'OTP is valid']);
         }
 
