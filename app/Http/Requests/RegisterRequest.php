@@ -24,11 +24,13 @@ class RegisterRequest extends FormRequest
         return [
             'full_name' => 'required|string|min:1|max:255',
             'nickname' => 'required|string|min:1|max:255',
+            'email' => 'required|email|min:1|max:255',
             'birth' => 'required|string|min:1|max:255',
             'address' => 'required|string|min:1|max:255',
             'shift' => 'required|string|min:1|max:255',
             'password' => 'required|string|min:1|max:255',
-            'profile_picture' => 'optional|string|min:1|max:255',
+            'profile_picture' => 'string|min:1|max:255',
+            'fcm_token' => 'string|min:1|max:255',
         ];
     }
 }

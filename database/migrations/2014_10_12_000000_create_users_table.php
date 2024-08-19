@@ -14,7 +14,8 @@ return new class extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->string('id')->primary();
             $table->string('full_name');
-            $table->string('nickname')->unique();
+            $table->string('nickname');
+            $table->string('email')->unique();
             $table->string('birth');
             $table->string('address');
             $table->string('shift')->nullable();
@@ -24,6 +25,7 @@ return new class extends Migration
             $table->string('role');
             $table->string('fcm_token')->nullable();
             $table->boolean('is_verified')->default(false);
+            $table->boolean('is_verified_email')->default(false);
             $table->timestamps();
         });
     }

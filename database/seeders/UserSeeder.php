@@ -32,7 +32,7 @@ class UserSeeder extends Seeder
         $nickname_admin = explode(' ', $full_name_admin)[0];
         $profile_picture_admin = 'https://ui-avatars.com/api/?name=' . urlencode($full_name_admin) . '&color=FFFFFF&background=' . $background_color_random . '&size=128';
 
-        User::create(['id' => 'user-'.fake()->uuid(), 'full_name' => $full_name_admin, 'nickname' => $nickname_admin, 'birth' => 'Batam, 10 Agustus 1980', 'address' => 'Griya Batu Aji Ari Blok G1, No 06', 'password' => Config::get('admin.password'), 'gender' => 'Perempuan', 'profile_picture' => $profile_picture_admin,
+        User::create(['id' => 'user-'.fake()->uuid(), 'full_name' => $full_name_admin, 'nickname' => $nickname_admin, 'email' => 'funeducationapp@gmail.com', 'birth' => 'Batam, 10 Agustus 1980', 'address' => 'Griya Batu Aji Ari Blok G1, No 06', 'password' => Config::get('admin.password'), 'gender' => 'Perempuan', 'profile_picture' => $profile_picture_admin, 'is_verified' => true, 'is_verified_email' => true,
             'role' => 'admin',]);
 
         $shifts = ['08.00 - 10.00', '10.00 - 11.30', '11.30 - 13.00', '13.00 - 14.00', '14.00 - 15.00',];
@@ -53,6 +53,7 @@ class UserSeeder extends Seeder
             $cities = ['Semarang', 'Jakarta', 'Surabaya', 'Bandung', 'Yogyakarta'];
             $city = $cities[array_rand($cities)];
             $birth = $city . ', ' . fake()->dateTimeBetween('-10 years', '-6 years')->format('j F Y');
+            $email = strtolower($nickname) . '@gmail.com';
 
             $is_verified = false;
             if ($verifiedCount < 30) {
@@ -60,7 +61,21 @@ class UserSeeder extends Seeder
                 $verifiedCount++;
             }
 
-            $user = User::create(['id' => 'user-' . fake()->uuid(), 'full_name' => $full_name, 'nickname' => $nickname, 'birth' => $birth, 'address' => fake()->address, 'shift' => $shifts[($i - 1) % count($shifts)], 'password' => 'pass', 'gender' => fake()->randomElement(['Laki-Laki', 'Perempuan']), 'profile_picture' => $profile_picture_user, 'role' => 'student', 'is_verified' => $is_verified,]);
+            $user = User::create([
+                'id' => 'user-' . fake()->uuid(),
+                'full_name' => $full_name,
+                'nickname' => $nickname,
+                'email' => $email,
+                'birth' => $birth,
+                'address' => fake()->address,
+                'shift' => $shifts[($i - 1) % count($shifts)],
+                'password' => 'pass',
+                'gender' => fake()->randomElement(['Laki-Laki', 'Perempuan']),
+                'profile_picture' => $profile_picture_user,
+                'role' => 'student',
+                'is_verified' => $is_verified,
+                'is_verified_email' => $is_verified,
+            ]);
 
             $randomBase = rand(20, 50);
             $tabungan = $randomBase * 10000;
