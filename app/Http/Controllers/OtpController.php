@@ -24,7 +24,7 @@ class OtpController extends Controller
         Otp::where('email', $request->email)->delete();
         $otp = Otp::create($otpData);
 
-        Mail::to($request->email)->send(new VerifyEmail($otp));
+        Mail::to($request->email)->send(new VerifyEmail($otpData['otp']));
 
         return $this->resStoreData($otp);
     }
