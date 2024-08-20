@@ -17,7 +17,7 @@ class LaporanHarianResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'activity' => Activity::find($this->activity_id)->name,
+            'activity' => Activity::find($this->activity_id)->name ?? null,
             'grade' => $this->grade,
         ];
     }
