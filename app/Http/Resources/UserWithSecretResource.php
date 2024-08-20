@@ -18,6 +18,7 @@ class UserWithSecretResource extends JsonResource
             'id' => $this->id,
             'full_name' => $this->full_name,
             'nickname' => $this->nickname,
+            'email' => $this->email,
             'password' => $this->password,
             'birth' => $this->birth,
             'address' => $this->address,
@@ -25,6 +26,10 @@ class UserWithSecretResource extends JsonResource
             'gender' => $this->gender,
             'profile_picture' => $this->profile_picture,
             'role' => $this->role,
+            'fcm_token' => $this->fcm_token,
+            'is_verified' => $this->is_verified,
+            'is_verified_email' => $this->is_verified_email,
+            'created_at' => $this->created_at->format('Y-m-d H:i:s'),
         ];
     }
 }

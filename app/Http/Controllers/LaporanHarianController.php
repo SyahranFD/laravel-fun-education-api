@@ -27,8 +27,28 @@ class LaporanHarianController extends Controller
 
         $activityList = Activity::orderBy('id')->get();
         $note = $request->get('note');
+        $permission = $request->get('permission');
         $laporanHarianList = [];
         $totalPoint = 0;
+
+        if ($request->permission == 'Izin' || $request->permission == 'Sakit') {
+            $laporanHarianData = $request->only(['user_id', 'permission', 'note', 'created_at']);
+            $laporanHarianData['point'] = 0;
+            do {
+                $laporanHarianData['id'] = 'laporan-harian-'.Str::uuid();
+            } while (LaporanHarian::where('id', $laporanHarianData['id'])->exists());
+
+            $laporanHarian = LaporanHarian::create($laporanHarianData);
+
+            return response([
+                'data' => [
+                    'id' => $laporanHarian->id,
+                    'permission' => $laporanHarian->permission,
+                    'note' => $laporanHarian->note,
+                    'created_at' => $laporanHarian->created_at->format('Y-m-d H:i:s'),
+                ],
+            ], 201);
+        }
 
         foreach ($activityList as $index => $activity) {
             $laporanHarianData = [];
@@ -74,6 +94,7 @@ class LaporanHarianController extends Controller
 
         return response([
             'data' => $laporanHarianList,
+            'permission' => $permission,
             'note' => $note ?? '',
             'total_point' => $totalPoint,
             'notification' => $notification,
@@ -100,8 +121,23 @@ class LaporanHarianController extends Controller
     {
         $userId = $request->query('userId');
         $date = $request->query('date');
+
+        $latestLaporanHarian = LaporanHarian::where('user_id', $userId)
+            ->whereDate('created_at', $date)
+            ->orderBy('created_at', 'desc')
+            ->first();
+        if ($latestLaporanHarian->permission != 'Masuk') {
+            return response([
+                'data' => [],
+                'permission' => $latestLaporanHarian->permission,
+                'note' => $latestLaporanHarian->note,
+                'total_point' => $latestLaporanHarian->point,
+            ], 200);
+        }
+
         $laporanHarian = LaporanHarian::where('user_id', $userId)
             ->whereDate('created_at', $date)
+            ->where('permission', 'Masuk')
             ->orderBy('activity_id')
             ->orderBy('created_at', 'desc')
             ->get()
@@ -115,9 +151,11 @@ class LaporanHarianController extends Controller
 
         $totalPoint = $laporanHarian->sum('point');
         $note = $laporanHarian->first()->note ?? null;
+        $permission = $laporanHarian->first()->permission ?? null;
 
         return response([
             'data' => LaporanHarianResource::collection($laporanHarian),
+            'permission' => $permission,
             'note' => $note,
             'total_point' => $totalPoint,
         ], 200);
@@ -137,15 +175,43 @@ class LaporanHarianController extends Controller
             $users = User::whereNotIn('id', $userIds)->where('shift', $shift)->where('is_verified', true)->get();
         }
 
-        return UserResource::collection($users);
+        $users = $users->map(function ($user) use ($date) {
+            $latestLaporanHarian = LaporanHarian::where('user_id', $user->id)
+                ->whereDate('created_at', $date)
+                ->orderBy('created_at', 'desc')
+                ->first();
+
+            return [
+                'profile_picture' => $user->profile_picture,
+                'full_name' => $user->full_name,
+                'permission' => $latestLaporanHarian ? $latestLaporanHarian->permission : null,
+            ];
+        });
+
+        return response(['data' => $users]);
     }
 
     public function showCurrent(Request $request)
     {
         $user = auth()->user();
         $date = $request->query('date');
+
+        $latestLaporanHarian = LaporanHarian::where('user_id', $user->id)
+            ->whereDate('created_at', $date)
+            ->orderBy('created_at', 'desc')
+            ->first();
+        if ($latestLaporanHarian->permission != 'Masuk') {
+            return response([
+                'data' => [],
+                'permission' => $latestLaporanHarian->permission,
+                'note' => $latestLaporanHarian->note,
+                'total_point' => $latestLaporanHarian->point,
+            ], 200);
+        }
+
         $laporanHarian = LaporanHarian::where('user_id', $user->id)
             ->whereDate('created_at', $date)
+            ->where('permission', 'Masuk')
             ->orderBy('activity_id')
             ->orderBy('created_at', 'desc')
             ->get()
@@ -162,9 +228,11 @@ class LaporanHarianController extends Controller
             $totalPoint = null;
         }
         $note = $laporanHarian->first()->note ?? null;
+        $permission = $laporanHarian->first()->permission ?? null;
 
         return response([
             'data' => LaporanHarianResource::collection($laporanHarian),
+            'permission' => $permission,
             'note' => $note,
             'total_point' => $totalPoint,
         ], 200);
@@ -186,6 +254,7 @@ class LaporanHarianController extends Controller
                 $date = Carbon::now()->subDays($i);
                 $laporanHarian = LaporanHarian::where('user_id', $userId)
                     ->whereDate('created_at', $date)
+                    ->where('permission', 'Masuk')
                     ->get();
 
                 $totalPoint = $laporanHarian->sum('point');
@@ -204,6 +273,7 @@ class LaporanHarianController extends Controller
                 $date = Carbon::now()->subDays($i);
                 $laporanHarian = LaporanHarian::where('user_id', $userId)
                     ->whereDate('created_at', $date)
+                    ->where('permission', 'Masuk')
                     ->get();
 
                 $totalPoint = $laporanHarian->sum('point');
@@ -244,6 +314,7 @@ class LaporanHarianController extends Controller
         while ($count <= $amount) {
             $laporanHarian = LaporanHarian::where('user_id', $userId)
                 ->whereDate('created_at', $currentDate)
+                ->where('permission', 'Masuk')
                 ->orderBy('activity_id')
                 ->take(10)
                 ->get();
@@ -346,6 +417,7 @@ class LaporanHarianController extends Controller
 
             $laporanHarian = LaporanHarian::where('user_id', $userId)
                 ->whereBetween('created_at', [$startOfWeek, $endOfWeek])
+                ->where('permission', 'Masuk')
                 ->get();
 
             $points = ['monday_point' => 0, 'tuesday_point' => 0, 'wednesday_point' => 0, 'thursday_point' => 0, 'friday_point' => 0, 'saturday_point' => 0, 'sunday_point' => 0,];
@@ -386,6 +458,7 @@ class LaporanHarianController extends Controller
 
             $laporanHarian = LaporanHarian::where('user_id', $userId)
                 ->whereBetween('created_at', [$startOfMonth, $endOfMonth])
+                ->where('permission', 'Masuk')
                 ->get();
 
             $points = ['week1_point' => 0, 'week2_point' => 0, 'week3_point' => 0, 'week4_point' => 0,];
@@ -431,6 +504,7 @@ class LaporanHarianController extends Controller
         }
 
         $activityList = Activity::orderBy('id')->get();
+        $permission = $request->get('permission');
         $note = $request->get('note');
         $totalPoint = 0;
 
@@ -438,6 +512,7 @@ class LaporanHarianController extends Controller
             $laporanHarianData = [];
             $laporanHarianData['activity_id'] = $activity->id;
             $laporanHarianData['grade'] = $request->get('activity_'.($index+1));
+            $laporanHarianData['permission'] = $request->get('permission');
             $laporanHarianData['note'] = $request->get('note');
 
             if ($laporanHarianData['grade'] == 'A') {
@@ -459,7 +534,8 @@ class LaporanHarianController extends Controller
 
         return response([
             'data' => LaporanHarianResource::collection($laporanHarianList),
-            'note' => $note ?? '',
+            'permission' => $permission,
+            'note' => $note,
             'total_point' => $totalPoint,
         ], 200);
     }
