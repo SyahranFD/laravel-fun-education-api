@@ -41,9 +41,7 @@ class UserSeeder extends Seeder
             ShiftMasuk::create(['shift_masuk' => $shift]);
         }
 
-        $verifiedCount = 0;
-
-        for ($i = 1; $i <= 40; $i++) {
+        for ($i = 1; $i <= 50; $i++) {
             do {
                 $full_name = implode(' ', array_slice(explode(' ', fake()->name), 0, 2));
                 $nickname = explode(' ', $full_name)[0];
@@ -56,9 +54,13 @@ class UserSeeder extends Seeder
             $email = strtolower($nickname) . '@gmail.com';
 
             $is_verified = false;
-            if ($verifiedCount < 30) {
+            if ($i <= 40) {
                 $is_verified = true;
-                $verifiedCount++;
+            }
+
+            $is_graduated = false;
+            if ($i <= 10) {
+                $is_graduated = true;
             }
 
             $user = User::create([
@@ -74,7 +76,8 @@ class UserSeeder extends Seeder
                 'profile_picture' => $profile_picture_user,
                 'role' => 'student',
                 'is_verified' => $is_verified,
-                'is_verified_email' => $is_verified,
+                'is_verified_email' => true,
+                'is_graduated' => $is_graduated,
             ]);
 
             $randomBase = rand(20, 50);

@@ -19,6 +19,7 @@ class User extends Authenticatable
     protected $casts = [
         'is_verified' => 'boolean',
         'is_verified_email' => 'boolean',
+        'is_graduated' => 'boolean',
     ];
 
     protected $hidden = [
