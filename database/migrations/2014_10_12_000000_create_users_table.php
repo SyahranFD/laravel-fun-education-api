@@ -15,7 +15,7 @@ return new class extends Migration
             $table->string('id')->primary();
             $table->string('full_name');
             $table->string('nickname');
-            $table->string('email')->unique();
+            $table->string('email');
             $table->string('birth');
             $table->string('address');
             $table->string('shift')->nullable();
@@ -26,6 +26,7 @@ return new class extends Migration
             $table->string('fcm_token')->nullable();
             $table->boolean('is_verified')->default(false);
             $table->boolean('is_verified_email')->default(false);
+            $table->boolean('is_graduated')->default(false);
             $table->timestamps();
         });
     }

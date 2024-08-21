@@ -76,16 +76,25 @@ class UserController extends Controller
     {
         $shift = $request->query('shift');
         $is_verified = $request->query('is_verified');
-        $users = [];
+        $is_graduated = $request->query('is_graduated');
         if ($shift) {
-            $users = User::where('shift', $shift)->where('role', 'student')->orderBy('created_at', 'desc')->get();
+            $users = User::where('shift', $shift)->where('role', 'student')->where('is_verified_email', true)->orderBy('created_at', 'desc')->get();
         } else {
-            $users = User::where('role', 'student')->orderBy('created_at', 'desc')->get();
+            $users = User::where('role', 'student')->where('is_verified_email', true)->orderBy('created_at', 'desc')->get();
         }
 
         if ($is_verified) {
             $is_verified = filter_var($is_verified, FILTER_VALIDATE_BOOLEAN);
             $users = $users->where('is_verified', $is_verified);
+        } else {
+            $users = $users->where('is_verified', true);
+        }
+
+        if ($is_graduated) {
+            $is_graduated = filter_var($is_graduated, FILTER_VALIDATE_BOOLEAN);
+            $users = $users->where('is_graduated', $is_graduated);
+        } else {
+            $users = $users->where('is_graduated', false);
         }
 
         return UserResource::collection($users);

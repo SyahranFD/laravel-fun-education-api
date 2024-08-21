@@ -29,6 +29,7 @@ class UserWithSecretResource extends JsonResource
             'fcm_token' => $this->fcm_token,
             'is_verified' => $this->is_verified,
             'is_verified_email' => $this->is_verified_email,
+            'is_graduated' => $this->is_graduated,
             'created_at' => $this->created_at->format('Y-m-d H:i:s'),
         ];
     }
