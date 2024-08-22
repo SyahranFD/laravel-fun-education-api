@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('calendar_files', function (Blueprint $table) {
             $table->string('id')->primary();
             $table->string('calendar_id');
-            $table->string('url_file');
+            $table->string('file');
             $table->timestamps();
 
             $table->foreign('calendar_id')->references('id')->on('calendars')->onDelete('cascade');
