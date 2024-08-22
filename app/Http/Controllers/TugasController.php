@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\TugasRequest;
 use App\Http\Resources\TugasCountResource;
+use App\Http\Resources\TugasImageResource;
 use App\Http\Resources\TugasResource;
 use App\Http\Resources\TugasUserCountResource;
 use App\Models\Tugas;
@@ -42,20 +43,47 @@ class TugasController extends Controller
 
     public function index(Request $request)
     {
-        $shift = $request->query('shift');
-        $status = $request->query('status');
+        $shift = $request->get('shift');
+        $status = $request->get('status');
+        $user_id = $request->get('user_id');
 
-        $query = Tugas::query();
+        $tugas = Tugas::query();
 
         if ($shift) {
-            $query->where('shift', $shift);
+            $tugas->where('shift', $shift);
         }
 
         if ($status) {
-            $query->where('status', $status);
+            $tugas->where('status', $status);
         }
 
-        $tugasData = $query->orderBy('created_at', 'desc')->get();
+        if ($user_id) {
+            $tugasUser = TugasUser::where('user_id', $user_id)->get();
+            $tugasIds = $tugasUser->pluck('tugas_id');
+            $tugas = $tugas->whereIn('id', $tugasIds)->orderBy('created_at', 'desc')->get();
+
+            $tugasData = $tugas->map(function ($tugas, $index) use ($tugasUser) {
+                return [
+                    'id' => $tugas->id,
+                    'shift' => $tugas->shift,
+                    'category' => $tugas->category,
+                    'title' => $tugas->title,
+                    'description' => $tugas->description,
+                    'status' => $tugas->status,
+                    'point' => $tugas->point,
+                    'deadline' => $tugas->deadline,
+                    'created_at' => $tugas->created_at->format('Y-m-d H:i:s'),
+                    'tugas_user_status' => $tugasUser[$index]->status,
+                    'tugas_user_created_at' => $tugasUser[$index]->created_at->format('Y-m-d H:i:s'),
+                    'tugas_user_grade' => $tugasUser[$index]->grade,
+                    'images' => TugasImageResource::collection($tugas->tugasImages),
+                ];
+            });
+
+            return response(['data' => $tugasData]);
+        }
+
+        $tugasData = $tugas->orderBy('created_at', 'desc')->get();
 
         return TugasResource::collection($tugasData);
     }

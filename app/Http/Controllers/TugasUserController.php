@@ -76,6 +76,63 @@ class TugasUserController extends Controller
         return new TugasUserResource($tugasUser);
     }
 
+    public function showStatisticNew(Request $request)
+    {
+        $type = $request->query('type');
+        $userId = $request->query('user_id');
+        if (! $userId) {
+            $userId = auth()->user()->id;
+        }
+
+        $statistics = [];
+        $bottomTitle = [];
+
+        if ($type == 'weekly') {
+            for ($i = 6; $i >= 0; $i--) {
+                $date = Carbon::now()->subDays($i);
+                $tugasUser = TugasUser::where('user_id', $userId)
+                    ->whereDate('created_at', $date)
+                    ->get();
+
+                $totalPoint = $tugasUser->sum('grade');
+                $statistics[] = [
+                    'date' => $date->toDateString(),
+                    'total_point' => $totalPoint,
+                ];
+
+                $bottomTitle[] = [
+                    'date' => $date->format('d/m'),
+                    'case' => 6 - $i,
+                ];
+            }
+        } elseif ($type == 'monthly') {
+            for ($i = 30; $i >= 0; $i--) {
+                $date = Carbon::now()->subDays($i);
+                $tugasUser = TugasUser::where('user_id', $userId)
+                    ->whereDate('created_at', $date)
+                    ->get();
+
+                $totalPoint = $tugasUser->sum('grade');
+                $statistics[] = [
+                    'date' => $date->toDateString(),
+                    'total_point' => $totalPoint,
+                ];
+
+                if (in_array($i, [0, 10, 20, 30])) {
+                    $bottomTitle[] = [
+                        'date' => $date->format('d/m'),
+                        'case' => 30 - $i,
+                    ];
+                }
+            }
+        }
+
+        return response([
+            'data' => $statistics,
+            'bottom_title' => $bottomTitle,
+        ]);
+    }
+
     public function showStatistic(Request $request)
     {
         $amount = $request->query('amount');
@@ -97,7 +154,6 @@ class TugasUserController extends Controller
                 ->get();
 
             if (!$tugasUser->isEmpty()) {
-                // Group by title
                 $groupedTugasUser = $tugasUser->groupBy('tugas.title');
 
                 foreach ($groupedTugasUser as $title => $groupedData) {

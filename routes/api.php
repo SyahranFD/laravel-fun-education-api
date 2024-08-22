@@ -208,6 +208,7 @@ Route::prefix('/tugas-user')->group(function () {
     Route::get('/show-by-tugas-id/{tugasId}', [TugasUserController::class, 'showByTugasId']);
     Route::get('/show-current/{tugasId}', [TugasUserController::class, 'showCurrent'])->middleware('auth:sanctum');
     Route::get('/statistic', [TugasUserController::class, 'showStatistic'])->middleware('auth:sanctum');
+    Route::get('statistic-new', [TugasUserController::class, 'showStatisticNew'])->middleware('auth:sanctum');
 
     Route::put('/update/{id}', [TugasUserController::class, 'update'])->middleware('auth:sanctum');
     Route::put('/send-grade/{id}', [TugasUserController::class, 'sendGrade'])->middleware('auth:sanctum');
