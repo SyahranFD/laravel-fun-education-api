@@ -46,13 +46,26 @@ class RafaSeeder extends Seeder
 
         $tugasRafaList = Tugas::where('status', 'Tersedia')->where('shift', $rafa->shift)->orderBy('created_at', 'desc')->get();
         $rafaTugasUser1 = TugasUser::create(['status' => 'Diperiksa', 'id' => 'tugas-user-'.fake()->uuid(), 'tugas_id' => $tugasRafaList[2]->id, 'user_id' => $rafa->id, 'note' => 'Ini ya bu tugasnya',]);
-        $rafaTugasUser2 = TugasUser::create(['status' => 'Selesai', 'id' => 'tugas-user-'.fake()->uuid(), 'tugas_id' => $tugasRafaList[3]->id, 'user_id' => $rafa->id, 'note' => 'Ini ya bu tugasnya', 'grade' => 100,]);
+        $rafaTugasUser2 = TugasUser::create(['status' => 'Selesai', 'id' => 'tugas-user-'.fake()->uuid(), 'tugas_id' => $tugasRafaList[3]->id, 'user_id' => $rafa->id, 'note' => 'Ini ya bu tugasnya', 'grade' => 100, 'created_at' => Carbon::now()->subDays(rand(0, 3)),]);
         TugasUserImage::create(['id' => 'tugas-user-image-'.fake()->uuid(), 'tugas_user_id' => $rafaTugasUser1->id, 'image' => 'https://i.ytimg.com/vi/b2q4Pc8f7jM/hqdefault.jpg']);
         TugasUserImage::create(['id' => 'tugas-user-image-'.fake()->uuid(), 'tugas_user_id' => $rafaTugasUser2->id, 'image' => 'https://i.ytimg.com/vi/b2q4Pc8f7jM/hqdefault.jpg']);
 
         $tugasRafaDitutup = Tugas::where('status', 'Ditutup')->where('shift', $rafa->shift)->orderBy('created_at', 'desc')->get();
         foreach ($tugasRafaDitutup as $tugas) {
-            TugasUser::create(['status' => 'Selesai', 'id' => 'tugas-user-'.fake()->uuid(), 'tugas_id' => $tugas->id, 'user_id' => $rafa->id, 'note' => 'Ini ya bu tugasnya', 'grade' => rand(10, 20) * 5, 'created_at' => Carbon::now()->subDays(rand(0, 120)),]);
+            $created_at = Carbon::now()->subDays(rand(0, 30));
+            TugasUser::firstOrCreate(
+                [
+                    'tugas_id' => $tugas->id,
+                    'user_id' => $rafa->id,
+                    'created_at' => $created_at->format('Y-m-d H:i:s'),
+                ],
+                [
+                    'id' => 'tugas-user-'.fake()->uuid(),
+                    'note' => 'Ini ya bu tugasnya',
+                    'status' => 'Selesai',
+                    'grade' => rand(10, 20) * 5,
+                ]
+            );
         }
     }
 }

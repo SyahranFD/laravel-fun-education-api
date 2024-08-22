@@ -27,15 +27,19 @@ class TugasUserSeeder extends Seeder
                     if ($user->nickname === 'Syahran' || $user->role === 'admin') { continue; }
 
                     foreach ($tugasList as $tugas) {
-                        TugasUser::create([
-                            'id' => 'tugas-user-'.fake()->uuid(),
-                            'tugas_id' => $tugas->id,
-                            'user_id' => $user->id,
-                            'note' => 'Ini ya bu tugasnya',
-                            'status' => $status === 'Ditutup' ? 'Selesai' : 'Diperiksa',
-                            'grade' => $status === 'Ditutup' ? rand(10, 20) * 5 : 0,
-                            'created_at' => Carbon::now()->subDays(rand(0, 120)),
-                        ]);
+                        TugasUser::firstOrCreate(
+                            [
+                                'tugas_id' => $tugas->id,
+                                'user_id' => $user->id,
+                                'created_at' => Carbon::now()->subDays(rand(0, 30)),
+                            ],
+                            [
+                                'id' => 'tugas-user-'.fake()->uuid(),
+                                'note' => 'Ini ya bu tugasnya',
+                                'status' => $status === 'Ditutup' ? 'Selesai' : 'Diperiksa',
+                                'grade' => $status === 'Ditutup' ? rand(10, 20) * 5 : 0,
+                            ]
+                        );
                     }
                 }
             }

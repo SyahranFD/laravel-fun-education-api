@@ -8,8 +8,9 @@ class OtpRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
-     */
-    public function authorize(): bool
+     *0-0-0-0-==']
+     * \
+     * \public function authorize(): bool
     {
         return true;
     }
