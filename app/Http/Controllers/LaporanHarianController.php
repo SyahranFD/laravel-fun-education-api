@@ -182,6 +182,7 @@ class LaporanHarianController extends Controller
                 ->first();
 
             return [
+                'id' => $user->id,
                 'profile_picture' => $user->profile_picture,
                 'full_name' => $user->full_name,
                 'permission' => $latestLaporanHarian ? $latestLaporanHarian->permission : null,
