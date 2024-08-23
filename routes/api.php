@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CalendarFileController;
 use App\Http\Controllers\OtpController;
 use App\Http\Controllers\CalendarCategoryController;
 use App\Http\Controllers\CalendarController;
@@ -248,6 +249,15 @@ Route::prefix('/calendar-category')->group(function () {
 
     Route::put('/update/{id}', [CalendarCategoryController::class, 'update'])->middleware('auth:sanctum');
     Route::delete('/delete/{id}', [CalendarCategoryController::class, 'destroy'])->middleware('auth:sanctum');
+});
+
+Route::prefix('/calendar-file')->group(function () {
+    Route::post('/store', [CalendarFileController::class, 'store'])->middleware('auth:sanctum');
+
+    Route::get('/index', [CalendarFileController::class, 'index']);
+    Route::get('/show/{id}', [CalendarFileController::class, 'show']);
+
+    Route::delete('/delete/{id}', [CalendarFileController::class, 'destroy'])->middleware('auth:sanctum');
 });
 
 Route::prefix('/otp')->group(function () {
