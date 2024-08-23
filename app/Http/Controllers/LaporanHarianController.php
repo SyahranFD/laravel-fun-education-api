@@ -126,7 +126,7 @@ class LaporanHarianController extends Controller
             ->whereDate('created_at', $date)
             ->orderBy('created_at', 'desc')
             ->first();
-        if ($latestLaporanHarian->permission != 'Masuk') {
+        if ($latestLaporanHarian->permission != 'Hadir') {
             return response([
                 'data' => [],
                 'permission' => $latestLaporanHarian->permission,
@@ -137,7 +137,7 @@ class LaporanHarianController extends Controller
 
         $laporanHarian = LaporanHarian::where('user_id', $userId)
             ->whereDate('created_at', $date)
-            ->where('permission', 'Masuk')
+            ->where('permission', 'Hadir')
             ->orderBy('activity_id')
             ->orderBy('created_at', 'desc')
             ->get()
@@ -201,7 +201,7 @@ class LaporanHarianController extends Controller
             ->whereDate('created_at', $date)
             ->orderBy('created_at', 'desc')
             ->first();
-        if ($latestLaporanHarian->permission != 'Masuk') {
+        if ($latestLaporanHarian->permission != 'Hadir') {
             return response([
                 'data' => [],
                 'permission' => $latestLaporanHarian->permission,
@@ -212,7 +212,7 @@ class LaporanHarianController extends Controller
 
         $laporanHarian = LaporanHarian::where('user_id', $user->id)
             ->whereDate('created_at', $date)
-            ->where('permission', 'Masuk')
+            ->where('permission', 'Hadir')
             ->orderBy('activity_id')
             ->orderBy('created_at', 'desc')
             ->get()
@@ -255,7 +255,7 @@ class LaporanHarianController extends Controller
                 $date = Carbon::now()->subDays($i);
                 $laporanHarian = LaporanHarian::where('user_id', $userId)
                     ->whereDate('created_at', $date)
-                    ->where('permission', 'Masuk')
+                    ->where('permission', 'Hadir')
                     ->get();
 
                 $totalPoint = $laporanHarian->sum('point');
@@ -274,7 +274,7 @@ class LaporanHarianController extends Controller
                 $date = Carbon::now()->subDays($i);
                 $laporanHarian = LaporanHarian::where('user_id', $userId)
                     ->whereDate('created_at', $date)
-                    ->where('permission', 'Masuk')
+                    ->where('permission', 'Hadir')
                     ->get();
 
                 $totalPoint = $laporanHarian->sum('point');
@@ -315,7 +315,7 @@ class LaporanHarianController extends Controller
         while ($count <= $amount) {
             $laporanHarian = LaporanHarian::where('user_id', $userId)
                 ->whereDate('created_at', $currentDate)
-                ->where('permission', 'Masuk')
+                ->where('permission', 'Hadir')
                 ->orderBy('activity_id')
                 ->take(10)
                 ->get();
@@ -418,7 +418,7 @@ class LaporanHarianController extends Controller
 
             $laporanHarian = LaporanHarian::where('user_id', $userId)
                 ->whereBetween('created_at', [$startOfWeek, $endOfWeek])
-                ->where('permission', 'Masuk')
+                ->where('permission', 'Hadir')
                 ->get();
 
             $points = ['monday_point' => 0, 'tuesday_point' => 0, 'wednesday_point' => 0, 'thursday_point' => 0, 'friday_point' => 0, 'saturday_point' => 0, 'sunday_point' => 0,];
@@ -459,7 +459,7 @@ class LaporanHarianController extends Controller
 
             $laporanHarian = LaporanHarian::where('user_id', $userId)
                 ->whereBetween('created_at', [$startOfMonth, $endOfMonth])
-                ->where('permission', 'Masuk')
+                ->where('permission', 'Hadir')
                 ->get();
 
             $points = ['week1_point' => 0, 'week2_point' => 0, 'week3_point' => 0, 'week4_point' => 0,];
