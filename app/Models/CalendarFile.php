@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Calendar extends Model
+class CalendarFile extends Model
 {
     use HasFactory;
 
@@ -13,13 +13,8 @@ class Calendar extends Model
 
     protected $guarded = [];
 
-    public function calendarCategory()
+    public function calendar()
     {
-        return $this->belongsTo(CalendarCategory::class);
-    }
-
-    public function calendarFiles()
-    {
-        return $this->hasMany(CalendarFile::class);
+        return $this->belongsTo(Calendar::class);
     }
 }

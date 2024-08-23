@@ -21,6 +21,7 @@ class CalendarResource extends JsonResource
             'description' => $this->description,
             'date' => $this->date,
             'color' => $this->calendarCategory->color,
+            'file' => CalendarFileResource::collection($this->calendarFiles),
         ];
     }
 }
