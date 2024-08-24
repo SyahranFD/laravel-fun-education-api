@@ -6,6 +6,7 @@ use App\Http\Requests\OtpRequest;
 use App\Http\Resources\OtpResource;
 use App\Mail\VerifyEmail;
 use App\Models\Otp;
+use App\Models\TokenResetPassword;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
@@ -27,9 +28,17 @@ class OtpController extends Controller
         $otp = Otp::create($otpData);
         $otp = new OtpResource($otp);
 
+        if ($request->reset_password == "true") {
+            TokenResetPassword::where('email', $request->email)->delete();
+            $tokenResetPassword = TokenResetPassword::create(['email' => $request->email, 'token' => Str::random(60)]);
+        }
+
         Mail::to($request->email)->send(new VerifyEmail($otpData['otp']));
 
-        return $this->resStoreData($otp);
+        return response([
+            'data' => $otp,
+            'token_reset_password' => $tokenResetPassword->token ?? null,
+        ]);
     }
 
     public function check(OtpRequest $request)

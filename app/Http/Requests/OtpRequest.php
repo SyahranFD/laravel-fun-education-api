@@ -24,6 +24,7 @@ class OtpRequest extends FormRequest
     {
         return [
             'email' => 'required|string|min:1|max:255',
+            'reset_password' => '',
         ];
     }
 }
