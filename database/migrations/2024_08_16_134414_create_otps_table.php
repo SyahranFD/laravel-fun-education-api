@@ -15,6 +15,7 @@ return new class extends Migration
             $table->string('id')->primary();
             $table->string('email')->unique();
             $table->string('otp');
+            $table->dateTime('expired_at')->default(now()->addMinutes(6));
             $table->timestamps();
         });
     }

@@ -4,12 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
+use App\Http\Requests\ResetPasswordRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Http\Resources\UserResource;
 use App\Http\Resources\UserWithSecretResource;
 use App\Models\AlurBelajar;
 use App\Models\Leaderboard;
 use App\Models\Saving;
+use App\Models\TokenResetPassword;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
@@ -31,6 +33,7 @@ class UserController extends Controller
         $lastName = $nameParts[1] ?? '';
         $userData['profile_picture'] = 'https://ui-avatars.com/api/?name='.urlencode($firstName.' '.$lastName).'&color=7F9CF5&background=EBF4FF&size=128';
         $userData['is_verified'] = false;
+        $userData['password'] = Hash::make($request->password);
 
         do {
             $userData['id'] = 'user-'.Str::uuid();
@@ -52,11 +55,9 @@ class UserController extends Controller
     public function login(LoginRequest $request)
     {
         $request->validated();
-        $user = User::where('email', $request->email)
-            ->where('password', $request->password)
-            ->first();
+        $user = User::where('email', $request->email)->first();
 
-        if (! $user) {
+        if (! $user || ! Hash::check($request->password, $user->password)) {
             return $this->resInvalidLogin();
         }
 
@@ -154,6 +155,28 @@ class UserController extends Controller
         $user->update($userData);
 
         return new UserResource($user);
+    }
+
+    public function resetPassword(ResetPasswordRequest $request)
+    {
+        $request->validated();
+        $user = User::where('email', $request->email)->first();
+        if (! $user) {
+            return $this->resUserNotFound();
+        }
+
+        $tokenResetPassword = TokenResetPassword::where('email', $request->email)->latest()->first();
+        if ($tokenResetPassword->token != $request->token_reset_password) {
+            return response(['message' => 'Token Reset Password Invalid'], 400);
+        }
+
+        TokenResetPassword::where('email', $request->email)->delete();
+        $newPassword = Hash::make($request->password);
+        $user->update(['password' => $newPassword]);
+
+        return response([
+            'message' => 'Reset Password Success',
+        ], 201);
     }
 
     public function verify(Request $request, $id)

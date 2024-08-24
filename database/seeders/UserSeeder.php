@@ -11,6 +11,7 @@ use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Hash;
 
 class UserSeeder extends Seeder
 {
@@ -32,7 +33,7 @@ class UserSeeder extends Seeder
         $nickname_admin = explode(' ', $full_name_admin)[0];
         $profile_picture_admin = 'https://ui-avatars.com/api/?name=' . urlencode($full_name_admin) . '&color=FFFFFF&background=' . $background_color_random . '&size=128';
 
-        User::create(['id' => 'user-'.fake()->uuid(), 'full_name' => $full_name_admin, 'nickname' => $nickname_admin, 'email' => 'funeducationapp@gmail.com', 'birth' => 'Batam, 10 Agustus 1980', 'address' => 'Griya Batu Aji Ari Blok G1, No 06', 'password' => Config::get('admin.password'), 'gender' => 'Perempuan', 'profile_picture' => $profile_picture_admin, 'is_verified' => true, 'is_verified_email' => true,
+        User::create(['id' => 'user-'.fake()->uuid(), 'full_name' => $full_name_admin, 'nickname' => $nickname_admin, 'email' => 'funeducationapp@gmail.com', 'birth' => 'Batam, 10 Agustus 1980', 'address' => 'Griya Batu Aji Ari Blok G1, No 06', 'password' => Hash::make(Config::get('admin.password')), 'gender' => 'Perempuan', 'profile_picture' => $profile_picture_admin, 'is_verified' => true, 'is_verified_email' => true,
             'role' => 'admin',]);
 
         $shifts = ['08.00 - 10.00', '10.00 - 11.30', '11.30 - 13.00', '13.00 - 14.00', '14.00 - 15.00',];
@@ -71,7 +72,7 @@ class UserSeeder extends Seeder
                 'birth' => $birth,
                 'address' => fake()->address,
                 'shift' => $shifts[($i - 1) % count($shifts)],
-                'password' => 'pass',
+                'password' => Hash::make('pass'),
                 'gender' => fake()->randomElement(['Laki-Laki', 'Perempuan']),
                 'profile_picture' => $profile_picture_user,
                 'role' => 'student',
