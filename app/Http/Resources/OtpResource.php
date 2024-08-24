@@ -18,7 +18,6 @@ class OtpResource extends JsonResource
             'id' => $this->id,
             'otp' => $this->otp,
             'email' => $this->email,
-            'token_reset_password' => $this->token_reset_password,
             'expired_at' => $this->expired_at,
             'created_at' => $this->created_at->format('Y-m-d H:i:s'),
         ];
