@@ -512,19 +512,25 @@ class LaporanHarianController extends Controller
         foreach ($activityList as $index => $activity) {
             $laporanHarianData = [];
             $laporanHarianData['activity_id'] = $activity->id;
-            $laporanHarianData['grade'] = $request->get('activity_'.($index+1));
             $laporanHarianData['permission'] = $request->get('permission');
             $laporanHarianData['note'] = $request->get('note');
 
-            if ($laporanHarianData['grade'] == 'A') {
-                $laporanHarianData['point'] = 10;
-                $totalPoint += 10;
-            } elseif ($laporanHarianData['grade'] == 'B') {
-                $laporanHarianData['point'] = 4;
-                $totalPoint += 4;
-            } elseif ($laporanHarianData['grade'] == 'C') {
-                $laporanHarianData['point'] = 3;
-                $totalPoint += 3;
+            if ($permission == 'Izin' || $permission == 'Sakit') {
+                $laporanHarianData['grade'] = null;
+                $laporanHarianData['point'] = 0;
+            } else {
+                $laporanHarianData['grade'] = $request->get('activity_'.($index+1));
+
+                if ($laporanHarianData['grade'] == 'A') {
+                    $laporanHarianData['point'] = 10;
+                    $totalPoint += 10;
+                } elseif ($laporanHarianData['grade'] == 'B') {
+                    $laporanHarianData['point'] = 4;
+                    $totalPoint += 4;
+                } elseif ($laporanHarianData['grade'] == 'C') {
+                    $laporanHarianData['point'] = 3;
+                    $totalPoint += 3;
+                }
             }
 
             $laporanHarian = $laporanHarianList->where('activity_id', $activity->id)->first();
