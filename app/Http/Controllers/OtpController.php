@@ -6,6 +6,7 @@ use App\Http\Requests\OtpRequest;
 use App\Http\Resources\OtpResource;
 use App\Mail\VerifyEmail;
 use App\Models\Otp;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
@@ -16,6 +17,8 @@ class OtpController extends Controller
     {
         $otpData['otp'] = rand(1000, 9999);
         $otpData['email'] = $request->email;
+        $otpData['expired_at'] = now()->addMinutes(6);
+        $otpData['token_reset_password'] = Str::random(60);
 
         do {
             $otpData['id'] = 'otp-'.Str::uuid();
@@ -23,17 +26,27 @@ class OtpController extends Controller
 
         Otp::where('email', $request->email)->delete();
         $otp = Otp::create($otpData);
+        $otp = new OtpResource($otp);
 
         Mail::to($request->email)->send(new VerifyEmail($otpData['otp']));
 
         return $this->resStoreData($otp);
     }
 
-    public function check(Request $request)
+    public function check(OtpRequest $request)
     {
-        $user = auth()->user();
-        $otp = Otp::where('email', auth()->user()->email)->latest()->first();
+        $otp = Otp::where('email', $request->email)->latest()->first();
+        if (! $otp) {
+            return $this->resDataNotFound('OTP With Current Email');
+        }
+
+        $user = User::where('email', $request->email)->first();
         if ($otp->otp == $request->otp) {
+            if ($otp->expired_at < now()) {
+                $otp->delete();
+                return response(['message' => 'OTP is expired'], 400);
+            }
+
             $otp->delete();
             $user->update(['is_verified_email' => true]);
             return response(['message' => 'OTP is valid']);
@@ -50,6 +63,16 @@ class OtpController extends Controller
     public function showCurrent()
     {
         $otp = Otp::where('email', auth()->user()->email)->latest()->first();
+        if (! $otp) {
+            return $this->resDataNotFound('OTP');
+        }
+
+        return new OtpResource($otp);
+    }
+
+    public function showByEmail(Request $request)
+    {
+        $otp = Otp::where('email', $request->email)->latest()->first();
         if (! $otp) {
             return $this->resDataNotFound('OTP');
         }

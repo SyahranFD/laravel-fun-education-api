@@ -262,8 +262,9 @@ Route::prefix('/calendar-file')->group(function () {
 
 Route::prefix('/otp')->group(function () {
     Route::post('/store', [OtpController::class, 'store']);
-    Route::post('/check', [OtpController::class, 'check'])->middleware('auth:sanctum');
+    Route::post('/check', [OtpController::class, 'check']);
 
     Route::get('/index', [OtpController::class, 'show']);
     Route::get('/show-current', [OtpController::class, 'showCurrent'])->middleware('auth:sanctum');
+    Route::get('/show-by-email', [OtpController::class, 'showByEmail']);
 });
