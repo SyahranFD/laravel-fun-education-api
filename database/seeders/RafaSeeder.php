@@ -12,6 +12,7 @@ use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 
 class RafaSeeder extends Seeder
 {
@@ -28,7 +29,7 @@ class RafaSeeder extends Seeder
             'birth' => 'Semarang, 15 Mei 2015',
             'address' => 'Jl. Kaliurang KM 5, Semarang',
             'shift' => '08.00 - 10.00',
-            'password' => 'rafapass',
+            'password' => Hash::make('rafapass'),
             'gender' => 'Laki-Laki',
             'profile_picture' => 'https://ui-avatars.com/api/?name=Syahran+Fadhil&color=FFFFFF&background=47E5BC&size=128',
             'role' => 'student',

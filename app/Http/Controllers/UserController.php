@@ -33,6 +33,7 @@ class UserController extends Controller
         $lastName = $nameParts[1] ?? '';
         $userData['profile_picture'] = 'https://ui-avatars.com/api/?name='.urlencode($firstName.' '.$lastName).'&color=7F9CF5&background=EBF4FF&size=128';
         $userData['is_verified'] = false;
+        $userData['password'] = Hash::make($request->password);
 
         do {
             $userData['id'] = 'user-'.Str::uuid();
@@ -54,11 +55,9 @@ class UserController extends Controller
     public function login(LoginRequest $request)
     {
         $request->validated();
-        $user = User::where('email', $request->email)
-            ->where('password', $request->password)
-            ->first();
+        $user = User::where('email', $request->email)->first();
 
-        if (! $user) {
+        if (! $user || ! Hash::check($request->password, $user->password)) {
             return $this->resInvalidLogin();
         }
 
