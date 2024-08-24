@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\PasswordResetTokenController;
+use App\Http\Controllers\TokenResetPasswordController;
 use App\Http\Controllers\CalendarFileController;
 use App\Http\Controllers\OtpController;
 use App\Http\Controllers\CalendarCategoryController;
@@ -270,7 +270,7 @@ Route::prefix('/otp')->group(function () {
     Route::get('/show-by-email', [OtpController::class, 'showByEmail']);
 });
 
-Route::prefix('/password-reset-token')->group(function () {
-    Route::get('/index', [PasswordResetTokenController::class, 'index']);
-    Route::get('/show', [PasswordResetTokenController::class, 'show']);
+Route::prefix('/token-reset-password')->group(function () {
+    Route::get('/index', [TokenResetPasswordController::class, 'index']);
+    Route::get('/show', [TokenResetPasswordController::class, 'show']);
 });
