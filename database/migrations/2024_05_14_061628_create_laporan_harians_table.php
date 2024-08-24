@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('laporan_harians', function (Blueprint $table) {
             $table->string('id')->primary();
             $table->string('user_id');
-            $table->string('permission')->default('Masuk');
+            $table->string('permission')->default('Hadir');
             $table->foreignId('activity_id')->nullable();
             $table->string('grade')->nullable();
             $table->integer('point')->nullable();
