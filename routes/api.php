@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\PasswordResetTokenController;
 use App\Http\Controllers\CalendarFileController;
 use App\Http\Controllers\OtpController;
 use App\Http\Controllers\CalendarCategoryController;
@@ -267,4 +268,9 @@ Route::prefix('/otp')->group(function () {
     Route::get('/index', [OtpController::class, 'show']);
     Route::get('/show-current', [OtpController::class, 'showCurrent'])->middleware('auth:sanctum');
     Route::get('/show-by-email', [OtpController::class, 'showByEmail']);
+});
+
+Route::prefix('/password-reset-token')->group(function () {
+    Route::get('/index', [PasswordResetTokenController::class, 'index']);
+    Route::get('/show', [PasswordResetTokenController::class, 'show']);
 });
