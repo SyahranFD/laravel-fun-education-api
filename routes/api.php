@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CatatanDaruratFileController;
 use App\Http\Controllers\TokenResetPasswordController;
 use App\Http\Controllers\CalendarFileController;
 use App\Http\Controllers\OtpController;
@@ -80,6 +81,15 @@ Route::prefix('/catatan-darurat')->group(function () {
 
     Route::put('/update/{id}', [CatatanDaruratController::class, 'update'])->middleware('auth:sanctum');
     Route::delete('/delete/{id}', [CatatanDaruratController::class, 'delete'])->middleware('auth:sanctum');
+});
+
+Route::prefix('/catatan-darurat-file')->group(function () {
+    Route::post('/store', [CatatanDaruratFileController::class, 'store'])->middleware('auth:sanctum');
+
+    Route::get('/index', [CatatanDaruratFileController::class, 'index']);
+    Route::get('/show/{id}', [CatatanDaruratFileController::class, 'show']);
+
+    Route::delete('/delete/{id}', [CatatanDaruratFileController::class, 'destroy'])->middleware('auth:sanctum');
 });
 
 Route::prefix('/laporan-harian')->group(function () {
