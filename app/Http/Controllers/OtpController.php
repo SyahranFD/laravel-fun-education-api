@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\OtpCheckRequest;
 use App\Http\Requests\OtpRequest;
 use App\Http\Resources\OtpResource;
 use App\Mail\VerifyEmail;
@@ -28,20 +29,14 @@ class OtpController extends Controller
         $otp = Otp::create($otpData);
         $otp = new OtpResource($otp);
 
-        if ($request->reset_password == "true") {
-            TokenResetPassword::where('email', $request->email)->delete();
-            $tokenResetPassword = TokenResetPassword::create(['email' => $request->email, 'token' => Str::random(60)]);
-        }
-
         Mail::to($request->email)->send(new VerifyEmail($otpData['otp']));
 
         return response([
             'data' => $otp,
-            'token_reset_password' => $tokenResetPassword->token ?? null,
         ]);
     }
 
-    public function check(OtpRequest $request)
+    public function check(OtpCheckRequest $request)
     {
         $otp = Otp::where('email', $request->email)->latest()->first();
         if (! $otp) {
@@ -55,9 +50,14 @@ class OtpController extends Controller
                 return response(['message' => 'OTP is expired'], 400);
             }
 
+            if ($request->reset_password == "true") {
+                TokenResetPassword::where('email', $request->email)->delete();
+                $tokenResetPassword = TokenResetPassword::create(['email' => $request->email, 'token' => Str::random(60)]);
+            }
+
             $otp->delete();
             $user->update(['is_verified_email' => true]);
-            return response(['message' => 'OTP is valid']);
+            return response(['message' => 'OTP is valid', 'token_reset_password' => $tokenResetPassword->token ?? null,]);
         }
 
         return response(['message' => 'OTP is invalid']);
