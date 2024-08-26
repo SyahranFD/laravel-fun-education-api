@@ -53,7 +53,7 @@ class RafaSeeder extends Seeder
 
         $tugasRafaDitutup = Tugas::where('status', 'Ditutup')->where('shift', $rafa->shift)->orderBy('created_at', 'desc')->get();
         foreach ($tugasRafaDitutup as $tugas) {
-            $created_at = Carbon::now()->subDays(rand(0, 30));
+            $created_at = Carbon::now()->subDays(rand(4, 30));
             TugasUser::firstOrCreate(
                 [
                     'tugas_id' => $tugas->id,

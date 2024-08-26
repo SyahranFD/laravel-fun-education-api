@@ -94,7 +94,7 @@ class TugasUserController extends Controller
                     ->whereDate('created_at', $date)
                     ->get();
 
-                $totalPoint = $tugasUser->sum('grade');
+                $totalPoint = min($tugasUser->sum('grade'), 100);
                 $statistics[] = [
                     'date' => $date->toDateString(),
                     'total_point' => $totalPoint,
@@ -112,7 +112,7 @@ class TugasUserController extends Controller
                     ->whereDate('created_at', $date)
                     ->get();
 
-                $totalPoint = $tugasUser->sum('grade');
+                $totalPoint = min($tugasUser->sum('grade'), 100);
                 $statistics[] = [
                     'date' => $date->toDateString(),
                     'total_point' => $totalPoint,
