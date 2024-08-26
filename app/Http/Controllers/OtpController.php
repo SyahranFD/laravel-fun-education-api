@@ -44,6 +44,10 @@ class OtpController extends Controller
         }
 
         $user = User::where('email', $request->email)->first();
+        if (! $user) {
+            return $this->resDataNotFound('User With Current Email');
+        }
+
         if ($otp->otp == $request->otp) {
             if ($otp->expired_at < now()) {
                 $otp->delete();
