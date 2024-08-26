@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class OtpRequest extends FormRequest
+class OtpCheckRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,6 +23,8 @@ class OtpRequest extends FormRequest
     {
         return [
             'email' => 'required|string|min:1|max:255',
+            'otp' => 'required|string|min:1|max:255',
+            'reset_password' => 'boolean',
         ];
     }
 }
