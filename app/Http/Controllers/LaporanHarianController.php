@@ -632,6 +632,7 @@ class LaporanHarianController extends Controller
             $laporanHarian = $laporanHarianList->where('activity_id', $activity->id)->first();
             if ($laporanHarian) {
                 $laporanHarian->update($laporanHarianData);
+                Leaderboard::where('laporan_harian_id', $laporanHarian->id)->update(['point' => $laporanHarianData['point']]);
             }
         }
 

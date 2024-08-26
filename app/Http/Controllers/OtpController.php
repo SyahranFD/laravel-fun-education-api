@@ -60,7 +60,7 @@ class OtpController extends Controller
             return response(['message' => 'OTP is valid', 'token_reset_password' => $tokenResetPassword->token ?? null,]);
         }
 
-        return response(['message' => 'OTP is invalid']);
+        return response(['message' => 'OTP is invalid'], 400);
     }
 
     public function show()
