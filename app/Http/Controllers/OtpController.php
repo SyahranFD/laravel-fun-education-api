@@ -44,6 +44,10 @@ class OtpController extends Controller
         }
 
         $user = User::where('email', $request->email)->first();
+        if (! $user) {
+            return $this->resDataNotFound('User With Current Email');
+        }
+
         if ($otp->otp == $request->otp) {
             if ($otp->expired_at < now()) {
                 $otp->delete();
@@ -60,7 +64,7 @@ class OtpController extends Controller
             return response(['message' => 'OTP is valid', 'token_reset_password' => $tokenResetPassword->token ?? null,]);
         }
 
-        return response(['message' => 'OTP is invalid']);
+        return response(['message' => 'OTP is invalid'], 400);
     }
 
     public function show()

@@ -273,7 +273,7 @@ class LaporanHarianController extends Controller
                 ];
 
                 $bottomTitle[] = [
-                    'date' => $date->format('d/m'),
+                    'date' => $date->format('d-m'),
                     'case' => 6 - $i,
                 ];
             }
@@ -293,7 +293,7 @@ class LaporanHarianController extends Controller
 
                 if (in_array($i, [0, 10, 20, 30])) {
                     $bottomTitle[] = [
-                        'date' => $date->format('d/m'),
+                        'date' => $date->format('d-m'),
                         'case' => 30 - $i,
                     ];
                 }
@@ -512,6 +512,12 @@ class LaporanHarianController extends Controller
             return $this->resDataNotFound('Laporan Harian');
         }
 
+        $previousLaporanHarian = LaporanHarian::where('user_id', $request->get('user_id'))
+            ->whereDate('created_at', $date)
+            ->first();
+
+        $previousTime = $previousLaporanHarian->created_at->format('H:i:s');
+
         $activityList = Activity::orderBy('id')->get();
         $laporanHarianListNew = [];
         $permission = $request->get('permission');
@@ -528,6 +534,7 @@ class LaporanHarianController extends Controller
                 ->delete();
 
             $laporanHarianData = $request->only(['user_id', 'permission', 'note', 'created_at']);
+            $laporanHarianData['created_at'] = $date . ' ' . $previousTime;
             $laporanHarianData['point'] = 0;
             do {
                 $laporanHarianData['id'] = 'laporan-harian-'.Str::uuid();
@@ -556,9 +563,7 @@ class LaporanHarianController extends Controller
                 $laporanHarianData['user_id'] = $request->get('user_id');
                 $laporanHarianData['grade'] = $request->get('activity_'.($index+1));
                 $laporanHarianData['note'] = $request->get('note');
-                if ($request->get('created_at')) {
-                    $laporanHarianData['created_at'] = $request->get('created_at');
-                }
+                $laporanHarianData['created_at'] = $date . ' ' . $previousTime;
                 do {
                     $laporanHarianData['id'] = 'laporan-harian-'.Str::uuid();
                 } while (LaporanHarian::where('id', $laporanHarianData['id'])->exists());
@@ -593,6 +598,7 @@ class LaporanHarianController extends Controller
 
         if ($permission == 'Izin' || $permission == 'Sakit') {
             $laporanHarianData = $request->only(['user_id', 'permission', 'note', 'created_at']);
+            $laporanHarianData['created_at'] = $date . ' ' . $previousTime;
             $laporanHarianData['point'] = 0;
             do {
                 $laporanHarianData['id'] = 'laporan-harian-'.Str::uuid();
@@ -632,6 +638,7 @@ class LaporanHarianController extends Controller
             $laporanHarian = $laporanHarianList->where('activity_id', $activity->id)->first();
             if ($laporanHarian) {
                 $laporanHarian->update($laporanHarianData);
+                Leaderboard::where('laporan_harian_id', $laporanHarian->id)->update(['point' => $laporanHarianData['point']]);
             }
         }
 

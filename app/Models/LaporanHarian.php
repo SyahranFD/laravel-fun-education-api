@@ -23,8 +23,8 @@ class LaporanHarian extends Model
         return $this->belongsTo(Activity::class);
     }
 
-    public function laporanHarianNotes()
+    public function leaderboard()
     {
-        return $this->hasMany(LaporanHarianNote::class);
+        return $this->hasOne(Leaderboard::class);
     }
 }

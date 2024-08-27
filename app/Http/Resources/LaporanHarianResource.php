@@ -19,6 +19,7 @@ class LaporanHarianResource extends JsonResource
             'id' => $this->id,
             'activity' => Activity::find($this->activity_id)->name ?? null,
             'grade' => $this->grade,
+            'created_at' => $this->created_at->format('Y-m-d H:i:s'),
         ];
     }
 }
