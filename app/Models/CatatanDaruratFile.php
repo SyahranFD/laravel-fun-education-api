@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class CatatanDarurat extends Model
+class CatatanDaruratFile extends Model
 {
     use HasFactory;
 
@@ -13,12 +13,8 @@ class CatatanDarurat extends Model
 
     protected $guarded = [];
 
-    protected $casts = [
-        'is_deleted' => 'boolean',
-    ];
-
-    public function catatanDaruratFiles()
+    public function catatanDarurat()
     {
-        return $this->hasMany(CatatanDaruratFile::class);
+        return $this->belongsTo(CatatanDarurat::class);
     }
 }

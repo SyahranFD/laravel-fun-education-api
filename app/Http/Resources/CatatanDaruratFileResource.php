@@ -5,7 +5,7 @@ namespace App\Http\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class CatatanDaruratResource extends JsonResource
+class CatatanDaruratFileResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -16,9 +16,8 @@ class CatatanDaruratResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'catatan' => $this->catatan,
-            'is_deleted' => $this->is_deleted,
-            'file' => CatatanDaruratFileResource::collection($this->catatanDaruratFiles),
+            'catatan_darurat_id' => $this->catatan_darurat_id,
+            'file' => $this->file,
         ];
     }
 }
