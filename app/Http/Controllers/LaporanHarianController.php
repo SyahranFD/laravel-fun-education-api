@@ -273,7 +273,7 @@ class LaporanHarianController extends Controller
                 ];
 
                 $bottomTitle[] = [
-                    'date' => $date->format('d/m'),
+                    'date' => $date->format('d-m'),
                     'case' => 6 - $i,
                 ];
             }
@@ -293,7 +293,7 @@ class LaporanHarianController extends Controller
 
                 if (in_array($i, [0, 10, 20, 30])) {
                     $bottomTitle[] = [
-                        'date' => $date->format('d/m'),
+                        'date' => $date->format('d-m'),
                         'case' => 30 - $i,
                     ];
                 }
