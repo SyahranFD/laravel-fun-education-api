@@ -92,6 +92,8 @@ class SavingApplicationController extends Controller
             return $this->resDataNotFound('Saving Application');
         }
 
+        $notification = 'User tidak memiliki fcm_token atau fcm_token tidak valid';
+
         $savingApplication->update($request->all());
         if ($request->status == 'Accepted' && $savingApplication->category == 'SPP') {
             Transaction::create([
@@ -108,7 +110,6 @@ class SavingApplicationController extends Controller
         if ($request->status == 'Accepted' || $request->status == 'Rejected') {
             $status = $request->status == 'Accepted' ? 'Diterima' : 'Ditolak';
             $user = User::find($savingApplication->user_id);
-            $notification = 'User tidak memiliki fcm_token atau fcm_token tidak valid';
             if ($user->fcm_token) {
                 $notification = $this->notification($user, 'Pengajuan Tabungan '. $status, 'Pengajuan tabungan '. strtolower($savingApplication->category) .' anda '. strtolower($status) .', silahkan cek status pengajuan', $user->id, '/saving-page');
             }
