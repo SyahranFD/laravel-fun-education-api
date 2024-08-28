@@ -88,7 +88,7 @@ class LaporanHarianController extends Controller
         $user = User::find($request->get('user_id'));
         $notification = 'User tidak memiliki fcm_token atau fcm_token tidak valid';
         if ($user->fcm_token) {
-            $notification = $this->notification($user, 'Laporan Harian Telah Dikirim', 'Laporan harian telah dikirim', Carbon::now()->format('Y-m-d'));
+            $notification = $this->notification($user, 'Laporan Harian Tersedia', 'Laporan harian anak anda telah tersedia, silahkan diperiksa', Carbon::now()->format('Y-m-d'));
         }
 
         return response([
