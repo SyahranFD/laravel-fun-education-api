@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('calendar_files', function (Blueprint $table) {
             $table->string('id')->primary();
+            $table->string('name')->nullable();
             $table->string('calendar_id');
             $table->string('file');
             $table->timestamps();

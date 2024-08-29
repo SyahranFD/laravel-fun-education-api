@@ -31,7 +31,15 @@ class CalendarFileController extends Controller
         } while (CalendarFile::where('id', $calendarFileData['id'])->exists());
 
         if ($request->hasFile('file')) {
-            $filePath = $request->file('file')->store('public');
+            $fileName = $calendarFileData['name'];
+            $fileName = str_replace(' ', '-', $fileName);
+            $fileName = strtolower($fileName);
+            $fileName = $fileName . '-' . Str::random(30);
+
+            $fileExtension = $request->file('file')->getClientOriginalExtension();
+            $fileName = $fileName . '.' . $fileExtension;
+
+            $filePath = $request->file('file')->storeAs('public', $fileName);
             $calendarFileData['file'] = $this->url.Storage::url($filePath);
         }
 
