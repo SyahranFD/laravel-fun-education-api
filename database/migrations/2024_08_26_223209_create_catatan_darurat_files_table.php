@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('catatan_darurat_files', function (Blueprint $table) {
             $table->string('id')->primary();
+            $table->string('name')->nullable();
             $table->string('catatan_darurat_id');
             $table->string('file');
             $table->timestamps();

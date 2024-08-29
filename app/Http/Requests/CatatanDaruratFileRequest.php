@@ -23,6 +23,7 @@ class CatatanDaruratFileRequest extends FormRequest
     {
         return [
             'catatan_darurat_id' => 'required|exists:catatan_darurats,id',
+            'name' => 'required|string|max:255',
             'file' => 'required|max:2048',
         ];
     }
