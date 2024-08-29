@@ -16,6 +16,7 @@ class CalendarFileResource extends JsonResource
     {
         return [
             'id' => $this->id,
+            'name' => $this->name,
             'calendar_id' => $this->calendar_id,
             'file' => $this->file,
         ];

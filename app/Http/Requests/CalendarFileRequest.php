@@ -23,6 +23,7 @@ class CalendarFileRequest extends FormRequest
     {
         return [
             'calendar_id' => 'required|exists:calendars,id',
+            'name' => 'string|max:255',
             'file' => 'required|max:2048',
         ];
     }
