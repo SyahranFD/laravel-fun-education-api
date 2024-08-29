@@ -61,6 +61,12 @@ class CatatanDaruratController extends Controller
             return $this->resDataNotFound('Catatan Darurat');
         }
 
+        if ($catatanDarurat->created_at->toDateString() != now()->toDateString()) {
+            $catatanDarurat->update(['is_deleted' => true]);
+
+            return $this->resDataNotFound('Catatan Darurat');
+        }
+
         return new CatatanDaruratResource($catatanDarurat);
     }
 
