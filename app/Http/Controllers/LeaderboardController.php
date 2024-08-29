@@ -64,7 +64,7 @@ class LeaderboardController extends Controller
     public function point()
     {
         $user = auth()->user();
-        $point = Leaderboard::where('user_id', $user->id)->whereDate('created_at', Carbon::now())->sum('point');
+        $point = Leaderboard::where('user_id', $user->id)->sum('point');
         $point = number_format($point, 0, '.', '.');
         if (! $point) {
             return $this->resDataNotFound('Leaderboard');
