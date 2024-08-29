@@ -16,6 +16,7 @@ class CatatanDaruratFileResource extends JsonResource
     {
         return [
             'id' => $this->id,
+            'name' => $this->name,
             'catatan_darurat_id' => $this->catatan_darurat_id,
             'file' => $this->file,
         ];

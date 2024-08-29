@@ -31,7 +31,15 @@ class CatatanDaruratFileController extends Controller
         } while (CatatanDaruratFile::where('id', $catatanDaruratFileData['id'])->exists());
 
         if ($request->hasFile('file')) {
-            $filePath = $request->file('file')->store('public');
+            $fileName = $catatanDaruratFileData['name'];
+            $fileName = str_replace(' ', '-', $fileName);
+            $fileName = strtolower($fileName);
+            $fileName = $fileName . '-' . Str::random(30);
+
+            $fileExtension = $request->file('file')->getClientOriginalExtension();
+            $fileName = $fileName . '.' . $fileExtension;
+
+            $filePath = $request->file('file')->storeAs('public', $fileName);
             $catatanDaruratFileData['file'] = $this->url.Storage::url($filePath);
         }
 
