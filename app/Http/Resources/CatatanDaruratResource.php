@@ -18,6 +18,7 @@ class CatatanDaruratResource extends JsonResource
             'id' => $this->id,
             'catatan' => $this->catatan,
             'is_deleted' => $this->is_deleted,
+            'file' => CatatanDaruratFileResource::collection($this->catatanDaruratFiles),
         ];
     }
 }

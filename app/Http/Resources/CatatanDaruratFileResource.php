@@ -5,7 +5,7 @@ namespace App\Http\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class CalendarFileResource extends JsonResource
+class CatatanDaruratFileResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -17,7 +17,7 @@ class CalendarFileResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
-            'calendar_id' => $this->calendar_id,
+            'catatan_darurat_id' => $this->catatan_darurat_id,
             'file' => $this->file,
         ];
     }

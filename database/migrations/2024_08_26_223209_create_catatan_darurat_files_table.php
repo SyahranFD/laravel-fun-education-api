@@ -11,14 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('calendar_files', function (Blueprint $table) {
+        Schema::create('catatan_darurat_files', function (Blueprint $table) {
             $table->string('id')->primary();
             $table->string('name')->nullable();
-            $table->string('calendar_id');
+            $table->string('catatan_darurat_id');
             $table->string('file');
             $table->timestamps();
 
-            $table->foreign('calendar_id')->references('id')->on('calendars')->onDelete('cascade');
+            $table->foreign('catatan_darurat_id')->references('id')->on('catatan_darurats')->onDelete('cascade');
         });
     }
 
@@ -27,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('calendar_files');
+        Schema::dropIfExists('catatan_darurat_files');
     }
 };

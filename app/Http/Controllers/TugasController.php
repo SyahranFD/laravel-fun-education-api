@@ -129,7 +129,7 @@ class TugasController extends Controller
         if ($status) {
             if ($status == 'Terbaru') {
                 $tugasId = TugasUser::where('user_id', $user->id)->pluck('tugas_id');
-                $query->whereNotIn('id', $tugasId);
+                $query->whereNotIn('id', $tugasId)->where('status', 'Tersedia');
             } else {
                 $tugasId = TugasUser::where('user_id', $user->id)->where('status', $status)->pluck('tugas_id');
                 $query->whereIn('id', $tugasId);

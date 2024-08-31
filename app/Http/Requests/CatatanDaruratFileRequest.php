@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class CalendarFileRequest extends FormRequest
+class CatatanDaruratFileRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,8 +22,8 @@ class CalendarFileRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'calendar_id' => 'required|exists:calendars,id',
-            'name' => 'string|max:255',
+            'catatan_darurat_id' => 'required|exists:catatan_darurats,id',
+            'name' => 'required|string|max:255',
             'file' => 'required|max:2048',
         ];
     }

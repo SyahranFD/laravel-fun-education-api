@@ -28,11 +28,15 @@ class CatatanDaruratController extends Controller
         $catatanDarurat = CatatanDarurat::create($catatanDaruratData);
         $catatanDarurat = new CatatanDaruratResource($catatanDarurat);
 
-        $users = User::whereNotNull('fcm_token')->get();
+        $users = User::whereNotNull('fcm_token')->where('role', '!=', 'admin')->get();
         $notification = "";
         foreach ($users as $user) {
             if ($user->fcm_token) {
-                $notification = $this->notification($user, 'Laporan Harian Telah Dikirim', 'Laporan harian telah dikirim');
+                try {
+                    $notification = $this->notification($user, 'Ada Informasi Penting Baru Hari Ini', 'Mohon informasi ini agar segera dibaca dan dipahami. Terima kasih.');
+                } catch (\Kreait\Firebase\Exception\Messaging\NotFound $e) {
+                    continue;
+                }
             }
         }
 
@@ -58,6 +62,12 @@ class CatatanDaruratController extends Controller
     {
         $catatanDarurat = CatatanDarurat::where('is_deleted', false)->latest()->first();
         if (! $catatanDarurat) {
+            return $this->resDataNotFound('Catatan Darurat');
+        }
+
+        if ($catatanDarurat->created_at->toDateString() != now()->toDateString()) {
+            $catatanDarurat->update(['is_deleted' => true]);
+
             return $this->resDataNotFound('Catatan Darurat');
         }
 
