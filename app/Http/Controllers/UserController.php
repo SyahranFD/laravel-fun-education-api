@@ -136,6 +136,37 @@ class UserController extends Controller
         return new UserResource($user);
     }
 
+    public function checkEmail(Request $request)
+    {
+        $email = $request->email;
+        $isExist = $request->is_exist;
+
+        if ($isExist) {
+            $isExist = filter_var($isExist, FILTER_VALIDATE_BOOLEAN);
+            $user = User::where('email', $email)->first();
+            if ($isExist) {
+                if ($user) {
+                    return response(['message' => 'Email Exist'], 200);
+                } else {
+                    return response(['message' => 'Email Not Exist'], 404);
+                }
+            } else {
+                if ($user) {
+                    return response(['message' => 'Email Exist'], 404);
+                } else {
+                    return response(['message' => 'Email Not Exist'], 200);
+                }
+            }
+        } else {
+            $user = User::where('email', $email)->first();
+            if ($user) {
+                return response(['message' => 'Email Exist'], 200);
+            } else {
+                return response(['message' => 'Email Not Exist'], 404);
+            }
+        }
+    }
+
     public function updateAdmin(UpdateUserRequest $request, $id)
     {
         $request->validated();

@@ -43,12 +43,12 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::prefix('/users')->group(function () {
     Route::post('/register', [UserController::class, 'register']);
     Route::post('/login', [UserController::class, 'login']);
+    Route::post('/check-email', [UserController::class, 'checkEmail']);
 
     Route::get('/index', [UserController::class, 'index']);
     Route::get('/show/{id}', [UserController::class, 'showById']);
     Route::get('/show-secret/{id}', [UserController::class, 'showByIdSecret'])->middleware('auth:sanctum');
     Route::get('/show-current', [UserController::class, 'showCurrent'])->middleware('auth:sanctum');
-
 
     Route::put('/update-admin/{id}', [UserController::class, 'updateAdmin'])->middleware('auth:sanctum');
     Route::put('/reset-password', [UserController::class, 'resetPassword']);
