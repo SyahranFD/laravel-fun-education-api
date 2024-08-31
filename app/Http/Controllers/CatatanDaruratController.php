@@ -32,7 +32,11 @@ class CatatanDaruratController extends Controller
         $notification = "";
         foreach ($users as $user) {
             if ($user->fcm_token) {
-                $notification = $this->notification($user, 'Ada Informasi Penting Baru Hari Ini', 'Mohon informasi ini agar segera dibaca dan dipahami. Terima kasih.');
+                try {
+                    $notification = $this->notification($user, 'Ada Informasi Penting Baru Hari Ini', 'Mohon informasi ini agar segera dibaca dan dipahami. Terima kasih.');
+                } catch (\Kreait\Firebase\Exception\Messaging\NotFound $e) {
+                    continue;
+                }
             }
         }
 
