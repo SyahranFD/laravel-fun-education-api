@@ -32,11 +32,7 @@ class CatatanDaruratController extends Controller
         $notification = "";
         foreach ($users as $user) {
             if ($user->fcm_token) {
-                try {
-                    $notification = $this->notification($user, 'Ada Informasi Penting Baru Hari Ini', 'Mohon informasi ini agar segera dibaca dan dipahami. Terima kasih.');
-                } catch (\Kreait\Firebase\Exception\Messaging\NotFound $e) {
-                    continue;
-                }
+                $notification = $this->notification($user, 'Ada Informasi Penting Baru Hari Ini', 'Mohon informasi ini agar segera dibaca dan dipahami. Terima kasih.');
             }
         }
 
@@ -113,17 +109,21 @@ class CatatanDaruratController extends Controller
 
     public function notification($user, $title, $body)
     {
-        $message = CloudMessage::fromArray([
-            'token' => $user->fcm_token,
-            'notification' => [
-                'title' => $title,
-                'body' => $body,
-            ],
-        ])->withData([
-            'route' => '/home-page',
-        ]);
+        try {
+            $message = CloudMessage::fromArray([
+                'token' => $user->fcm_token,
+                'notification' => [
+                    'title' => $title,
+                    'body' => $body,
+                ],
+            ])->withData([
+                'route' => '/home-page',
+            ]);
 
-        Firebase::messaging()->send($message);
-        return $message;
+            Firebase::messaging()->send($message);
+            return $message;
+        } catch (\Kreait\Firebase\Exception\Messaging\NotFound $e) {
+            // If a NotFound exception is thrown, do nothing and continue
+        }
     }
 }

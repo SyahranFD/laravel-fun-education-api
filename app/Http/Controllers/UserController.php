@@ -273,16 +273,20 @@ class UserController extends Controller
 
     public function notification($user, $title, $body)
     {
-        $FcmToken = $user->fcm_token;
-        $message = CloudMessage::fromArray([
-            'token' => $FcmToken,
-            'notification' => [
-                'title' => $title,
-                'body' => $body,
-            ],
-        ]);
+        try {
+            $FcmToken = $user->fcm_token;
+            $message = CloudMessage::fromArray([
+                'token' => $FcmToken,
+                'notification' => [
+                    'title' => $title,
+                    'body' => $body,
+                ],
+            ]);
 
-        Firebase::messaging()->send($message);
-        return $message;
+            Firebase::messaging()->send($message);
+            return $message;
+        } catch (\Kreait\Firebase\Exception\Messaging\NotFound $e) {
+            // If a NotFound exception is thrown, do nothing and continue
+        }
     }
 }
