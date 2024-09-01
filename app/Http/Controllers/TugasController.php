@@ -192,18 +192,22 @@ class TugasController extends Controller
 
     public function notification($user, $title, $body, $route)
     {
-        $FcmToken = $user->fcm_token;
-        $message = CloudMessage::fromArray([
-            'token' => $FcmToken,
-            'notification' => [
-                'title' => $title,
-                'body' => $body,
-            ],
-        ])->withData([
-            'route' => $route,
-        ]);
+        try {
+            $FcmToken = $user->fcm_token;
+            $message = CloudMessage::fromArray([
+                'token' => $FcmToken,
+                'notification' => [
+                    'title' => $title,
+                    'body' => $body,
+                ],
+            ])->withData([
+                'route' => $route,
+            ]);
 
-        Firebase::messaging()->send($message);
-        return $message;
+            Firebase::messaging()->send($message);
+            return $message;
+        } catch (\Kreait\Firebase\Exception\Messaging\NotFound $e) {
+            // If a NotFound exception is thrown, do nothing and continue
+        }
     }
 }

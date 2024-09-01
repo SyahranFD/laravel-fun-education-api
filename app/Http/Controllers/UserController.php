@@ -78,25 +78,46 @@ class UserController extends Controller
         $shift = $request->query('shift');
         $is_verified = $request->query('is_verified');
         $is_graduated = $request->query('is_graduated');
+        $search = $request->query('search');
+        $gender = $request->query('gender');
+
+        $query = User::query();
+
+        if ($search) {
+            $query->where(function ($query) use ($search) {
+                $query->where('full_name', 'like', '%' . $search . '%')
+                    ->orWhere('nickname', 'like', '%' . $search . '%')
+                    ->orWhere('birth', 'like', '%' . $search . '%')
+                    ->orWhere('address', 'like', '%' . $search . '%');
+            });
+        }
+
+        if ($gender) {
+            $query->where('gender', $gender);
+        }
+
         if ($shift) {
-            $users = User::where('shift', $shift)->where('role', 'student')->where('is_verified_email', true)->orderBy('created_at', 'desc')->get();
-        } else {
-            $users = User::where('role', 'student')->where('is_verified_email', true)->orderBy('created_at', 'desc')->get();
+            $query->where('shift', $shift);
         }
 
         if ($is_verified) {
             $is_verified = filter_var($is_verified, FILTER_VALIDATE_BOOLEAN);
-            $users = $users->where('is_verified', $is_verified);
+            $query->where('is_verified', $is_verified);
         } else {
-            $users = $users->where('is_verified', true);
+            $query->where('is_verified', true);
         }
 
         if ($is_graduated) {
             $is_graduated = filter_var($is_graduated, FILTER_VALIDATE_BOOLEAN);
-            $users = $users->where('is_graduated', $is_graduated);
+            $query->where('is_graduated', $is_graduated);
         } else {
-            $users = $users->where('is_graduated', false);
+            $query->where('is_graduated', false);
         }
+
+        $users = $query->where('role', 'student')
+            ->where('is_verified_email', true)
+            ->orderBy('created_at', 'desc')
+            ->get();
 
         return UserResource::collection($users);
     }
@@ -134,6 +155,37 @@ class UserController extends Controller
         }
 
         return new UserResource($user);
+    }
+
+    public function checkEmail(Request $request)
+    {
+        $email = $request->email;
+        $isExist = $request->is_exist;
+
+        if ($isExist) {
+            $isExist = filter_var($isExist, FILTER_VALIDATE_BOOLEAN);
+            $user = User::where('email', $email)->first();
+            if ($isExist) {
+                if ($user) {
+                    return response(['message' => 'Email Exist'], 200);
+                } else {
+                    return response(['message' => 'Email Not Exist'], 404);
+                }
+            } else {
+                if ($user) {
+                    return response(['message' => 'Email Exist'], 404);
+                } else {
+                    return response(['message' => 'Email Not Exist'], 200);
+                }
+            }
+        } else {
+            $user = User::where('email', $email)->first();
+            if ($user) {
+                return response(['message' => 'Email Exist'], 200);
+            } else {
+                return response(['message' => 'Email Not Exist'], 404);
+            }
+        }
     }
 
     public function updateAdmin(UpdateUserRequest $request, $id)
@@ -242,16 +294,20 @@ class UserController extends Controller
 
     public function notification($user, $title, $body)
     {
-        $FcmToken = $user->fcm_token;
-        $message = CloudMessage::fromArray([
-            'token' => $FcmToken,
-            'notification' => [
-                'title' => $title,
-                'body' => $body,
-            ],
-        ]);
+        try {
+            $FcmToken = $user->fcm_token;
+            $message = CloudMessage::fromArray([
+                'token' => $FcmToken,
+                'notification' => [
+                    'title' => $title,
+                    'body' => $body,
+                ],
+            ]);
 
-        Firebase::messaging()->send($message);
-        return $message;
+            Firebase::messaging()->send($message);
+            return $message;
+        } catch (\Kreait\Firebase\Exception\Messaging\NotFound $e) {
+            // If a NotFound exception is thrown, do nothing and continue
+        }
     }
 }
