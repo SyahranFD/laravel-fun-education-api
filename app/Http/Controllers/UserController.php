@@ -204,6 +204,13 @@ class UserController extends Controller
         $userData = $request->all();
         $userData['password'] = Hash::make($request->password);
 
+        $isGraduated = filter_var($request->is_graduated, FILTER_VALIDATE_BOOLEAN);
+        if ($isGraduated == true) {
+            $userData['graduated_at'] = now();
+        } elseif ($isGraduated == false) {
+            $userData['graduated_at'] = null;
+        }
+
         $user->update($userData);
 
         return new UserResource($user);

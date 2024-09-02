@@ -27,6 +27,7 @@ return new class extends Migration
             $table->boolean('is_verified')->default(false);
             $table->boolean('is_verified_email')->default(false);
             $table->boolean('is_graduated')->default(false);
+            $table->dateTime('graduated_at')->nullable();
             $table->timestamps();
         });
     }

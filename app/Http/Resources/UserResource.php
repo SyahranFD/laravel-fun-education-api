@@ -29,6 +29,7 @@ class UserResource extends JsonResource
             'is_verified' => $this->is_verified,
             'is_verified_email' => $this->is_verified_email,
             'is_graduated' => $this->is_graduated,
+            'graduated_at' => $this->graduated_at ? $this->graduated_at->format('Y-m-d H:i:s') : null,
             'created_at' => $this->created_at->format('Y-m-d H:i:s'),
         ];
     }
