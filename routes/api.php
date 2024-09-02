@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ExcelUrlController;
 use App\Http\Controllers\CatatanDaruratFileController;
 use App\Http\Controllers\TokenResetPasswordController;
 use App\Http\Controllers\CalendarFileController;
@@ -284,4 +285,10 @@ Route::prefix('/otp')->group(function () {
 Route::prefix('/token-reset-password')->group(function () {
     Route::get('/index', [TokenResetPasswordController::class, 'index']);
     Route::get('/show', [TokenResetPasswordController::class, 'show']);
+});
+
+Route::prefix('excel')->group(function () {
+    Route::post('store', [ExcelUrlController::class, 'store'])->middleware('auth:sanctum');
+    Route::get('/user-export', [ExcelUrlController::class, 'userExport']);
+    Route::get('/index', [ExcelUrlController::class, 'index']);
 });
