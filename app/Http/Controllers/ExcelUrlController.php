@@ -23,8 +23,6 @@ class ExcelUrlController extends Controller
 
     public function userExport()
     {
-        $this->excel->download(new ExportUser(), 'List Siswa ~ '.now()->format('Y-m-d H:i:s').'.xlsx');
-
-        return $this->excel->download(new ExportUser(), 'List Siswa ~ '.now()->format('Y-m-d H:i:s').'.xlsx');
+        return (new ExportUser())->download('List Siswa ~ '.now()->format('Y-m-d H:i:s').'.xlsx');
     }
 }
