@@ -86,9 +86,9 @@ class UserController extends Controller
         if ($search) {
             $query->where(function ($query) use ($search) {
                 $query->where('full_name', 'like', '%' . $search . '%')
-                    ->orWhere('nickname', 'like', '%' . $search . '%')
-                    ->orWhere('birth', 'like', '%' . $search . '%')
-                    ->orWhere('address', 'like', '%' . $search . '%');
+                    ->orWhere('nickname', 'like', '%' . $search . '%');
+//                    ->orWhere('birth', 'like', '%' . $search . '%')
+//                    ->orWhere('address', 'like', '%' . $search . '%');
             });
         }
 
@@ -203,6 +203,13 @@ class UserController extends Controller
 
         $userData = $request->all();
         $userData['password'] = Hash::make($request->password);
+
+        $isGraduated = filter_var($request->is_graduated, FILTER_VALIDATE_BOOLEAN);
+        if ($isGraduated == true) {
+            $userData['graduated_at'] = now();
+        } elseif ($isGraduated == false) {
+            $userData['graduated_at'] = null;
+        }
 
         $user->update($userData);
 

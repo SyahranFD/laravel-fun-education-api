@@ -38,6 +38,11 @@ class LeaderboardController extends Controller
             });
         }
 
+        $query->whereHas('user', function ($query) {
+            $query->where('is_verified', true)
+                  ->where('is_verified_email', true);
+        });
+
         if ($startDate && $endDate) {
             $query->whereBetween('created_at', [$startDate, $endDate]);
         }
@@ -66,9 +71,6 @@ class LeaderboardController extends Controller
         $user = auth()->user();
         $point = Leaderboard::where('user_id', $user->id)->sum('point');
         $point = number_format($point, 0, '.', '.');
-        if (! $point) {
-            return $this->resDataNotFound('Leaderboard');
-        }
 
         return response(['point' => $point,]);
     }

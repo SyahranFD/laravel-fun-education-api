@@ -33,6 +33,7 @@ class UpdateUserRequest extends FormRequest
             'is_verified' => 'boolean',
             'is_verified_email' => 'boolean',
             'is_graduated' => 'boolean',
+            'graduated_at' => 'date',
         ];
     }
 }
