@@ -6,9 +6,12 @@ use App\Http\Requests\TransactionRequest;
 use App\Http\Resources\TransactionResource;
 use App\Models\Saving;
 use App\Models\Transaction;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Kreait\Firebase\Messaging\CloudMessage;
+use Kreait\Laravel\Firebase\Facades\Firebase;
 use Laraindo\TanggalFormat;
 
 class TransactionController extends Controller
@@ -35,10 +38,14 @@ class TransactionController extends Controller
             $saving->update([
                 'saving' => $saving->saving + $request->amount,
             ]);
+            $title = 'Pemasukan Baru Sebesar Rp '. number_format($request->amount, 0, '.', '.');
+            $body = 'Pemasukan baru telah tercatat, silahkan cek aplikasi untuk melihatnya.';
         } elseif ($request->category === 'outcome') {
             $saving->update([
                 'saving' => $saving->saving - $request->amount,
             ]);
+            $title = 'Pengeluaran Baru Sebesar Rp '. number_format($request->amount, 0, '.', '.');
+            $body = 'Pengeluaran baru telah tercatat, silahkan cek aplikasi untuk melihatnya.';
         } else {
             return response(['message' => 'Transaction Category Is Not Valid'], 400);
         }
@@ -46,7 +53,13 @@ class TransactionController extends Controller
         $transaction = Transaction::create($transactionData);
         $transaction = new TransactionResource($transaction);
 
-        return $this->resStoreData($transaction);
+        $user = User::find($request->get('user_id'));
+        $notification = 'User tidak memiliki fcm_token atau fcm_token tidak valid';
+        if ($user->fcm_token) {
+            $notification = $this->notification($user, $title, $body);
+        }
+
+        return $this->resStoreData($transaction, $notification);
     }
 
     public function index()
@@ -331,5 +344,25 @@ class TransactionController extends Controller
         ]);
 
         return $this->resDataDeleted('transaction');
+    }
+
+    public function notification($user, $title, $body)
+    {
+        try {
+            $message = CloudMessage::fromArray([
+                'token' => $user->fcm_token,
+                'notification' => [
+                    'title' => $title,
+                    'body' => $body,
+                ],
+            ])->withData([
+                'route' => '/saving-page',
+            ]);
+
+            Firebase::messaging()->send($message);
+            return $message;
+        } catch (\Kreait\Firebase\Exception\Messaging\NotFound $e) {
+            // If a NotFound exception is thrown, do nothing and continue
+        }
     }
 }
