@@ -172,10 +172,10 @@ class LaporanHarianController extends Controller
 
         if ($is_done) {
             $userIds = LaporanHarian::whereDate('created_at', $date)->pluck('user_id')->toArray();
-            $users = User::whereIn('id', $userIds)->where('shift', $shift)->where('is_verified', true)->get();
+            $users = User::whereIn('id', $userIds)->where('shift', $shift)->where('is_verified', true)->orderBy('full_name')->get();
         } else {
             $userIds = LaporanHarian::whereDate('created_at', $date)->pluck('user_id')->toArray();
-            $users = User::whereNotIn('id', $userIds)->where('shift', $shift)->where('is_verified', true)->get();
+            $users = User::whereNotIn('id', $userIds)->where('shift', $shift)->where('is_verified', true)->orderBy('full_name')->get();
         }
 
         $users = $users->map(function ($user) use ($date) {

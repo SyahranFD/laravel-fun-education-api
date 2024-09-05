@@ -279,8 +279,7 @@ class UserController extends Controller
     public function logout()
     {
         $user = auth()->user();
-        $user->fcm_token = null;
-        $user->save();
+        $user->update(['fcm_token' => null]);
 
         $user->tokens()->delete();
 
