@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('school_information_descs', function (Blueprint $table) {
             $table->string('id')->primary();
             $table->string('school_information_id');
-            $table->string('desc');
+            $table->text('body');
             $table->timestamps();
 
             $table->foreign('school_information_id')->references('id')->on('school_information')->onDelete('cascade');
