@@ -18,7 +18,7 @@ class SchoolInformationResource extends JsonResource
         return [
             'id' => $this->id,
             'title' => $this->title,
-            'description' => SchoolInformationDesc::collection($this->schoolInformationDesc),
+            'description' => SchoolInformationDescResource::collection($this->schoolInformationDesc),
         ];
     }
 }

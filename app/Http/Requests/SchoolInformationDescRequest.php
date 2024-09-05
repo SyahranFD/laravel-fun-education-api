@@ -22,7 +22,7 @@ class SchoolInformationDescRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'school_information_id' => 'required|exists:school_informations,id',
+            'school_information_id' => 'required',
             'body' => 'required|string|min:1',
         ];
     }

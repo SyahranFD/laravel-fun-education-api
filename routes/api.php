@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\SchoolInformationDescController;
+use App\Http\Controllers\SchoolInformationController;
 use App\Http\Controllers\ExcelUrlController;
 use App\Http\Controllers\CatatanDaruratFileController;
 use App\Http\Controllers\TokenResetPasswordController;
@@ -291,4 +293,18 @@ Route::prefix('excel')->group(function () {
     Route::post('store', [ExcelUrlController::class, 'store'])->middleware('auth:sanctum');
     Route::get('/user-export', [ExcelUrlController::class, 'userExport']);
     Route::get('/index', [ExcelUrlController::class, 'index']);
+});
+
+Route::prefix('school-information')->group(function () {
+    Route::post('store', [SchoolInformationController::class, 'store'])->middleware('auth:sanctum');
+    Route::get('index', [SchoolInformationController::class, 'index']);
+    Route::put('update/{id}', [SchoolInformationController::class, 'update'])->middleware('auth:sanctum');
+    Route::delete('delete/{id}', [SchoolInformationController::class, 'destroy'])->middleware('auth:sanctum');
+});
+
+Route::prefix('school-information-desc')->group(function () {
+    Route::post('store', [SchoolInformationDescController::class, 'store'])->middleware('auth:sanctum');
+    Route::get('index', [SchoolInformationDescController::class, 'index']);
+    Route::put('update/{id}', [SchoolInformationDescController::class, 'update'])->middleware('auth:sanctum');
+    Route::delete('delete/{id}', [SchoolInformationDescController::class, 'destroy'])->middleware('auth:sanctum');
 });

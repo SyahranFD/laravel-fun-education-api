@@ -15,6 +15,6 @@ class SchoolInformation extends Model
 
     public function schoolInformationDesc()
     {
-        return $this->belongsTo(SchoolInformationDesc::class);
+        return $this->hasMany(SchoolInformationDesc::class);
     }
 }
