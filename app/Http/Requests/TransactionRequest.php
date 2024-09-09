@@ -26,6 +26,7 @@ class TransactionRequest extends FormRequest
             'amount' => 'required|numeric|min:1',
             'category' => 'required|string|min:1|max:255',
             'desc' => 'string|min:1|max:255',
+            'created_at' => 'string'
         ];
     }
 }

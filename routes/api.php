@@ -144,6 +144,8 @@ Route::prefix('/transaksi')->group(function () {
     Route::get('/show-current', [TransactionController::class, 'showCurrent'])->middleware('auth:sanctum');
     Route::get('/show-by-user/{userId}', [TransactionController::class, 'showByUserId']);
     Route::get('/statistic', [TransactionController::class, 'showStatistic'])->middleware('auth:sanctum');
+    Route::get('/show-available-year', [TransactionController::class, 'showAvailableYear'])->middleware('auth:sanctum');
+    Route::get('/show-available-month', [TransactionController::class, 'showAvailableMonth'])->middleware('auth:sanctum');
 
     Route::put('/update/{id}', [TransactionController::class, 'update'])->middleware('auth:sanctum');
     Route::delete('/delete/{id}', [TransactionController::class, 'delete'])->middleware('auth:sanctum');

@@ -117,10 +117,15 @@ class TransactionController extends Controller
         if (! $transaction) {
             return $this->resDataNotFound('transaction');
         }
+        $year = $request->query('year');
         $month = $request->query('month');
         $limit = $request->query('limit');
         if (! $transaction) {
             return $this->resDataNotFound('transaction');
+        }
+
+        if ($year) {
+            $transaction = $transaction->whereYear('created_at', $year);
         }
 
         if ($month) {
@@ -146,6 +151,57 @@ class TransactionController extends Controller
             'total_outcome' => number_format($total_outcome, 0, '.', '.'),
             'data' => TransactionResource::collection($transaction),
         ]);
+    }
+
+    public function showAvailableYear(Request $request)
+    {
+        $userId = $request->query('user_id');
+        if (! $userId) {
+            $userId = auth()->user()->id;
+        }
+
+        $user = User::find($userId);
+        if (! $user) {
+            return $this->resUserNotFound();
+        }
+
+        $years = Transaction::selectRaw('YEAR(created_at) as year')
+            ->where('user_id', $userId)
+            ->groupBy('year')
+            ->pluck('year');
+
+        return response(['data' => $years], 200);
+    }
+
+    public function showAvailableMonth(Request $request)
+    {
+        $userId = $request->query('user_id');
+        $year = $request->query('year');
+        if (! $userId) {
+            $userId = auth()->user()->id;
+        }
+        if (! $year) {
+            return response(['message' => 'Year is required'], 400);
+        }
+
+        $user = User::find($userId);
+        if (! $user) {
+            return $this->resUserNotFound();
+        }
+
+        $months = Transaction::selectRaw('MONTH(created_at) as month')
+            ->where('user_id', $userId)
+            ->whereYear('created_at', $year)
+            ->groupBy('month')
+            ->pluck('month');
+
+        $listMonths = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+
+        $months = $months->map(function ($monthNumber) use ($listMonths) {
+            return $listMonths[$monthNumber - 1]; // array index starts from 0, hence $monthNumber - 1
+        });
+
+        return response(['data' => $months], 200);
     }
 
     public function showStatistic(Request $request)
