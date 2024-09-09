@@ -116,7 +116,7 @@ class UserController extends Controller
 
         $users = $query->where('role', 'student')
             ->where('is_verified_email', true)
-            ->orderBy('created_at', 'desc')
+            ->orderBy('full_name', 'asc')
             ->get();
 
         return UserResource::collection($users);
