@@ -31,7 +31,7 @@ class SchoolInformationController extends Controller
 
     public function index()
     {
-        return SchoolInformationResource::collection(SchoolInformation::all());
+        return SchoolInformationResource::collection(SchoolInformation::orderBy('created_at', 'desc')->get());
     }
 
     public function update(SchoolInformationRequest $request, $id)
