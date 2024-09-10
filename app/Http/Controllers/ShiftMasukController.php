@@ -16,13 +16,12 @@ class ShiftMasukController extends Controller
         if (! $admin->isAdmin()) {
             return $this->resUserNotAdmin();
         }
+        
+        if (ShiftMasuk::where('shift_masuk', $request->shift_masuk)->exists()) {
+            return response(['message' => 'Shift Masuk Already Exists'], 409);
+        }
 
-        $shiftMasukData = $request->all();
-        do {
-            $shiftMasukData['id'] = 'shift-masuk-'.Str::uuid();
-        } while (ShiftMasuk::where('id', $shiftMasukData['id'])->exists());
-
-        $shiftMasuk = ShiftMasuk::create($shiftMasukData);
+        $shiftMasuk = ShiftMasuk::create($request->all());
         $shiftMasuk = new ShiftMasukResource($shiftMasuk);
 
         return $this->resStoreData($shiftMasuk);
